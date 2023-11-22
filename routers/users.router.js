@@ -61,7 +61,7 @@ userRouter.post("/signup", signupValidate, async (req, res, next) => {
 });
 
 // 회원 정보 수정 API
-userRouter.put("/:id", token_middleware, UserEdit, async (req, res, next) => {
+userRouter.put("", token_middleware, UserEdit, async (req, res, next) => {
     const errors = validationResult(req);
     const { nickName, password } = req.body;
     const { id } = res.locals.user;
@@ -97,50 +97,35 @@ userRouter.put("/:id", token_middleware, UserEdit, async (req, res, next) => {
 });
 
 // 회원 탈퇴 API
-userRouter.delete(
-    "/:id",
-    token_middleware,
-    UserDelete,
-    async (req, res, next) => {
-        const me = res.locals.user;
-        const { id, email } = res.locals.user;
-        console.log("userid", id);
-        const paramid = Number(req.url.slice(-1));
-        console.log("paramid", paramid);
-        const { password } = req.body;
-        const existUser = await Users.findOne({ where: { email } });
+userRouter.delete("", token_middleware, UserDelete, async (req, res, next) => {
+    const me = res.locals.user;
+    const { id, email } = res.locals.user;
+    const { password } = req.body;
+    const existUser = await Users.findOne({ where: { email } });
 
-        try {
-            if (!me) {
-                const err = new TokenNotExistError();
-                throw err;
-            }
-            if (id !== paramid) {
-                const err = new NotMatchId();
-                throw err;
-            }
-
-            const hashedPassword = existUser.password;
-            const passwordCheck = await bcrypt.compare(
-                password,
-                hashedPassword,
-            );
-            if (!passwordCheck) {
-                const err = new NotMatchPassword();
-                throw err;
-            }
-
-            await Users.destroy({ where: { id } });
-            return res.status(200).json({
-                sucess: true,
-                email: email,
-                message: "회원 탈퇴 성공",
-            });
-        } catch (err) {
-            next(err);
+    try {
+        if (!me) {
+            const err = new TokenNotExistError();
+            throw err;
         }
-    },
-);
+
+        const hashedPassword = existUser.password;
+        const passwordCheck = await bcrypt.compare(password, hashedPassword);
+        if (!passwordCheck) {
+            const err = new NotMatchPassword();
+            throw err;
+        }
+
+        await Users.destroy({ where: { id }, force: true });
+        return res.status(200).json({
+            sucess: true,
+            email: email,
+            message: "회원 탈퇴 성공",
+        });
+    } catch (err) {
+        next(err);
+    }
+});
 
 // 회원 정보 조회 API
 userRouter.get("/:id", token_middleware, (req, res, next) => {

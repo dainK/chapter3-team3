@@ -4,8 +4,8 @@ POST http://localhost:3000/api/user/signup
 Content-Type: application/json
 
 {
-    "email": "example02@gmail.com",
-    "nickName": "이승현",
+    "email": "example07@gmail.com",
+    "nickName": "정기욱",
     "password": "aaa111",
     "passwordConfirm": "aaa111"
 }
@@ -16,18 +16,18 @@ GET http://localhost:3000/api/user/2
 
 # 회원 정보 수정
 ###
-PUT http://localhost:3000/api/user/2
+PUT http://localhost:3000/api/user
 Content-Type: application/json
 
 {
-    "nickName": "박현수",
-    "password": "aaa11",
-    "passwordConfirm": "aaa11"
+    "nickName": "최형덕",
+    "password": "aaa111",
+    "passwordConfirm": "aaa111"
 }
 
 # 회원 탈퇴
 ###
-DELETE http://localhost:3000/api/user/5
+DELETE http://localhost:3000/api/user
 Content-Type: application/json
 
 {
@@ -40,7 +40,7 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "example02@gmail.com",
+    "email": "example07@gmail.com",
     "password" : "aaa111"
 }
 
