@@ -130,11 +130,11 @@ userRouter.delete(
                 throw err;
             }
 
-            // await Users.destroy({ where: { id } });
+            await Users.destroy({ where: { id } });
             return res.status(200).json({
                 sucess: true,
-                message: "회원 탈퇴 성공",
                 email: email,
+                message: "회원 탈퇴 성공",
             });
         } catch (err) {
             next(err);

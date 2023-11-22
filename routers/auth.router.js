@@ -24,7 +24,7 @@ authRouter.post("/login", loginValidate, async (req, res, next) => {
     const errors = validationResult(req);
     const { email, password } = req.body;
     const existUser = await Users.findOne({ where: { email } });
-    const { id } = existUser;
+    // const { id } = existUser;
 
     try {
         if (!errors.isEmpty()) {
@@ -53,7 +53,6 @@ authRouter.post("/login", loginValidate, async (req, res, next) => {
             success: true,
             message: "로그인 성공.",
             data: { accessToken },
-            id: id,
         });
     } catch (err) {
         next(err);
