@@ -1,0 +1,49 @@
+# 회원가입
+###
+POST http://localhost:3000/api/user/signup
+Content-Type: application/json
+
+{
+    "email": "example07@gmail.com",
+    "nickName": "정기욱",
+    "password": "aaa111",
+    "passwordConfirm": "aaa111"
+}
+
+# 회원 정보 조회
+###
+GET http://localhost:3000/api/user/2
+
+# 회원 정보 수정
+###
+PUT http://localhost:3000/api/user
+Content-Type: application/json
+
+{
+    "nickName": "최형덕",
+    "password": "aaa111",
+    "passwordConfirm": "aaa111"
+}
+
+# 회원 탈퇴
+###
+DELETE http://localhost:3000/api/user
+Content-Type: application/json
+
+{
+    "password" : "aaa111"
+}
+
+# 로그인
+###
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "example07@gmail.com",
+    "password" : "aaa111"
+}
+
+# 로그아웃
+###
+GET http://localhost:3000/api/auth/logout

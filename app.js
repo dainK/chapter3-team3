@@ -3,12 +3,23 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import db from "./models/index.js";
 import dotenv from "dotenv";
+import { apiRouter } from "./routers/index.js";
+import { ErrorHandler } from "./middlewares/ErrorHandler.js";
+import morgan from "morgan";
+
 dotenv.config();
 
 const app = express();
 const { sequelize } = db;
 
-app.use(express.json());
+app.use(
+    express.json(),
+    express.urlencoded({ extended: true }),
+    morgan("dev"),
+    cookieParser(),
+);
+app.use("/api", apiRouter);
+app.use(ErrorHandler);
 
 // DB
 sequelize
