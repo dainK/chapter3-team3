@@ -5,11 +5,13 @@ import Category from "./category.model.js";
 import Post from "./post.model.js";
 import Comments from "./comments.model.js";
 import Follow from "./follow.model.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 // 환경변수에 따라 config를 설정
 const env = process.env.NODE_ENV || "development";
 const config = configEX[env];
-console.log(config);
+
 const db = {};
 
 // db 객체에 sequelize 객체를 저장
@@ -19,16 +21,17 @@ const sequelize = new Sequelize(
     config.password,
     config,
 );
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-// db.Users = Users;
+db.Users = Users;
 // db.Category = Category;
 // db.Post = Post;
 // db.Comments = Comments;
 // db.Follow = Follow;
 
-// Users.init(sequelize);
+Users.init(sequelize);
 // Category.init(sequelize);
 // Comments.init(sequelize);
 // Post.init(sequelize);

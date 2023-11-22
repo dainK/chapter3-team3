@@ -1,0 +1,25 @@
+# 회원가입
+###
+POST http://localhost:3000/api/users/signup
+Content-Type: application/json
+
+{
+    "email": "example01@gmail.com",
+    "nickName": "정기욱",
+    "password": "aaa111",
+    "passwordConfirm": "aaa111"
+}
+
+# 로그인
+###
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "example01@gmail.com",
+    "password" : "aaa111"
+}
+
+# 로그아웃
+###
+GET http://localhost:3000/api/auth/logout
