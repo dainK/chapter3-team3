@@ -11,6 +11,8 @@ import { validationResult } from "express-validator";
 import { ValidError } from "../lib/CustomError.js";
 import { loginValidate } from "../middlewares/validator.js";
 import { token_middleware } from "../middlewares/token_middleware.js";
+import passport from "passport";
+import KakaoStrategy from "passport-kakao";
 
 const { Users } = db;
 
@@ -68,6 +70,7 @@ authRouter.get("/logout", token_middleware, (req, res, next) => {
     }
 });
 
-// 카카오 로그인 API
+// // 카카오 로그인 API
+// authRouter.get("/kakao", passport.authenticate("kakao", { failuer }));
 
 export { authRouter };

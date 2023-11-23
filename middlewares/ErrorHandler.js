@@ -2,7 +2,6 @@ import { validationResult } from "express-validator";
 const ErrorHandler = (err, req, res, next) => {
     console.log("Middleware Error Handling");
     console.log(err);
-    console.log("=====> 잘못됌");
 
     // 토큰 유효성 검사
     if (err.name === "TokenTypeUnMatch") {
@@ -37,8 +36,8 @@ const ErrorHandler = (err, req, res, next) => {
 
     // Validation Error handling
     if (err.name === "ValidError") {
-        console.log("=====> 회원가입 벨리데이션");
         const errors = validationResult(req);
+        console.log(errors);
         const path = errors.array()[0].path;
         if (path === "email") {
             return res.status(400).json({
@@ -62,16 +61,6 @@ const ErrorHandler = (err, req, res, next) => {
             return res.status(400).json({
                 success: false,
                 errorMessage: "비밀번호와 비밀번호 확인이 일치하지 않습니다.",
-            });
-        }
-    }
-
-    // 회원 탈퇴
-    if (req.method === "DELETE") {
-        if (err.name === "TokenNotExistError") {
-            return res.status(401).json({
-                success: false,
-                errorMessage: "로그인 후 이용 가능합니다.",
             });
         }
     }
