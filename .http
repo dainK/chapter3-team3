@@ -4,15 +4,20 @@ POST http://localhost:3000/api/user/signup
 Content-Type: application/json
 
 {
+<<<<<<< HEAD
     "email": "example05@gmail.com",
     "nickName": "오이이",
+=======
+    "email": "example02@gmail.com",
+    "nickName": "주병준",
+>>>>>>> dev
     "password": "aaa111",
     "passwordConfirm": "aaa111"
 }
 
 # 회원 정보 조회
 ###
-GET http://localhost:3000/api/user/
+GET http://localhost:3000/api/user
 
 # 회원 정보 수정
 ###
@@ -41,9 +46,13 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "example01@gmail.com",
+    "email": "example02@gmail.com",
     "password" : "aaa111"
 }
+
+# 카카오 로그인
+###
+GET http://localhost:3000/api/auth/kakao
 
 # 로그아웃
 ###
