@@ -12,7 +12,6 @@ import { ValidError } from "../lib/CustomError.js";
 import { loginValidate } from "../middlewares/validator.js";
 import { token_middleware } from "../middlewares/token_middleware.js";
 import passport from "passport";
-import KakaoStrategy from "passport-kakao";
 
 const { Users } = db;
 
@@ -22,7 +21,6 @@ authRouter.post("/login", loginValidate, async (req, res, next) => {
     const errors = validationResult(req);
     const { email, password } = req.body;
     const existUser = await Users.findOne({ where: { email } });
-
     try {
         if (!errors.isEmpty()) {
             const err = new ValidError();
@@ -36,6 +34,7 @@ authRouter.post("/login", loginValidate, async (req, res, next) => {
         }
         const hashedPassword = existUser.password;
         const passwordCheck = await bcrypt.compare(password, hashedPassword);
+
         if (!passwordCheck) {
             return res.status(401).json({
                 success: false,
@@ -60,6 +59,33 @@ authRouter.post("/login", loginValidate, async (req, res, next) => {
     }
 });
 
+// 카카오 로그인 API
+authRouter.get("/kakao", passport.authenticate("kakao"));
+authRouter.get(
+    "/kakao/callback",
+    passport.authenticate("kakao", {
+        failureRedirect: "/?error=카카오로그인 실패",
+    }),
+    (req, res) => {
+        res.status(200).redirect("/"); // 성공 시에는 /로 이동
+    },
+);
+
+// 네이버 로그인 API
+authRouter.get(
+    "/naver",
+    passport.authenticate("naver", { authType: "reprompt" }),
+);
+authRouter.get(
+    "/naver/callback",
+    passport.authenticate("naver", {
+        failureRedirect: "/?error=네이버로그인 실패",
+    }),
+    (req, res) => {
+        res.status(200).redirect("/");
+    },
+);
+
 // 로그아웃
 authRouter.get("/logout", token_middleware, (req, res, next) => {
     try {
@@ -69,8 +95,5 @@ authRouter.get("/logout", token_middleware, (req, res, next) => {
         next(err);
     }
 });
-
-// // 카카오 로그인 API
-// authRouter.get("/kakao", passport.authenticate("kakao", { failuer }));
 
 export { authRouter };
