@@ -64,21 +64,6 @@ const ErrorHandler = (err, req, res, next) => {
                 errorMessage: "비밀번호와 비밀번호 확인이 일치하지 않습니다.",
             });
         }
-        // }
-        return res.status(500).json({
-            success: false,
-            errorMessage:
-                "예상치 못한 에러가 발생하였습니다. 관리자에게 문의 해주십시오.",
-        });
-    }
-
-    // 회원정보 조회
-    if (req.method === "GET") {
-        res.status(500).json({
-            success: false,
-            errorMessage:
-                "예상치 못한 에러가 발생하였습니다. 관리자에게 문의 해주십시오.",
-        });
     }
 
     // 회원 탈퇴
@@ -91,14 +76,11 @@ const ErrorHandler = (err, req, res, next) => {
         }
     }
 
-    // 로그아웃 API Error Handling
-    if (req.route.path === "/logout") {
-        return res.status(500).json({
-            success: false,
-            errorMessage:
-                "예기치 못한 오류가 발생했습니다. 관리자에게 문의 하십시오.",
-        });
-    }
+    return res.status(500).json({
+        success: false,
+        errorMessage:
+            "예상치 못한 에러가 발생하였습니다. 관리자에게 문의 해주십시오.",
+    });
 };
 
 export { ErrorHandler };
