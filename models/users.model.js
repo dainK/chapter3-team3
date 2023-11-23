@@ -10,6 +10,10 @@ export default class Users extends Model {
                     primaryKey: true,
                     autoIncrement: true,
                 },
+                type: {
+                    type: DataTypes.STRING,
+                    defaultValue: "local",
+                },
                 email: {
                     type: DataTypes.STRING,
                     allowNull: false,
@@ -27,14 +31,10 @@ export default class Users extends Model {
                     type: DataTypes.STRING,
                     allowNull: false,
                 },
-                createdAt: {
+                refreshToken: {
+                    type: DataTypes.STRING,
                     allowNull: false,
-                    type: DataTypes.DATE,
-                },
-                updatedAt: {
-                    allowNull: false,
-                    type: DataTypes.DATE,
-                },
+                }
             },
             {
                 sequelize,

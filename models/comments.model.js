@@ -21,15 +21,7 @@ export default class Comments extends Model {
                 comment: {
                     type: DataTypes.STRING,
                     allowNull: false,
-                },
-                createdAt: {
-                    allowNull: false,
-                    type: DataTypes.DATE,
-                },
-                updatedAt: {
-                    allowNull: false,
-                    type: DataTypes.DATE,
-                },
+                }
             },
             {
                 sequelize,

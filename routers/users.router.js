@@ -42,6 +42,7 @@ userRouter.post("/signup", signupValidate, async (req, res, next) => {
         );
 
         const newUser = await Users.create({
+            refreshToken:"asdg",
             email,
             password: hashedPassword,
             nickName,

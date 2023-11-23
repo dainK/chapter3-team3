@@ -31,15 +31,7 @@ export default class Post extends Model {
                 imgUrl: {
                     type: DataTypes.STRING,
                     defaultValue: "temp",
-                },
-                createdAt: {
-                    allowNull: false,
-                    type: DataTypes.DATE,
-                },
-                updatedAt: {
-                    allowNull: false,
-                    type: DataTypes.DATE,
-                },
+                }
             },
             {
                 sequelize,
