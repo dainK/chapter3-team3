@@ -4,8 +4,8 @@ POST http://localhost:3000/api/user/signup
 Content-Type: application/json
 
 {
-    "email": "example01@gmail.com",
-    "nickName": "오성택",
+    "email": "example05@gmail.com",
+    "nickName": "오이이",
     "password": "aaa111",
     "passwordConfirm": "aaa111"
 }
@@ -17,10 +17,11 @@ GET http://localhost:3000/api/user/
 # 회원 정보 수정
 ###
 PUT http://localhost:3000/api/user
+Content-Disposition: form-data; name="json_data"
 Content-Type: application/json
 
 {
-    "nickName": "주병준",
+    "nickName": "일이삼",
     "password": "aaa111",
     "passwordConfirm": "aaa111"
 }
@@ -47,3 +48,25 @@ Content-Type: application/json
 # 로그아웃
 ###
 GET http://localhost:3000/api/auth/logout
+
+# 회원 정보 수정 이미지 넣기
+###
+PUT http://localhost:3000/api/user
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="null.png"
+Content-Type: image/png
+
+@D:/sparta/team/null.png
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="json_data"
+Content-Type: application/json
+
+{
+    "nickName": "일이삼",
+    "password": "aaa111",
+    "passwordConfirm": "aaa111"
+}
+------WebKitFormBoundary7MA4YWxkTrZu0gW--

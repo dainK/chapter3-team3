@@ -19,7 +19,7 @@ app.use(
     cookieParser(),
 );
 app.use("/api", apiRouter);
-app.use(ErrorHandler);
+// app.use(ErrorHandler);
 
 // DB
 sequelize

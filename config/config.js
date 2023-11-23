@@ -10,4 +10,22 @@ const development = {
     dialect: process.env.CONFIG_DIALECT,
 };
 
+const test = {
+  username: process.env.CONFIG_NAME,
+  password: null,
+  database: "database_test",
+  host: "127.0.0.1",
+  port: process.env.CONFIG_PORT,
+  dialect: process.env.CONFIG_DIALECT,
+};
+
+const production = {
+  username: process.env.CONFIG_NAME,
+  password: null,
+  database: "database_production",
+  host: "127.0.0.1",
+  port: process.env.CONFIG_PORT,
+  dialect: process.env.CONFIG_DIALECT,
+};
+
 export { development };

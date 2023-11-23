@@ -10,6 +10,8 @@ import { ValidError, TokenNotExistError } from "../lib/CustomError.js";
 import bcrypt from "bcrypt";
 import { PASSWORD_HASH_SALT_ROUNDS } from "../constants/security.constant.js";
 import { token_middleware } from "../middlewares/token_middleware.js";
+import uploadImage from "../middlewares/upload_middleware.js";
+import s3 from "../config/s3.config.js";
 
 const { Users } = db;
 
@@ -56,56 +58,82 @@ userRouter.post("/signup", signupValidate, async (req, res, next) => {
 });
 
 // 회원 정보 수정 API
-userRouter.put("", token_middleware, UserEdit, async (req, res, next) => {
-    const errors = validationResult(req);
-    const { nickName, password } = req.body;
-    const { id } = res.locals.user;
-    const existUser = await Users.findOne({ where: { id } });
-    const existName = await Users.findOne({ where: { nickName } });
-    try {
-        if (existName) {
-            return res.status(412).json({
-                success: false,
-                errorMessage: "닉네임이 이미 사용 중 입니다.",
+userRouter.put(
+    "",
+    UserEdit,
+    token_middleware,
+    uploadImage.single("imgUrl"),
+    async (req, res, next) => {
+        // const errors = validationResult(req);
+        const { nickName, password } = req.body;
+        const { id } = res.locals.user;
+        const existUser = await Users.findOne({ where: { id } });
+        const existName = await Users.findOne({ where: { nickName } });
+        try {
+            if (existName) {
+                return res.status(412).json({
+                    success: false,
+                    errorMessage: "닉네임이 이미 사용 중 입니다.",
+                });
+            }
+            // if (!errors.isEmpty()) {
+            //     const err = new ValidError();
+            //     throw err;
+            // }
+            const hashPassword = existUser.password;
+            const passwordCheck = await bcrypt.compare(password, hashPassword);
+            if (!passwordCheck) {
+                return res.status(401).json({
+                    success: false,
+                    errorMessage: "비밀번호가 틀렸습니다.",
+                });
+            }
+
+            const hashedPassword = bcrypt.hashSync(
+                password,
+                PASSWORD_HASH_SALT_ROUNDS,
+            );
+
+            let imgUrl = res.locals.user.imgUrl;
+            if (req.file) {
+                if (imgUrl) {
+                    // 기존 이미지가 있는 경우, S3에서 삭제
+                    if( imgUrl !=="userprofile/null.png")
+                    {
+                        //const oldImageKey = imgUrl; // S3 key 추출
+                        // const oldImageKey = imgUrl.split("/").pop(); // S3 key 추출
+                        await s3
+                            .deleteObject({
+                                Bucket: process.env.S3_BUCKET,
+                                Key: imgUrl,
+                            })
+                            .promise();
+                    }
+                }
+                imgUrl = req.file.key; // 새 S3 URL
+            }
+
+            const editUser = await Users.update(
+                {
+                    nickName,
+                    password: hashedPassword,
+                    imgUrl,
+                },
+                {
+                    where: { id },
+                },
+            );
+
+            return res.status(200).json({
+                sucess: true,
+                message: "회원 정보 수정 성공",
+                data: editUser,
             });
+        } catch (err) {
+            next(err);
         }
-        if (!errors.isEmpty()) {
-            const err = new ValidError();
-            throw err;
-        }
-        const hashPassword = existUser.password;
-        const passwordCheck = await bcrypt.compare(password, hashPassword);
-        if (!passwordCheck) {
-            return res.status(401).json({
-                success: false,
-                errorMessage: "비밀번호가 틀렸습니다.",
-            });
-        }
-
-        const hashedPassword = bcrypt.hashSync(
-            password,
-            PASSWORD_HASH_SALT_ROUNDS,
-        );
-
-        const editUser = await Users.update(
-            {
-                nickName,
-                password: hashedPassword,
-            },
-            {
-                where: { id },
-            },
-        );
-
-        return res.status(200).json({
-            sucess: true,
-            message: "회원 정보 수정 성공",
-            data: editUser,
-        });
-    } catch (err) {
-        next(err);
-    }
-});
+    },
+);
 
 // 회원 탈퇴 API
 userRouter.delete("", token_middleware, UserDelete, async (req, res, next) => {
@@ -158,4 +186,12 @@ userRouter.get("", token_middleware, (req, res, next) => {
         next(err);
     }
 });
+
+// userRouter.post("/upload",uploadImage.single("imgUrl"),(req,res)=>{
+//     return res.status(200).json({
+//         success: true,
+//         message: "업로드 성공!",
+//     });
+// })
+
 export { userRouter };
