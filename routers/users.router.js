@@ -6,13 +6,7 @@ import {
     UserEdit,
     UserDelete,
 } from "../middlewares/validator.js";
-import {
-    ValidError,
-    NotUniqueEmail,
-    TokenNotExistError,
-    NotMatchPassword,
-    NotMatchId,
-} from "../lib/CustomError.js";
+import { ValidError, TokenNotExistError } from "../lib/CustomError.js";
 import bcrypt from "bcrypt";
 import { PASSWORD_HASH_SALT_ROUNDS } from "../constants/security.constant.js";
 import { token_middleware } from "../middlewares/token_middleware.js";
@@ -29,13 +23,14 @@ userRouter.post("/signup", signupValidate, async (req, res, next) => {
     const existName = await Users.findOne({ where: { nickName } });
 
     try {
+        if (existUser || existName) {
+            return res.status(412).json({
+                success: false,
+                errorMessage: "이메일 또는 닉네임이 이미 사용 중 입니다.",
+            });
+        }
         if (!errors.isEmpty()) {
             const err = new ValidError();
-            throw err;
-        }
-
-        if (existUser || existName) {
-            const err = new NotUniqueEmail();
             throw err;
         }
 
@@ -65,10 +60,26 @@ userRouter.put("", token_middleware, UserEdit, async (req, res, next) => {
     const errors = validationResult(req);
     const { nickName, password } = req.body;
     const { id } = res.locals.user;
+    const existUser = await Users.findOne({ where: { id } });
+    const existName = await Users.findOne({ where: { nickName } });
     try {
+        if (existName) {
+            return res.status(412).json({
+                success: false,
+                errorMessage: "닉네임이 이미 사용 중 입니다.",
+            });
+        }
         if (!errors.isEmpty()) {
             const err = new ValidError();
             throw err;
+        }
+        const hashPassword = existUser.password;
+        const passwordCheck = await bcrypt.compare(password, hashPassword);
+        if (!passwordCheck) {
+            return res.status(401).json({
+                success: false,
+                errorMessage: "비밀번호가 틀렸습니다.",
+            });
         }
 
         const hashedPassword = bcrypt.hashSync(
@@ -112,8 +123,10 @@ userRouter.delete("", token_middleware, UserDelete, async (req, res, next) => {
         const hashedPassword = existUser.password;
         const passwordCheck = await bcrypt.compare(password, hashedPassword);
         if (!passwordCheck) {
-            const err = new NotMatchPassword();
-            throw err;
+            return res.status(401).json({
+                success: false,
+                errorMessage: "비밀번호가 틀렸습니다.",
+            });
         }
 
         await Users.destroy({ where: { id }, force: true });
@@ -128,10 +141,9 @@ userRouter.delete("", token_middleware, UserDelete, async (req, res, next) => {
 });
 
 // 회원 정보 조회 API
-userRouter.get("/:id", token_middleware, (req, res, next) => {
+userRouter.get("", token_middleware, (req, res, next) => {
     try {
         const me = res.locals.user;
-        console.log("me============>", me);
 
         if (!me) {
             const err = new TokenNotExistError();

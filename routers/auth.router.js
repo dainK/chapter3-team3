@@ -8,11 +8,7 @@ import {
 import "dotenv/config";
 import bcrypt from "bcrypt";
 import { validationResult } from "express-validator";
-import {
-    NotExistUserError,
-    NotMatchPassword,
-    ValidError,
-} from "../lib/CustomError.js";
+import { ValidError } from "../lib/CustomError.js";
 import { loginValidate } from "../middlewares/validator.js";
 import { token_middleware } from "../middlewares/token_middleware.js";
 
@@ -24,7 +20,6 @@ authRouter.post("/login", loginValidate, async (req, res, next) => {
     const errors = validationResult(req);
     const { email, password } = req.body;
     const existUser = await Users.findOne({ where: { email } });
-    // const { id } = existUser;
 
     try {
         if (!errors.isEmpty()) {
@@ -32,14 +27,18 @@ authRouter.post("/login", loginValidate, async (req, res, next) => {
             throw err;
         }
         if (!existUser) {
-            const err = new NotExistUserError();
-            throw err;
+            return res.status(401).json({
+                success: false,
+                errorMessage: "일치하는 회원 정보가 없습니다.",
+            });
         }
         const hashedPassword = existUser.password;
         const passwordCheck = await bcrypt.compare(password, hashedPassword);
         if (!passwordCheck) {
-            const err = new NotMatchPassword();
-            throw err;
+            return res.status(401).json({
+                success: false,
+                errorMessage: "비밀번호가 틀렸습니다.",
+            });
         }
         const accessToken = jwt.sign(
             { id: existUser.id },
@@ -68,5 +67,7 @@ authRouter.get("/logout", token_middleware, (req, res, next) => {
         next(err);
     }
 });
+
+// 카카오 로그인 API
 
 export { authRouter };
