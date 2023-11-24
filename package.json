@@ -6,6 +6,10 @@
     "author": "da <dain940209@gmail.com>",
     "license": "MIT",
     "type": "module",
+    "scripts": {
+        "dev": "nodemon app.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
     "dependencies": {
         "aws-sdk": "^2.1502.0",
         "bcrypt": "^5.1.1",
