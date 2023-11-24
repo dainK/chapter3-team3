@@ -63,5 +63,9 @@ export default class Users extends Model {
             foreignKey: "followedId",
             sourceKey: "id",
         });
+        db.Users.hasMany(db.Likes, {
+            foreignKey: "userId",
+            sourceKey: "id",
+        });
     }
 }

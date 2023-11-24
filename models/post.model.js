@@ -12,11 +12,20 @@ export default class Post extends Model {
                 },
                 userId: {
                     type: DataTypes.INTEGER,
-                    allowNull: false,
+                    allowNull: false, // NOT NULL
+                    // references: {
+                    //     model: "Users", // Users 모델을 참조합니다.
+                    //     key: "id", // Users 모델의 id를 참조합니다.
+                    // },
+                    // onDelete: "CASCADE", // 만약 Users 모델의 id가 삭제되면, Post 모델의 데이터가 삭제됩니다.
                 },
                 categoryId: {
                     type: DataTypes.INTEGER,
-                    allowNull: false,
+                    // references: {
+                    //     model: "Users", // Users 모델을 참조합니다.
+                    //     key: "id", // Users 모델의 id를 참조합니다.
+                    // },
+                    // onDelete: "SET NULL", // 만약 Users 모델의 id가 삭제되면, Post 모델의 categoryId는 null이 됩니다.
                 },
                 title: {
                     type: DataTypes.STRING,
@@ -31,7 +40,7 @@ export default class Post extends Model {
                 imgUrl: {
                     type: DataTypes.STRING,
                     defaultValue: "temp",
-                }
+                },
             },
             {
                 sequelize,
@@ -54,5 +63,6 @@ export default class Post extends Model {
         });
 
         db.Post.hasMany(db.Comments, { foreignKey: "postId", sourceKey: "id" });
+        db.Post.hasMany(db.Likes, { foreignKey: "postId", sourceKey: "id" });
     }
 }
