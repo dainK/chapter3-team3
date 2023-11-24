@@ -4,10 +4,10 @@ POST http://localhost:3000/api/user/signup
 Content-Type: application/json
 
 {
-    "email": "example3@gmail.com",
-    "nickName": "주병준3",
-    "password": "aaa111",
-    "passwordConfirm": "aaa111"
+    "email": "example15@gmail.com",
+    "nickName": "이복남",
+    "password": "q1w2e3",
+    "passwordConfirm": "q1w2e3"
 }
 
 # 회원 정보 조회
@@ -46,9 +46,21 @@ Content-Type: application/json
 # }
 
 {
-    "email": "example2@gmail.com",
-    "password" : "aaa111"
+    "email": "example77@gmail.com",
+    "password" : "a1234"
 }
+
+# {
+#     "email": "example2@gmail.com",
+#     "password" : "aaa111"
+# }
+# {
+#     "email": "example3@gmail.com",
+#     "nickName": "주병준3",
+#     "password": "aaa111",
+#     "passwordConfirm": "aaa111"
+# }
+
 
 # 카카오 로그인
 ###
@@ -81,6 +93,7 @@ Content-Type: application/json
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 
+
 # 게시글 생성
 ###
 POST http://localhost:3000/api/posts
@@ -88,8 +101,8 @@ Content-Type: application/json
 
 {
     "categoryId": 1,
-    "title": "삭제3",
-    "content": "지웁시다"
+    "title": "1314324152351",
+    "content": "sss"
 }
 
 
@@ -99,40 +112,50 @@ GET http://localhost:3000/api/posts
 
 # 게시글 상세 조회
 ###
-GET http://localhost:3000/api/posts/4
+GET http://localhost:3000/api/posts/2
 
 # 게시글 수정
 ###
-PUT http://localhost:3000/api/posts/11
+PUT http://localhost:3000/api/posts/13
 Content-Type: application/json
 
 {
-    "title": "231432412",
-    "content": "2433243241"
+    "title": "욥",
+    "content": "욥욥"
 }
 
 # 게시글 삭제
 ###
-DELETE http://localhost:3000/api/posts/5
+DELETE http://localhost:3000/api/posts/13
 
 
+# ==========================================================
 
-######################
-# 팔로우 등록/취소
+
+# 댓글 생성
 ###
-PUT http://localhost:3000/api/user/2/follow
+POST http://localhost:3000/api/posts/2/comments
+Content-Type: application/json
 
-# 팔로우 등록/취소 (없는유저)
-###
-PUT http://localhost:3000/api/user/100/follow
-######################
+{
+    "comment": "문제업승ㅁ"
+}
 
-######################
-# 좋아요 등록/취소
+# 댓글 가져오기
 ###
-PUT http://localhost:3000/api/post/1/like
+GET http://localhost:3000/api/posts/2/comments
 
-# 좋아요 등록/취소 (없는글)
+
+# 댓글 수정
 ###
-PUT http://localhost:3000/api/post/100/like
-######################
+PUT http://localhost:3000/api/posts/2/comments/1
+Content-Type: application/json
+
+{
+    "comment": "가즈아"
+}
+
+
+# 댓글 삭제
+###
+DELETE http://localhost:3000/api/posts/2/comments/7
