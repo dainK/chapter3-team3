@@ -149,4 +149,58 @@ commentsRouter.put(
     },
 );
 
+// 댓글 삭제
+commentsRouter.delete(
+    "/:postId/comments/:commentId",
+    token_middleware,
+    async (req, res) => {
+        try {
+            const { postId, commentId } = req.params;
+            const userId = res.locals.user.id;
+
+            // 게시물 확인
+            const post = await Post.findByPk(postId);
+            if (!post) {
+                return res.status(404).json({
+                    success: false,
+                    message: "해당 게시물을 찾을 수 없습니다.",
+                });
+            }
+
+            // 댓글 확인
+            const comment = await Comments.findOne({
+                where: { id: commentId, postId },
+            });
+            if (!comment) {
+                return res.status(404).json({
+                    success: false,
+                    message: "해당하는 댓글을 찾을 수 없습니다.",
+                });
+            }
+
+            // 사용자 확인
+            if (comment.userId !== userId) {
+                return res.status(403).json({
+                    success: false,
+                    message: "댓글을 삭제할 권한이 없습니다.",
+                });
+            }
+
+            // 댓글 삭제 확인
+            await Comments.destroy({ where: { id: commentId }, force: true });
+
+            return res.status(200).json({
+                success: true,
+                message: "댓글이 성공적으로 삭제되었습니다.",
+            });
+        } catch (err) {
+            console.error(err);
+            return res.status(500).json({
+                success: false,
+                message: "댓글 삭제 중에 오류가 발생했습니다.",
+            });
+        }
+    },
+);
+
 export { commentsRouter };
