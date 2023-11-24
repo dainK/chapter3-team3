@@ -1,26 +1,15 @@
-// id: 상품 id
-// userId: 회원id
-// categoryId:
-// title: 제목
-// content: 내용
-// spec: 상세내용
-// imgUrl: 이미지url
-// createdAt:
-// updatedAt:
-
 import { Router } from "express";
 import db from "../models/index.js";
 
 import { token_middleware } from "../middlewares/token_middleware.js";
 
-const { Post, Users } = db; // 수정: Post 모델 가져옴
+const { Post, Users, Comments, likes } = db; // 수정: Post 모델 가져옴
 
 const postsRouter = Router();
 
 // 게시글 생성
 postsRouter.post("", token_middleware, async (req, res) => {
     try {
-        // console.log("게시글 생성");
         const { id } = res.locals.user;
         const { title, content, categoryId } = req.body;
 
@@ -31,7 +20,7 @@ postsRouter.post("", token_middleware, async (req, res) => {
                 message: "게시글의 제목과 내용을 모두 입력해주세요.",
             });
         }
-        // console.log("데이터 유효성 검사");
+
         // 사용자 확인
         const user = await Users.findOne({ where: { id } });
         if (!user) {
@@ -40,7 +29,7 @@ postsRouter.post("", token_middleware, async (req, res) => {
                 message: "사용자를 찾을 수 없습니다.",
             });
         }
-        // console.log("사용자 확인");
+
         // 게시글 생성 및 저장
         const newPost = await Post.create({
             categoryId: categoryId,
@@ -48,7 +37,7 @@ postsRouter.post("", token_middleware, async (req, res) => {
             title: title,
             content: content,
         });
-        // console.log("생성 및 저장 확인");
+
         return res.status(201).json({
             success: true,
             message: "게시글을 성공적으로 등록하였습니다.",
