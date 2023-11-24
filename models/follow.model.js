@@ -25,7 +25,7 @@ export default class Follow extends Model {
                 underscored: false,
                 modelName: "Follow",
                 tableName: "follow",
-                paranoid: true,
+                paranoid: false,
                 charset: "utf8",
                 collate: "utf8_general_ci",
             },

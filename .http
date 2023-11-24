@@ -4,13 +4,8 @@ POST http://localhost:3000/api/user/signup
 Content-Type: application/json
 
 {
-<<<<<<< HEAD
-    "email": "example05@gmail.com",
-    "nickName": "오이이",
-=======
-    "email": "example02@gmail.com",
-    "nickName": "주병준",
->>>>>>> dev
+    "email": "example2@gmail.com",
+    "nickName": "주병준2",
     "password": "aaa111",
     "passwordConfirm": "aaa111"
 }
@@ -46,7 +41,7 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "example02@gmail.com",
+    "email": "example1@gmail.com",
     "password" : "aaa111"
 }
 
@@ -79,3 +74,12 @@ Content-Type: application/json
     "passwordConfirm": "aaa111"
 }
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+######################
+# 팔로우 등록/취소
+###
+PUT http://localhost:3000/api/user/2/follow
+
+# 팔로우 등록/취소 (없는유저)
+###
+PUT http://localhost:3000/api/user/100/follow

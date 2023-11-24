@@ -29,13 +29,13 @@ db.Users = Users;
 // db.Category = Category;
 // db.Post = Post;
 // db.Comments = Comments;
-// db.Follow = Follow;
+db.Follow = Follow;
 
 Users.init(sequelize);
 // Category.init(sequelize);
 // Comments.init(sequelize);
 // Post.init(sequelize);
-// Follow.init(sequelize);
+Follow.init(sequelize);
 
 // Users.associate(db);
 // Category.associate(db);
