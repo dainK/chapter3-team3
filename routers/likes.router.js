@@ -11,7 +11,7 @@ import bcrypt from "bcrypt";
 import { PASSWORD_HASH_SALT_ROUNDS } from "../constants/security.constant.js";
 import { token_middleware } from "../middlewares/token_middleware.js";
 
-const { Users, Likes } = db;
+const { Post, Likes } = db;
 
 const likesRouter = Router();
 
@@ -19,9 +19,7 @@ const likesRouter = Router();
 likesRouter.put("/:id/like", token_middleware, async (req, res, next) => {
     const loginId = res.locals.user.id;
     const postId = parseInt(req.params.id);
-    // 상권님 작업전 임시데이터
-    // const existPost = await Post.findOne({ where: { id: postId } });
-    const existPost = true;
+    const existPost = await Post.findOne({ where: { id: postId } });
     const existLikes = await Likes.findOne({ where: { 
         userId: loginId, 
         postId: postId
