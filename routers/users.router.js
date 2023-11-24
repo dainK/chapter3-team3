@@ -42,7 +42,7 @@ userRouter.post("/signup", signupValidate, async (req, res, next) => {
         );
 
         const newUser = await Users.create({
-            refreshToken:"asdg",
+            refreshToken: "asdg",
             email,
             password: hashedPassword,
             nickName,
@@ -99,8 +99,7 @@ userRouter.put(
             if (req.file) {
                 if (imgUrl) {
                     // 기존 이미지가 있는 경우, S3에서 삭제
-                    if( imgUrl !=="userprofile/null.png")
-                    {
+                    if (imgUrl !== "userprofile/null.png") {
                         //const oldImageKey = imgUrl; // S3 key 추출
                         // const oldImageKey = imgUrl.split("/").pop(); // S3 key 추출
                         await s3
