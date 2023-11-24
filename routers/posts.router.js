@@ -11,6 +11,7 @@ const postsRouter = Router();
 postsRouter.post("", token_middleware, async (req, res) => {
     try {
         const { id } = res.locals.user;
+        console.log("테스트중입니다 테스트테스트", res.locals.user);
         const { title, content, categoryId } = req.body;
 
         // 데이터 유효성 검증
@@ -47,13 +48,13 @@ postsRouter.post("", token_middleware, async (req, res) => {
         console.error(err);
         return res.status(500).json({
             success: false,
-            message: "예상치 못한 에러가 발생했습니다. 관리자에게 문의하세요.",
+            message: "예상치 못한 오류가 발생했습니다. 관리자에게 문의하세요.",
         });
     }
 });
 
 // 게시글 목록 조회 API
-postsRouter.get("/", token_middleware, async (req, res) => {
+postsRouter.get("", token_middleware, async (req, res) => {
     try {
         const { sort } = req.query;
         let upperCaseSort = sort?.toUpperCase();
