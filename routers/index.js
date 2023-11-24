@@ -9,6 +9,7 @@ import passport from "passport";
 import { kakaostrategy } from "../passport/kakaoStrategy.js";
 import { Naverstrategy } from "../passport/naverStrategy.js";
 import { postsRouter } from "./posts.router.js";
+import { commentsRouter } from "./comments.router.js";
 
 const apiRouter = Router();
 
@@ -21,5 +22,6 @@ kakaostrategy();
 Naverstrategy();
 apiRouter.use("/auth", authRouter);
 apiRouter.use("/posts", postsRouter);
+apiRouter.use("/posts", commentsRouter);
 
 export { apiRouter };
