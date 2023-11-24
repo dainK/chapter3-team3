@@ -11,7 +11,6 @@ const postsRouter = Router();
 postsRouter.post("", token_middleware, async (req, res) => {
     try {
         const { id } = res.locals.user;
-        console.log("테스트중입니다 테스트테스트", res.locals.user);
         const { title, content, categoryId } = req.body;
 
         // 데이터 유효성 검증
@@ -125,7 +124,7 @@ postsRouter.put("/:postId", token_middleware, async (req, res) => {
         if (!title || !content) {
             return res.status(400).json({
                 success: false,
-                message: "데이터 양식을 다시 확인해주세요.",
+                message: "게시글의 제목과 내용을 모두 입력해주세요.",
             });
         }
 

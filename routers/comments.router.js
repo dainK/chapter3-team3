@@ -6,7 +6,7 @@ const { Comments, Users, Post } = db;
 
 const commentsRouter = Router();
 
-// 댓글 생성
+// 댓글 작성
 commentsRouter.post("/:postId/comments", token_middleware, async (req, res) => {
     try {
         const { postId } = req.params;
@@ -24,7 +24,7 @@ commentsRouter.post("/:postId/comments", token_middleware, async (req, res) => {
         // 또 오류나면 먼저 확인해볼 곳(토큰에서 가져온 유저 ID)
         const userId = res.locals.user.id;
 
-        // 댓글 생성
+        // 댓글 작성
         const newComment = await Comments.create({
             postId: postId,
             userId: userId, // 다음 확인해볼 곳(위에서 가져온 유저 ID)
@@ -33,19 +33,19 @@ commentsRouter.post("/:postId/comments", token_middleware, async (req, res) => {
 
         return res.status(201).json({
             success: true,
-            message: "댓글이 성공적으로 생성되었습니다.",
+            message: "댓글을 성공적으로 등록하였습니다.",
             data: newComment,
         });
     } catch (error) {
         console.error(error);
         return res.status(500).json({
             success: false,
-            message: "댓글 생성 중에 오류가 발생했습니다.",
+            message: "댓글 작성 중에 오류가 발생했습니다.",
         });
     }
 });
 
-// 댓글 가져오기
+// 댓글 불러오기
 commentsRouter.get("/:postId/comments", token_middleware, async (req, res) => {
     try {
         const { postId } = req.params;
@@ -73,14 +73,14 @@ commentsRouter.get("/:postId/comments", token_middleware, async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            message: "댓글을 성공적으로 가져왔습니다.",
+            message: "댓글을 성공적으로 불러왔습니다.",
             data: comments,
         });
     } catch (error) {
         console.error(error);
         return res.status(500).json({
             success: false,
-            message: "댓글을 가져오는 중에 오류가 발생했습니다.",
+            message: "댓글을 불러오는 중에 오류가 발생했습니다.",
         });
     }
 });
@@ -127,7 +127,7 @@ commentsRouter.put(
             if (!comment || comment.trim() === "") {
                 return res.status(400).json({
                     success: false,
-                    message: "댓글 내용을 제대로 입력해주세요.",
+                    message: "댓글 내용을 입력해주세요.",
                 });
             }
 
@@ -174,7 +174,7 @@ commentsRouter.delete(
             if (!comment) {
                 return res.status(404).json({
                     success: false,
-                    message: "해당하는 댓글을 찾을 수 없습니다.",
+                    message: "해당 댓글을 찾을 수 없습니다.",
                 });
             }
 
