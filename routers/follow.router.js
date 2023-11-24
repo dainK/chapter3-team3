@@ -62,4 +62,71 @@ followRouter.put("/:id/follow", token_middleware, async (req, res, next) => {
     }
 });
 
+// 팔로우 목록 조회 API
+followRouter.get("/followers", token_middleware, async (req, res, next) => {
+    const loginId = res.locals.user.id;
+
+    try {
+        const userList = await Users.findAll({
+            include: [{
+                model: Follow,
+                where: {
+                    followrId: loginId
+                },
+                required: true
+            }]
+        });
+
+        return res.status(200).json({
+            sucess: true,
+            message: "팔로우 목록 조회 성공",
+            data: userList,
+        });
+    } catch (err) {
+        next(err);
+    }
+});
+
+// 팔로우드 목록 조회 API
+followRouter.get("/followeds", token_middleware, async (req, res, next) => {
+    const loginId = res.locals.user.id;
+
+    try {
+        // 이부분 원하는 결과가 안나와서 문의필요
+        // const userList = await Users.findAll({
+        //     include: [{
+        //         model: Follow,
+        //         where: {
+        //             followedId: loginId
+        //         },
+        //         required: true
+        //     }]
+        // });
+
+        const followList = await Follow.findAll({
+            where: {
+                followedId: loginId
+            }
+        });
+
+        const userIdList = followList.map((e)=>{ return e.followrId; });
+        
+        const userList = await Users.findAll({
+            where: {
+                id: {
+                    [db.Sequelize.Op.in]: userIdList
+                }
+            }
+        });
+
+        return res.status(200).json({
+            sucess: true,
+            message: "팔로우드 목록 조회 성공",
+            data: userList,
+        });
+    } catch (err) {
+        next(err);
+    }
+});
+
 export { followRouter };

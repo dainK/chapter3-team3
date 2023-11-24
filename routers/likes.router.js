@@ -62,4 +62,48 @@ likesRouter.put("/:id/like", token_middleware, async (req, res, next) => {
     }
 });
 
+// 좋아요 목록 조회 API
+likesRouter.get("/:id/likes", token_middleware, async (req, res, next) => {
+    // const loginId = res.locals.user.id;
+    const postId = parseInt(req.params.id);
+    const { userId } = req.query;
+    const existPost = await Post.findOne({ where: { id: postId } });
+    
+    try {
+        // post 가 없으면 리턴
+        if (!existPost) {
+            return res.status(400).json({
+                success: false,
+                errorMessage: "게시글이 존재하지 않습니다.",
+            });
+        }
+
+        // userId 쿼리가 있으면 해당 유저조건으로 분기
+        let whereCondition;
+        if(!userId){
+            whereCondition = {
+                postId: postId
+            }
+        }
+        else{
+            whereCondition = {
+                postId: postId,
+                userId: userId
+            }
+        }
+
+        const likesList = await Likes.findAll({ 
+            where: whereCondition
+        });
+
+        return res.status(200).json({
+            sucess: true,
+            message: "좋아요 목록 조회 성공",
+            data: likesList,
+        });
+    } catch (err) {
+        next(err);
+    }
+});
+
 export { likesRouter };
