@@ -27,12 +27,6 @@ followRouter.put("/:id/follow", token_middleware, async (req, res, next) => {
     let resultAct = '';
 
     try {
-        // 토큰값이 없으면 에러처리
-        if (!loginId) {
-            const err = new TokenNotExistError();
-            throw err;
-        }
-
         // followed 사용자가 없으면 리턴
         if (!existUser) {
             return res.status(400).json({
@@ -49,12 +43,6 @@ followRouter.put("/:id/follow", token_middleware, async (req, res, next) => {
                     followrId: loginId, 
                     followedId: followedId 
                 }
-            })
-            .then((result) => {
-                console.log("삭제 성공: ", result);
-            })
-            .catch((err) => {
-                console.log("삭제 Error: ", err);
             });
         }
         else{

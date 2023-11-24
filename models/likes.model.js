@@ -35,7 +35,7 @@ export default class Likes extends Model {
                 underscored: false,
                 modelName: "Likes",
                 tableName: "likes",
-                paranoid: true,
+                paranoid: false,
                 charset: "utf8",
                 collate: "utf8_general_ci",
             },
