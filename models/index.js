@@ -49,5 +49,4 @@ Follow.associate(db);
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-
 export default db;
