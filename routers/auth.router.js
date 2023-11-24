@@ -4,6 +4,7 @@ import db from "../models/index.js";
 import {
     JWT_TOKENKEY_SECRET,
     JWT_ACCESS_TOKEN_EXPIRES_IN,
+    JWT_REFRESH_TOKEN_EXPIRES_IN,
 } from "../constants/security.constant.js";
 import "dotenv/config";
 import bcrypt from "bcrypt";
@@ -21,6 +22,7 @@ authRouter.post("/login", loginValidate, async (req, res, next) => {
     const errors = validationResult(req);
     const { email, password } = req.body;
     const existUser = await Users.findOne({ where: { email } });
+    const id = existUser.id;
     try {
         if (!errors.isEmpty()) {
             const err = new ValidError();
@@ -41,18 +43,34 @@ authRouter.post("/login", loginValidate, async (req, res, next) => {
                 errorMessage: "비밀번호가 틀렸습니다.",
             });
         }
-        const accessToken = jwt.sign(
-            { id: existUser.id },
-            JWT_TOKENKEY_SECRET,
-            {
+        // accessToken 생성 함수
+        function createAccessToken(id) {
+            const accessToken = jwt.sign({ id: id }, JWT_TOKENKEY_SECRET, {
                 expiresIn: JWT_ACCESS_TOKEN_EXPIRES_IN,
-            },
+            });
+            return accessToken;
+        }
+        // refreshToken 생성 함수
+        function createRefreshToken() {
+            const refreshToken = jwt.sign({}, JWT_TOKENKEY_SECRET, {
+                expiresIn: JWT_REFRESH_TOKEN_EXPIRES_IN,
+            });
+            return refreshToken;
+        }
+        const accessToken = createAccessToken(id);
+        const refreshToken = createRefreshToken();
+
+        res.cookie("accesstoken", `Bearer ${accessToken}`);
+        res.cookie("refreshtoken", `Refresh ${refreshToken}`);
+
+        await Users.update(
+            { refreshToken: refreshToken },
+            { where: { email } },
         );
-        res.cookie("authorization", `Bearer ${accessToken}`);
         return res.status(200).json({
             success: true,
             message: "로그인 성공.",
-            data: { accessToken },
+            data: { accessToken, refreshToken },
         });
     } catch (err) {
         next(err);
@@ -66,8 +84,35 @@ authRouter.get(
     passport.authenticate("kakao", {
         failureRedirect: "/?error=카카오로그인 실패",
     }),
-    (req, res) => {
-        res.status(200).redirect("/"); // 성공 시에는 /로 이동
+    async (req, res) => {
+        // console.log("리스폰스", req.user.dataValues.id);
+        const id = req.user.dataValues.id;
+        // accessToken 생성 함수
+        function createAccessToken(id) {
+            const accessToken = jwt.sign({ id: id }, JWT_TOKENKEY_SECRET, {
+                expiresIn: JWT_ACCESS_TOKEN_EXPIRES_IN,
+            });
+            return accessToken;
+        }
+        // refreshToken 생성 함수
+        function createRefreshToken() {
+            const refreshToken = jwt.sign({}, JWT_TOKENKEY_SECRET, {
+                expiresIn: JWT_REFRESH_TOKEN_EXPIRES_IN,
+            });
+            return refreshToken;
+        }
+        const accessToken = createAccessToken(id);
+        const refreshToken = createRefreshToken();
+
+        res.cookie("accesstoken", `Bearer ${accessToken}`);
+        res.cookie("refreshtoken", `Refresh ${refreshToken}`);
+
+        await Users.update({ refreshToken: refreshToken }, { where: { id } });
+        res.status(200).json({
+            message: `로그인 성공`,
+            accessToken: `${accessToken}`,
+            refreshToken: `${refreshToken}`,
+        }); // 성공 시에는 /로 이동
     },
 );
 
@@ -81,15 +126,43 @@ authRouter.get(
     passport.authenticate("naver", {
         failureRedirect: "/?error=네이버로그인 실패",
     }),
-    (req, res) => {
-        res.status(200).redirect("/");
+    async (req, res) => {
+        // console.log("리스폰스", req.user.dataValues.id);
+        const id = req.user.dataValues.id;
+        // accessToken 생성 함수
+        function createAccessToken(id) {
+            const accessToken = jwt.sign({ id: id }, JWT_TOKENKEY_SECRET, {
+                expiresIn: JWT_ACCESS_TOKEN_EXPIRES_IN,
+            });
+            return accessToken;
+        }
+        // refreshToken 생성 함수
+        function createRefreshToken() {
+            const refreshToken = jwt.sign({}, JWT_TOKENKEY_SECRET, {
+                expiresIn: JWT_REFRESH_TOKEN_EXPIRES_IN,
+            });
+            return refreshToken;
+        }
+        const accessToken = createAccessToken(id);
+        const refreshToken = createRefreshToken();
+
+        res.cookie("accesstoken", `Bearer ${accessToken}`);
+        res.cookie("refreshtoken", `Refresh ${refreshToken}`);
+
+        await Users.update({ refreshToken: refreshToken }, { where: { id } });
+        res.status(200).json({
+            message: `로그인 성공`,
+            accessToken: `${accessToken}`,
+            refreshToken: `${refreshToken}`,
+        });
     },
 );
 
 // 로그아웃
 authRouter.get("/logout", token_middleware, (req, res, next) => {
     try {
-        res.clearCookie("authorization");
+        res.clearCookie("accesstoken");
+        res.clearCookie("refreshtoken");
         res.status(200).json({ success: true, message: "로그아웃 성공" });
     } catch (err) {
         next(err);

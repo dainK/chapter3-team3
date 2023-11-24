@@ -4,8 +4,8 @@ POST http://localhost:3000/api/user/signup
 Content-Type: application/json
 
 {
-    "email": "example3@gmail.com",
-    "nickName": "주병준3",
+    "email": "example00@gmail.com",
+    "nickName": "박현세",
     "password": "aaa111",
     "passwordConfirm": "aaa111"
 }
@@ -17,7 +17,7 @@ GET http://localhost:3000/api/user
 # 회원 정보 수정
 ###
 PUT http://localhost:3000/api/user
-Content-Disposition: form-data; name="json_data"
+# Content-Disposition: form-data; name="json_data"
 Content-Type: application/json
 
 {
@@ -40,14 +40,23 @@ Content-Type: application/json
 POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
+# {
+#     "email": "example15@gmail.com",
+#     "password" : "q1w2e3"
+# }
+
 {
-    "email": "example2@gmail.com",
+    "email": "example00@gmail.com",
     "password" : "aaa111"
 }
 
 # 카카오 로그인
 ###
 GET http://localhost:3000/api/auth/kakao
+
+# 네이버 로그인
+###
+GET http://localhost:3000/api/auth/naver
 
 # 로그아웃
 ###
@@ -74,6 +83,43 @@ Content-Type: application/json
     "passwordConfirm": "aaa111"
 }
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+
+# 게시글 생성
+###
+POST http://localhost:3000/api/posts
+Content-Type: application/json
+
+{
+    "categoryId": 1,
+    "title": "삭제3",
+    "content": "지웁시다"
+}
+
+
+# 게시글 목록 조회
+###
+GET http://localhost:3000/api/posts
+
+# 게시글 상세 조회
+###
+GET http://localhost:3000/api/posts/4
+
+# 게시글 수정
+###
+PUT http://localhost:3000/api/posts/11
+Content-Type: application/json
+
+{
+    "title": "231432412",
+    "content": "2433243241"
+}
+
+# 게시글 삭제
+###
+DELETE http://localhost:3000/api/posts/5
+
+
 
 ######################
 # 팔로우 등록/취소

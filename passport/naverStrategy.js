@@ -19,7 +19,6 @@ const Naverstrategy = () => {
                         where: { email: profile.email },
                     });
                     if (exUser) {
-                        console.log("accessToken====>", accessToken);
                         done(null, exUser);
                     } else {
                         const newUser = await Users.create({
@@ -27,6 +26,8 @@ const Naverstrategy = () => {
                             nickName: profile.nickname,
                             imgUrl: profile.profileImage,
                             password: profile.id,
+                            refreshToken: refreshToken,
+                            type: "naver",
                         });
                         done(null, newUser);
                     }

@@ -12,15 +12,15 @@ const ErrorHandler = (err, req, res, next) => {
     }
     // 토큰이 만료 되었을 때
     if (err.name === "TokenExpiredError") {
-        res.clearCookie("authorization");
-        return res.status(401).json({
+        res.clearCookie("refreshToken", "accessToken");
+        return res.status(403).json({
             success: false,
             errorMessage: "인증이 만료되었습니다. 재인증을 받아주세요.",
         });
     }
     // 토큰 사용자가 존재하지 않을 때
     if (err.name === "UserNotExistError") {
-        res.clearCookie("authorization");
+        res.clearCookie("accessToken", "refreshToken");
         return res.status(401).json({
             success: false,
             errorMessage: "토큰 사용자가 존재하지 않습니다.",
