@@ -63,7 +63,7 @@ likesRouter.put("/:id/like", token_middleware, async (req, res, next) => {
 });
 
 // 좋아요 목록 조회 API
-likesRouter.get("/:id/likes", token_middleware, async (req, res, next) => {
+likesRouter.get("/:id/likes", async (req, res, next) => {
     // const loginId = res.locals.user.id;
     const postId = parseInt(req.params.id);
     const { userId } = req.query;
