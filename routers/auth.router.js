@@ -18,7 +18,7 @@ const { Users } = db;
 
 const authRouter = Router();
 // 로그인 API
-authRouter.post("/login", loginValidate, async (req, res, next) => {
+authRouter.post("/auth/login", loginValidate, async (req, res, next) => {
     const errors = validationResult(req);
     const { email, password } = req.body;
     const existUser = await Users.findOne({ where: { email } });
@@ -78,9 +78,9 @@ authRouter.post("/login", loginValidate, async (req, res, next) => {
 });
 
 // 카카오 로그인 API
-authRouter.get("/kakao", passport.authenticate("kakao"));
+authRouter.get("/auth/kakao", passport.authenticate("kakao"));
 authRouter.get(
-    "/kakao/callback",
+    "/auth/kakao/callback",
     passport.authenticate("kakao", {
         failureRedirect: "/?error=카카오로그인 실패",
     }),
@@ -118,11 +118,11 @@ authRouter.get(
 
 // 네이버 로그인 API
 authRouter.get(
-    "/naver",
+    "/auth/naver",
     passport.authenticate("naver", { authType: "reprompt" }),
 );
 authRouter.get(
-    "/naver/callback",
+    "/auth/naver/callback",
     passport.authenticate("naver", {
         failureRedirect: "/?error=네이버로그인 실패",
     }),
@@ -159,7 +159,7 @@ authRouter.get(
 );
 
 // 로그아웃
-authRouter.get("/logout", token_middleware, (req, res, next) => {
+authRouter.get("/auth/logout", token_middleware, (req, res, next) => {
     try {
         res.clearCookie("accesstoken");
         res.clearCookie("refreshtoken");

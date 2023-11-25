@@ -13,15 +13,16 @@ import { commentsRouter } from "./comments.router.js";
 
 const apiRouter = Router();
 
-apiRouter.use("/user", userRouter);
-apiRouter.use("/user", followRouter);
+apiRouter.use("/", [userRouter,followRouter,likesRouter,authRouter,postsRouter,commentsRouter]);
+// apiRouter.use("/user", userRouter);
+// apiRouter.use("/user", followRouter);
 // 상권님꺼 추가시 넣기
 // apiRouter.use("/post", postRouter);
-apiRouter.use("/post", likesRouter);
+// apiRouter.use("/post", likesRouter);
 kakaostrategy();
 Naverstrategy();
-apiRouter.use("/auth", authRouter);
-apiRouter.use("/posts", postsRouter);
-apiRouter.use("/posts", commentsRouter);
+// apiRouter.use("/auth", authRouter);
+// apiRouter.use("/posts", postsRouter);
+// apiRouter.use("/posts", commentsRouter);
 
 export { apiRouter };
