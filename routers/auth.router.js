@@ -22,7 +22,6 @@ authRouter.post("/login", loginValidate, async (req, res, next) => {
     const errors = validationResult(req);
     const { email, password } = req.body;
     const existUser = await Users.findOne({ where: { email } });
-    const id = existUser.id;
     try {
         if (!errors.isEmpty()) {
             const err = new ValidError();
@@ -44,6 +43,7 @@ authRouter.post("/login", loginValidate, async (req, res, next) => {
             });
         }
         // accessToken 생성 함수
+        const id = existUser.id;
         function createAccessToken(id) {
             const accessToken = jwt.sign({ id: id }, JWT_TOKENKEY_SECRET, {
                 expiresIn: JWT_ACCESS_TOKEN_EXPIRES_IN,

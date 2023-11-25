@@ -20,11 +20,13 @@ followRouter.put("/:id/follow", token_middleware, async (req, res, next) => {
     const loginId = res.locals.user.id;
     const followedId = parseInt(req.params.id);
     const existUser = await Users.findOne({ where: { id: followedId } });
-    const existFollow = await Follow.findOne({ where: { 
-        followrId: loginId, 
-        followedId: followedId
-    }});
-    let resultAct = '';
+    const existFollow = await Follow.findOne({
+        where: {
+            followrId: loginId,
+            followedId: followedId,
+        },
+    });
+    let resultAct = "";
 
     try {
         // followed 사용자가 없으면 리턴
@@ -36,26 +38,25 @@ followRouter.put("/:id/follow", token_middleware, async (req, res, next) => {
         }
 
         // 기존 팔로우데이터가 있으면 삭제, 없으면 생성
-        if(existFollow){
-            resultAct = '취소';
+        if (existFollow) {
+            resultAct = "취소";
             await Follow.destroy({
-                where: { 
-                    followrId: loginId, 
-                    followedId: followedId 
-                }
+                where: {
+                    followrId: loginId,
+                    followedId: followedId,
+                },
             });
-        }
-        else{
-            resultAct = '등록';
-            await Follow.create({ 
-                followrId: loginId, 
-                followedId: followedId 
+        } else {
+            resultAct = "등록";
+            await Follow.create({
+                followrId: loginId,
+                followedId: followedId,
             });
         }
 
         return res.status(200).json({
             sucess: true,
-            message: `팔로우 ${resultAct} 성공`
+            message: `팔로우 ${resultAct} 성공`,
         });
     } catch (err) {
         next(err);
@@ -68,13 +69,15 @@ followRouter.get("/followers", token_middleware, async (req, res, next) => {
 
     try {
         const userList = await Users.findAll({
-            include: [{
-                model: Follow,
-                where: {
-                    followrId: loginId
+            include: [
+                {
+                    model: Follow,
+                    where: {
+                        followrId: loginId,
+                    },
+                    required: true,
                 },
-                required: true
-            }]
+            ],
         });
 
         return res.status(200).json({
@@ -105,18 +108,20 @@ followRouter.get("/followeds", token_middleware, async (req, res, next) => {
 
         const followList = await Follow.findAll({
             where: {
-                followedId: loginId
-            }
+                followedId: loginId,
+            },
         });
 
-        const userIdList = followList.map((e)=>{ return e.followrId; });
-        
+        const userIdList = followList.map((e) => {
+            return e.followrId;
+        });
+
         const userList = await Users.findAll({
             where: {
                 id: {
-                    [db.Sequelize.Op.in]: userIdList
-                }
-            }
+                    [db.Sequelize.Op.in]: userIdList,
+                },
+            },
         });
 
         return res.status(200).json({

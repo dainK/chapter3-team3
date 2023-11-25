@@ -4,10 +4,10 @@ POST http://localhost:3000/api/user/signup
 Content-Type: application/json
 
 {
-    "email": "example15@gmail.com",
-    "nickName": "이복남",
-    "password": "q1w2e3",
-    "passwordConfirm": "q1w2e3"
+    "email": "example12@gmail.com",
+    "nickName": "김범석",
+    "password": "aaa111",
+    "passwordConfirm": "aaa111"
 }
 
 # 회원 정보 조회
@@ -40,27 +40,10 @@ Content-Type: application/json
 POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
-# {
-#     "email": "example15@gmail.com",
-#     "password" : "q1w2e3"
-# }
-
 {
-    "email": "example77@gmail.com",
-    "password" : "a1234"
+    "email": "example12@gmail.com",
+    "password" : "aaa111"
 }
-
-# {
-#     "email": "example2@gmail.com",
-#     "password" : "aaa111"
-# }
-# {
-#     "email": "example3@gmail.com",
-#     "nickName": "주병준3",
-#     "password": "aaa111",
-#     "passwordConfirm": "aaa111"
-# }
-
 
 # 카카오 로그인
 ###
