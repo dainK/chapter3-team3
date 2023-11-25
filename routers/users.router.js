@@ -12,6 +12,12 @@ import { PASSWORD_HASH_SALT_ROUNDS } from "../constants/security.constant.js";
 import { token_middleware } from "../middlewares/token_middleware.js";
 import uploadImage from "../middlewares/upload_middleware.js";
 import s3 from "../config/s3.config.js";
+import jwt from "jsonwebtoken";
+import {
+    JWT_TOKENKEY_SECRET,
+    JWT_ACCESS_TOKEN_EXPIRES_IN,
+    JWT_REFRESH_TOKEN_EXPIRES_IN,
+} from "../constants/security.constant.js";
 
 const { Users } = db;
 
@@ -47,11 +53,35 @@ userRouter.post("/user/signup", signupValidate, async (req, res, next) => {
             nickName,
         });
 
-        return res.status(201).json({
-            sucess: true,
-            message: "회원가입 성공",
-            data: newUser,
-        });
+        // 회원가입 버튼 클릭 후 자동 로그인
+        const existUsers = await Users.findOne({ where: { email } });
+        const existNames = await Users.findOne({ where: { nickName } });
+        // accessToken 생성 함수
+        const id = existUsers.id;
+        function createAccessToken(id) {
+            const accessToken = jwt.sign({ id: id }, JWT_TOKENKEY_SECRET, {
+                expiresIn: JWT_ACCESS_TOKEN_EXPIRES_IN,
+            });
+            return accessToken;
+        }
+        // refreshToken 생성 함수
+        function createRefreshToken() {
+            const refreshToken = jwt.sign({}, JWT_TOKENKEY_SECRET, {
+                expiresIn: JWT_REFRESH_TOKEN_EXPIRES_IN,
+            });
+            return refreshToken;
+        }
+        const accessToken = createAccessToken(id);
+        const refreshToken = createRefreshToken();
+
+        res.cookie("accesstoken", `Bearer ${accessToken}`);
+        res.cookie("refreshtoken", `Refresh ${refreshToken}`);
+
+        await Users.update(
+            { refreshToken: refreshToken },
+            { where: { email } },
+        );
+        return res.redirect("/");
     } catch (err) {
         next(err);
     }
