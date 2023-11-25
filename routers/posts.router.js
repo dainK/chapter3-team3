@@ -7,6 +7,60 @@ const { Post, Users, Comments, likes } = db; // 수정: Post 모델 가져옴
 
 const postsRouter = Router();
 
+
+// 게시글 랭크 목록 조회 API  최근 덧글 라이크
+postsRouter.get("/rank", async (req, res) => {
+    try {
+        const { sort, categoryId } = req.query;
+        let orderBy = '';
+        let whereCondition = {};
+
+        // 조회조건 sort 에 따라 정렬순서 바뀜, 없으면 기본값 최근글로
+        if(!sort){
+            orderBy = 'createdAt';
+        }
+        else if(sort === 'new'){
+            orderBy = 'createdAt';
+        }
+        else if(sort === 'comments'){
+            orderBy = 'commentsCnt';
+        }
+        else if(sort === 'likes'){
+            orderBy = 'likesCnt';
+        }
+
+        // 조회조건 categoryId 있으면 조회조건 추가
+        if(categoryId){
+            whereCondition = { categoryId };
+        }
+
+        const posts = await Post.findAll({
+            attributes: [
+                "id", 
+                "title", 
+                "categoryId", 
+                "createdAt",
+                [db.sequelize.literal('(SELECT COUNT(*) FROM `comments` WHERE `comments`.postId = `Post`.id)'), 'commentsCnt'],
+                [db.sequelize.literal('(SELECT COUNT(*) FROM `likes` WHERE `likes`.postId = `Post`.id)'), 'likesCnt']
+            ],
+            where: whereCondition,
+            order: [
+                ['commentsCnt', 'desc']
+            ],
+        });
+
+        return res.status(200).json({
+            success: true,
+            data: posts,
+        });
+    } catch (err) {
+        return res.status(400).json({
+            success: false,
+            message: "게시글을 찾을 수 없습니다.",
+        });
+    }
+});
+
 // 게시글 생성
 postsRouter.post("", token_middleware, async (req, res) => {
     try {
@@ -196,5 +250,7 @@ postsRouter.delete("/:postId", token_middleware, async (req, res) => {
         });
     }
 });
+
+
 
 export { postsRouter };

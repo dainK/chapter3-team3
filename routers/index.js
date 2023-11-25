@@ -18,10 +18,10 @@ apiRouter.use("/user", followRouter);
 // 상권님꺼 추가시 넣기
 // apiRouter.use("/post", postRouter);
 apiRouter.use("/post", likesRouter);
+apiRouter.use("/posts", postsRouter); 
 kakaostrategy();
 Naverstrategy();
 apiRouter.use("/auth", authRouter);
-apiRouter.use("/posts", postsRouter);
 apiRouter.use("/posts", commentsRouter);
 
 export { apiRouter };
