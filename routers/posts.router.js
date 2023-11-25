@@ -9,7 +9,7 @@ const postsRouter = Router();
 
 
 // 게시글 랭크 목록 조회 API
-postsRouter.get("/rank", async (req, res) => {
+postsRouter.get("/post/rank", async (req, res) => {
     try {
         const { sort, categoryId } = req.query;
         let orderBy = '';
