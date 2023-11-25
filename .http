@@ -17,11 +17,11 @@ GET http://localhost:3000/api/user
 # 회원 정보 수정
 ###
 PUT http://localhost:3000/api/user
-Content-Disposition: form-data; name="json_data"
+# Content-Disposition: form-data; name="json_data"
 Content-Type: application/json
 
 {
-    "nickName": "신주혁",
+    "nickName": "일이삼",
     "password": "aaa111",
     "passwordConfirm": "aaa111"
 }
@@ -65,6 +65,10 @@ Content-Type: application/json
 # 카카오 로그인
 ###
 GET http://localhost:3000/api/auth/kakao
+
+# 네이버 로그인
+###
+GET http://localhost:3000/api/auth/naver
 
 # 로그아웃
 ###
@@ -134,28 +138,19 @@ DELETE http://localhost:3000/api/posts/13
 
 # 댓글 생성
 ###
-POST http://localhost:3000/api/posts/2/comments
-Content-Type: application/json
+PUT http://localhost:3000/api/user/2/follow
 
-{
-    "comment": "문제업승ㅁ"
-}
-
-# 댓글 가져오기
+# 팔로우 등록/취소 (없는유저)
 ###
-GET http://localhost:3000/api/posts/2/comments
+PUT http://localhost:3000/api/user/100/follow
+######################
 
-
-# 댓글 수정
+######################
+# 좋아요 등록/취소
 ###
-PUT http://localhost:3000/api/posts/2/comments/1
-Content-Type: application/json
+PUT http://localhost:3000/api/post/1/like
 
-{
-    "comment": "가즈아"
-}
-
-
-# 댓글 삭제
+# 좋아요 등록/취소 (없는글)
 ###
-DELETE http://localhost:3000/api/posts/2/comments/7
+PUT http://localhost:3000/api/post/100/like
+######################
