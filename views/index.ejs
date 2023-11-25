@@ -1,28 +1,11 @@
 <!doctype html>
 <html>
     <head>
-        <title><%= title %></title>
-        <link rel="stylesheet" href="/stylesheets/style.css" />
-
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-        />
-        <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/icon?family=Material+Icons"
-        />
-        <style>
-            
-        </style>
+      <%-include('./head.ejs')%>
     </head>
     <body>
-        <!-- <h1><%= title %></h1> -->
-        <!-- <p>Welcome to <%= title %></p> -->
-
         <nav class="grey darken-3">
             <div class="title">
-                <!-- <a href="#" class="brand-logo"><i class="material-icons"style="font-size:45px">home</i>커뮤니티</a> -->
                 <a style="display: flex; align-items: center">
                     <img
                         src="images/logo.png"
@@ -95,33 +78,27 @@
             <div class="latest-post-container">
                 <p>최신 게시물</p>
                 <ul class="collection post-list">
-                    <li class="collection-item">게시물 1: 내용1</li>
-                    <li class="collection-item">게시물 2: 내용2</li>
-                    <li class="collection-item">게시물 3: 내용3</li>
-                    <li class="collection-item">게시물 3: 내용3</li>
-                    <li class="collection-item">게시물 3: 내용3</li>
+                  <% for (let i =0; i<5; i++){ %>
+                    <li class="collection-item" id="last-post-<%=i %>">게시물 <%=i %>: 내용<%=i %></li> 
+                  <% } %>
                 </ul>
             </div>
 
             <div class="popularity-post-container">
                 <p>좋아요 많은 게시물</p>
                 <ul class="collection post-list">
-                    <li class="collection-item">게시물 1: 내용1</li>
-                    <li class="collection-item">게시물 2: 내용2</li>
-                    <li class="collection-item">게시물 3: 내용3</li>
-                    <li class="collection-item">게시물 3: 내용3</li>
-                    <li class="collection-item">게시물 3: 내용3</li>
+                  <% for (let i =0; i<5; i++){ %>
+                    <li class="collection-item" id="like-post-<%=i %>">게시물 <%=i %>: 내용<%=i %></li> 
+                  <% } %>
                 </ul>
             </div>
 
             <div class="commets-post-container">
                 <p>덧글 많은 게시물</p>
                 <ul class="collection post-list">
-                    <li class="collection-item">게시물 1: 내용1</li>
-                    <li class="collection-item">게시물 2: 내용2</li>
-                    <li class="collection-item">게시물 3: 내용3</li>
-                    <li class="collection-item">게시물 3: 내용3</li>
-                    <li class="collection-item">게시물 3: 내용3</li>
+                  <% for (let i =0; i<5; i++){ %>
+                    <li class="collection-item" id="comment-post-<%=i %>">게시물 <%=i %>: 내용<%=i %></li> 
+                  <% } %>
                 </ul>
             </div>
         </div>
@@ -130,11 +107,9 @@
             <div class="all-post-container">
                 <p>전체 게시물</p>
                 <ul class="collection post-list">
-                    <li class="collection-item">게시물 1: 내용1</li>
-                    <li class="collection-item">게시물 2: 내용2</li>
-                    <li class="collection-item">게시물 3: 내용3</li>
-                    <li class="collection-item">게시물 3: 내용3</li>
-                    <li class="collection-item">게시물 3: 내용3</li>
+                  <% for (let i =0; i<5; i++){ %>
+                    <li class="collection-item" id="total-post-<%=i %>">게시물 <%=i %>: 내용<%=i %></li> 
+                  <% } %>
                 </ul>
             </div>
         </div>
@@ -147,10 +122,31 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
-        //   document.addEventListener('DOMContentLoaded', function() {
-        //     var elems = document.querySelectorAll('.sidenav');
-        //     var instances = M.Sidenav.init(elems);
-        // });
+      console.log("데이터테스트");
+
+      fetch('/api/posts')  
+        .then(response => response.json())
+        .then(data => {
+            for(let i =0; i<5; i++){
+              const post = document.getElementById(`last-post-${i}`);
+            post.innerText = data.data[i].title;
+          }
+          for(let i =0; i<5; i++){
+            const post = document.getElementById(`like-post-${i}`);
+            post.innerText = data.data[i].title;
+          }
+          for(let i =0; i<5; i++){
+            const post = document.getElementById(`comment-post-${i}`);
+            post.innerText = data.data[i].title;
+          }
+          for(let i =0; i<5; i++){
+            const post = document.getElementById(`total-post-${i}`);
+            post.innerText = data.data[i].title;
+          }
+          
+        })
+        .catch(error => console.error('에러 발생:', error));
+ 
         document.addEventListener("DOMContentLoaded", function () {
             var elems = document.querySelectorAll(".sidenav");
             var instances = M.Sidenav.init(elems, { edge: "right" });

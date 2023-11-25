@@ -53,7 +53,7 @@ postsRouter.post("", token_middleware, async (req, res) => {
 });
 
 // 게시글 목록 조회 API
-postsRouter.get("", token_middleware, async (req, res) => {
+postsRouter.get("", async (req, res) => {
     try {
         const { sort } = req.query;
         let upperCaseSort = sort?.toUpperCase();
@@ -66,6 +66,8 @@ postsRouter.get("", token_middleware, async (req, res) => {
             attributes: ["id", "title", "categoryId", "createdAt"],
             order: ["createdAt"],
         });
+        // console.log(posts);
+        
 
         return res.status(200).json({
             success: true,
