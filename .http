@@ -10,6 +10,10 @@ Content-Type: application/json
     "passwordConfirm": "q1w2e3"
 }
 
+# 내 회원 정보 조회
+###
+GET http://localhost:3000/api/user/me
+
 # 회원 정보 조회
 ###
 GET http://localhost:3000/api/user/1
@@ -98,45 +102,11 @@ Content-Type: application/json
 
 
 
-# 게시글 생성
-###
-POST http://localhost:3000/api/posts
-Content-Type: application/json
-
-{
-    "categoryId": 1,
-    "title": "1314324152351",
-    "content": "sss"
-}
-
-
-# 게시글 목록 조회
-###
-GET http://localhost:3000/api/posts
-
-# 게시글 상세 조회
-###
-GET http://localhost:3000/api/posts/2
-
-# 게시글 수정
-###
-PUT http://localhost:3000/api/posts/13
-Content-Type: application/json
-
-{
-    "title": "욥",
-    "content": "욥욥"
-}
-
-# 게시글 삭제
-###
-DELETE http://localhost:3000/api/posts/13
-
 
 # ==========================================================
 
 
-# 댓글 생성
+# ???
 ###
 PUT http://localhost:3000/api/user/2/follow
 

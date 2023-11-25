@@ -1,0 +1,119 @@
+# 회원가입
+###
+POST http://localhost:3000/api/user/signup
+Content-Type: application/json
+
+{
+    "email": "example15@gmail.com",
+    "nickName": "이복남",
+    "password": "q1w2e3",
+    "passwordConfirm": "q1w2e3"
+}
+
+
+# 로그인
+###
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "example15@gmail.com",
+    "password" : "q1w2e3"
+}
+
+# {
+#     "email": "example77@gmail.com",
+#     "password" : "a1234"
+# }
+
+# {
+#     "email": "example2@gmail.com",
+#     "password" : "aaa111"
+# }
+# {
+#     "email": "example3@gmail.com",
+#     "nickName": "주병준3",
+#     "password": "aaa111",
+#     "passwordConfirm": "aaa111"
+# }
+
+# 로그아웃
+###
+GET http://localhost:3000/api/auth/logout
+
+
+# ==========================================================
+
+
+# 게시글 생성
+###
+POST http://localhost:3000/api/post
+Content-Type: application/json
+
+{
+    "categoryId": 1,
+    "title": "4040",
+    "content": "뜨나요??"
+}
+
+
+# 게시글 목록 조회
+###
+GET http://localhost:3000/api/post
+
+# 게시글 상세 조회
+###
+GET http://localhost:3000/api/post/29
+
+# 특정 유저의 게시글 조회
+###
+GET http://localhost:3000/api/user/3/post
+
+
+# 게시글 수정
+###
+PUT http://localhost:3000/api/post/14
+Content-Type: application/json
+
+{
+    "title": "욥",
+    "content": "욥욥"
+}
+
+# 게시글 삭제
+###
+DELETE http://localhost:3000/api/post/14
+
+
+
+# ==========================================================
+
+
+
+# 댓글 생성
+###
+POST http://localhost:3000/api/post/3/comment
+Content-Type: application/json
+
+{
+    "comment": "오얏나무"
+}
+
+# 댓글 확인
+###
+GET http://localhost:3000/api/post/3/comment
+
+
+# 댓글 수정
+###
+PUT http://localhost:3000/api/post/3/comment/16
+Content-Type: application/json
+
+{
+    "comment": "하와이안"
+}
+
+# 댓글 삭제
+###
+DELETE http://localhost:3000/api/post/3/comment/16
+
