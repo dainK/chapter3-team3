@@ -21,7 +21,7 @@ export default class Category extends Model {
                 underscored: false,
                 modelName: "Category",
                 tableName: "category",
-                paranoid: true,
+                paranoid: false,
                 charset: "utf8",
                 collate: "utf8_general_ci",
             },

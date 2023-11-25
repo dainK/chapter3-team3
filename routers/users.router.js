@@ -188,20 +188,25 @@ userRouter.get("/user/me", token_middleware, (req, res, next) => {
 });
 
 // 회원 정보 조회 API
-userRouter.get("/user/:id", (req, res, next) => {
+userRouter.get("/user/:id", async (req, res, next) => {
     try {
-        const me = res.locals.user;
+        const { id } = req.params;
+        
+        const user = await Users.findOne({ 
+            attributes: {
+                include: [
+                    [db.sequelize.literal('(SELECT COUNT(*) FROM `follow` WHERE `follow`.followrId = `Users`.id)'),  'followerCnt'],
+                    [db.sequelize.literal('(SELECT COUNT(*) FROM `follow` WHERE `follow`.followedId = `Users`.id)'), 'followedCnt']
+                ]
+            },
+            where: { id } 
+        });
 
-        if (!me) {
-            const err = new TokenNotExistError();
-            throw err;
-        }
         return res.status(200).json({
             sucess: true,
-            message: "내 정보 조회 성공!",
-            data: me,
+            message: "회원 정보 조회 성공!",
+            data: user,
         });
-        //병옥님 할일.... 팔로워 팔로잉 카운트 조인해주세요
     } catch (err) {
         next(err);
     }

@@ -16,56 +16,61 @@ const { Users, Follow } = db;
 const followRouter = Router();
 
 // 팔로우 등록/취소 API
-followRouter.put("/user/:id/follow", token_middleware, async (req, res, next) => {
-    const loginId = res.locals.user.id;
-    const followedId = parseInt(req.params.id);
-    const existUser = await Users.findOne({ where: { id: followedId } });
-    const existFollow = await Follow.findOne({
-        where: {
-            followrId: loginId,
-            followedId: followedId,
-        },
-    });
-    let resultAct = "";
-
-    try {
-        // followed 사용자가 없으면 리턴
-        if (!existUser) {
-            return res.status(400).json({
-                success: false,
-                errorMessage: "사용자가 존재하지 않습니다.",
-            });
-        }
-
-        // 기존 팔로우데이터가 있으면 삭제, 없으면 생성
-        if (existFollow) {
-            resultAct = "취소";
-            await Follow.destroy({
-                where: {
-                    followrId: loginId,
-                    followedId: followedId,
-                },
-            });
-        } else {
-            resultAct = "등록";
-            await Follow.create({
+followRouter.put(
+    "/user/:id/follow",
+    token_middleware,
+    async (req, res, next) => {
+        const loginId = res.locals.user.id;
+        const followedId = parseInt(req.params.id);
+        const existUser = await Users.findOne({ where: { id: followedId } });
+        const existFollow = await Follow.findOne({
+            where: {
                 followrId: loginId,
                 followedId: followedId,
-            });
-        }
-
-        return res.status(200).json({
-            sucess: true,
-            message: `팔로우 ${resultAct} 성공`,
+            },
         });
-    } catch (err) {
-        next(err);
-    }
-});
+        let resultAct = "";
 
-// 병옥님 로컬유저 말고 모든 유저가 사용할수있게 수정해주세요 팔로우 목록 조회 API
-followRouter.get("/user/followers/:id", async (req, res, next) => {
-    const loginId = res.locals.user.id;
+        try {
+            // followed 사용자가 없으면 리턴
+            if (!existUser) {
+                return res.status(400).json({
+                    success: false,
+                    errorMessage: "사용자가 존재하지 않습니다.",
+                });
+            }
+
+            // 기존 팔로우데이터가 있으면 삭제, 없으면 생성
+            if (existFollow) {
+                resultAct = "취소";
+                await Follow.destroy({
+                    where: {
+                        followrId: loginId,
+                        followedId: followedId,
+                    },
+                });
+            } else {
+                resultAct = "등록";
+                await Follow.create({
+                    followrId: loginId,
+                    followedId: followedId,
+                });
+            }
+
+            return res.status(200).json({
+                sucess: true,
+                message: `팔로우 ${resultAct} 성공`,
+            });
+        } catch (err) {
+            next(err);
+        }
+    },
+);
+
+// 팔로우 목록 조회 API
+followRouter.get("/user/:id/followers", async (req, res, next) => {
+    // const id = res.locals.user.id;
+    const id = parseInt(req.params.id);
 
     try {
         const userList = await Users.findAll({
@@ -73,7 +78,7 @@ followRouter.get("/user/followers/:id", async (req, res, next) => {
                 {
                     model: Follow,
                     where: {
-                        followrId: loginId,
+                        followrId: id,
                     },
                     required: true,
                 },
@@ -91,8 +96,9 @@ followRouter.get("/user/followers/:id", async (req, res, next) => {
 });
 
 // 병옥님 로컬유저 말고 모든 유저가 사용할수있게 수정해주세요  팔로우드 목록 조회 API
-followRouter.get("/user/followeds/:id", async (req, res, next) => {
-    const loginId = res.locals.user.id;
+followRouter.get("/user/:id/followeds", async (req, res, next) => {
+    // const id = res.locals.user.id;
+    const id = parseInt(req.params.id);
 
     try {
         // 이부분 원하는 결과가 안나와서 문의필요
@@ -108,7 +114,7 @@ followRouter.get("/user/followeds/:id", async (req, res, next) => {
 
         const followList = await Follow.findAll({
             where: {
-                followedId: loginId,
+                followedId: id,
             },
         });
 

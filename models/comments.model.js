@@ -39,7 +39,7 @@ export default class Comments extends Model {
                 underscored: false,
                 modelName: "Comments",
                 tableName: "comments",
-                paranoid: true,
+                paranoid: false,
                 charset: "utf8",
                 collate: "utf8_general_ci",
             },

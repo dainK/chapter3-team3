@@ -34,6 +34,7 @@ export default class Users extends Model {
                 refreshToken: {
                     type: DataTypes.STRING,
                     allowNull: false,
+                    defaultValue: "refresh",
                 }
             },
             {
@@ -42,7 +43,7 @@ export default class Users extends Model {
                 underscored: false,
                 modelName: "Users",
                 tableName: "users",
-                paranoid: true,
+                paranoid: false,
                 charset: "utf8",
                 collate: "utf8_general_ci",
             },

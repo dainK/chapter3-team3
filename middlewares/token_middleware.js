@@ -13,6 +13,7 @@ import {
 const { Users } = db;
 
 const token_middleware = async (req, res, next) => {
+    console.log('token_middleware ============');
     const { accesstoken, refreshtoken } = req.cookies;
     if (!accesstoken)
         return res.status(400).json({
