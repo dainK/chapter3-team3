@@ -135,26 +135,3 @@ Content-Type: application/json
 # 게시글 삭제
 ###
 DELETE http://localhost:3000/api/posts/13
-
-
-# ==========================================================
-
-
-# ???
-###
-PUT http://localhost:3000/api/user/2/follow
-
-# 팔로우 등록/취소 (없는유저)
-###
-PUT http://localhost:3000/api/user/100/follow
-######################
-
-######################
-# 좋아요 등록/취소
-###
-PUT http://localhost:3000/api/post/1/like
-
-# 좋아요 등록/취소 (없는글)
-###
-PUT http://localhost:3000/api/post/100/like
-######################
