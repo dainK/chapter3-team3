@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import db from "./models/index.js";
 import dotenv from "dotenv";
 import { apiRouter } from "./routers/index.js";
+import { viewRouter } from "./routers/veiw.router.js";
 import { ErrorHandler } from "./middlewares/ErrorHandler.js";
 import morgan from "morgan";
 const { Users } = db;
@@ -13,6 +14,12 @@ dotenv.config();
 
 const app = express();
 const { sequelize } = db;
+
+const __dirname = path.resolve();
+// view engine setup
+app.set('views', path.join(__dirname, './views'));
+app.set('view engine', 'ejs');
+app.use(express.static(path.join(__dirname, './public')));
 
 app.use(
     session({
@@ -46,6 +53,7 @@ app.use(
     cookieParser(),
 );
 
+app.use("/", viewRouter);
 app.use("/api", apiRouter);
 app.use(ErrorHandler);
 

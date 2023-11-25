@@ -1,0 +1,122 @@
+.title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 0, auto;
+  /* padding-top: 5px; */
+  font-size: 35px;
+}
+
+.icon-container {
+  position: absolute;
+  top: 10px;
+  /* 원하는 높이로 조정하세요 */
+  right: 10px;
+  /* 원하는 위치로 조정하세요 */
+  z-index: 999;
+  /* 아이콘을 다른 요소 위로 겹치게 합니다 */
+}
+
+.category-bar {
+  display: flex;
+  justify-content: center;
+  /* 중앙 정렬을 위해 수정 */
+  /* background-color: #333; */
+  padding: 10px 0;
+  /* 가로 길이를 줄임 */
+  color: #fff;
+  max-width: 80%;
+  /* 최대 너비를 지정 (가로 길이 조절) */
+  margin: 0 auto;
+  /* 수평 가운데 정렬을 위해 추가 */
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 15px;
+  text-align: center;
+  color: #333;
+  text-decoration: none;
+}
+
+.category-item i {
+  font-size: 24px;
+}
+
+.post-container1 {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  flex-direction: row;
+  justify-content: center; /* 수평 가운데 정렬을 위해 추가 */
+}
+
+.latest-post-container {
+  margin: 20px;
+  width: 300px;
+  height: 300px;
+  /* align-items: center; */
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+.popularity-post-container {
+  margin: 20px;
+  width: 300px;
+  height: 300px;
+  /* align-items: center; */
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+.commets-post-container {
+  margin: 20px;
+  width: 300px;
+  height: 300px;
+  /* align-items: center; */
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+.post-container2 {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center; /* 수평 가운데 정렬을 위해 추가 */
+}
+
+.all-post-container {
+  margin: 20px;
+  width: 1000px;
+  /* height: 500px; */
+  /* align-items: center; */
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+.post-list {
+  /* margin: 20px; */
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.collection-item {
+  border: none;
+  padding: 10px;
+  /* margin: 5px 0; */
+  background-color: #f5f5f5;
+  border-radius: 5px;
+}
+
+.collection-item:hover {
+  background-color: #e0e0e0;
+}
+
+footer {
+  text-align: center;
+  padding: 10px; /* 선택적으로 추가: 푸터 주위에 패딩을 추가하여 가독성을 높일 수 있습니다. */
+  background-color: #f2f2f2; /* 선택적으로 추가: 푸터에 배경색을 지정할 수 있습니다. */
+}
