@@ -16,7 +16,7 @@ const { Post, Likes } = db;
 const likesRouter = Router();
 
 // 좋아요 등록/취소 API
-likesRouter.put("/:id/like", token_middleware, async (req, res, next) => {
+likesRouter.put("/post/:id/like", token_middleware, async (req, res, next) => {
     const loginId = res.locals.user.id;
     const postId = parseInt(req.params.id);
     const existPost = await Post.findOne({ where: { id: postId } });
@@ -63,7 +63,7 @@ likesRouter.put("/:id/like", token_middleware, async (req, res, next) => {
 });
 
 // 좋아요 목록 조회 API
-likesRouter.get("/:id/likes", async (req, res, next) => {
+likesRouter.get("/post/:id/likes", async (req, res, next) => {
     // const loginId = res.locals.user.id;
     const postId = parseInt(req.params.id);
     const { userId } = req.query;

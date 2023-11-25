@@ -16,7 +16,7 @@ const { Users, Follow } = db;
 const followRouter = Router();
 
 // 팔로우 등록/취소 API
-followRouter.put("/:id/follow", token_middleware, async (req, res, next) => {
+followRouter.put("/user/:id/follow", token_middleware, async (req, res, next) => {
     const loginId = res.locals.user.id;
     const followedId = parseInt(req.params.id);
     const existUser = await Users.findOne({ where: { id: followedId } });
@@ -63,15 +63,16 @@ followRouter.put("/:id/follow", token_middleware, async (req, res, next) => {
 });
 
 // 팔로우 목록 조회 API
-followRouter.get("/followers", token_middleware, async (req, res, next) => {
-    const loginId = res.locals.user.id;
+followRouter.get("/user/:id/followers", async (req, res, next) => {
+    // const id = res.locals.user.id;
+    const id = parseInt(req.params.id);
 
     try {
         const userList = await Users.findAll({
             include: [{
                 model: Follow,
                 where: {
-                    followrId: loginId
+                    followrId: id
                 },
                 required: true
             }]
@@ -87,9 +88,10 @@ followRouter.get("/followers", token_middleware, async (req, res, next) => {
     }
 });
 
-// 팔로우드 목록 조회 API
-followRouter.get("/followeds", token_middleware, async (req, res, next) => {
-    const loginId = res.locals.user.id;
+// 병옥님 로컬유저 말고 모든 유저가 사용할수있게 수정해주세요  팔로우드 목록 조회 API
+followRouter.get("/user/:id/followeds", async (req, res, next) => {
+    // const id = res.locals.user.id;
+    const id = parseInt(req.params.id);
 
     try {
         // 이부분 원하는 결과가 안나와서 문의필요
@@ -105,7 +107,7 @@ followRouter.get("/followeds", token_middleware, async (req, res, next) => {
 
         const followList = await Follow.findAll({
             where: {
-                followedId: loginId
+                followedId: id
             }
         });
 

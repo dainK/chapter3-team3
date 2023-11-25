@@ -18,7 +18,7 @@ const { Users } = db;
 const userRouter = Router();
 
 // 회원가입 API
-userRouter.post("/signup", signupValidate, async (req, res, next) => {
+userRouter.post("/user/signup", signupValidate, async (req, res, next) => {
     const errors = validationResult(req);
     const { email, nickName, password } = req.body;
     const existUser = await Users.findOne({ where: { email } });
@@ -60,7 +60,7 @@ userRouter.post("/signup", signupValidate, async (req, res, next) => {
 
 // 회원 정보 수정 API
 userRouter.put(
-    "",
+    "/user",
     UserEdit,
     token_middleware,
     uploadImage.single("imgUrl"),
@@ -136,7 +136,7 @@ userRouter.put(
 );
 
 // 회원 탈퇴 API
-userRouter.delete("", token_middleware, UserDelete, async (req, res, next) => {
+userRouter.delete("/user", token_middleware, UserDelete, async (req, res, next) => {
     const me = res.locals.user;
     const { id, email } = res.locals.user;
     const { password } = req.body;
@@ -168,8 +168,8 @@ userRouter.delete("", token_middleware, UserDelete, async (req, res, next) => {
     }
 });
 
-// 회원 정보 조회 API
-userRouter.get("", token_middleware, (req, res, next) => {
+//회원 정보 조회 API
+userRouter.get("/user/me", token_middleware, (req, res, next) => {
     try {
         const me = res.locals.user;
 
@@ -181,6 +181,31 @@ userRouter.get("", token_middleware, (req, res, next) => {
             sucess: true,
             message: "내 정보 조회 성공!",
             data: me,
+        });
+    } catch (err) {
+        next(err);
+    }
+});
+
+// 회원 정보 조회 API
+userRouter.get("/user/:id", async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        
+        const user = await Users.findOne({ 
+            attributes: {
+                include: [
+                    [db.sequelize.literal('(SELECT COUNT(*) FROM `follow` WHERE `follow`.followrId = `Users`.id)'),  'followerCnt'],
+                    [db.sequelize.literal('(SELECT COUNT(*) FROM `follow` WHERE `follow`.followedId = `Users`.id)'), 'followedCnt']
+                ]
+            },
+            where: { id } 
+        });
+
+        return res.status(200).json({
+            sucess: true,
+            message: "회원 정보 조회 성공!",
+            data: user,
         });
     } catch (err) {
         next(err);
