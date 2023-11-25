@@ -121,7 +121,6 @@ postsRouter.get("/post", async (req, res) => {
             order: ["createdAt"],
         });
         // console.log(posts);
-        
 
         return res.status(200).json({
             success: true,
@@ -134,37 +133,44 @@ postsRouter.get("/post", async (req, res) => {
         });
     }
 });
-
 
 // 상권 특정 유저 게시글 목록 조회 API
-postsRouter.get("user/:userId/post", async (req, res) => {
+postsRouter.get("/user/:userId/post", async (req, res) => {
     try {
-        const { sort } = req.query;
-        let upperCaseSort = sort?.toUpperCase();
+        const { userId } = req.params;
 
-        if (upperCaseSort !== "ASC" && upperCaseSort !== "DESC") {
-            upperCaseSort = "DESC";
+        // 사용자 정보 확인
+        const user = await Users.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "사용자의 정보를 찾을 수 없습니다.",
+            });
         }
 
-        const posts = await Post.findAll({
-            attributes: ["id", "title", "categoryId", "createdAt"],
-            order: ["createdAt"],
-        });
-        // console.log(posts);
-        
+        // 사용자가 작성한 게시물 유무 확인
+        const userPosts = await Post.findAll({ where: { userId } });
+
+        if (userPosts.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "사용자가 작성한 게시물을 찾을 수 없습니다.",
+            });
+        }
 
         return res.status(200).json({
             success: true,
-            data: posts,
+            message: "사용자가 작성한 게시물을 성공적으로 가져왔습니다.",
+            data: userPosts,
         });
-    } catch (err) {
-        return res.status(400).json({
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
             success: false,
-            message: "게시글을 찾을 수 없습니다.",
+            message: "게시물을 찾는 중에 오류가 발생했습니다.",
         });
     }
 });
-
 
 // 게시글 상세 조회 API
 postsRouter.get("/post/:postId", async (req, res) => {

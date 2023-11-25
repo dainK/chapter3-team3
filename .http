@@ -10,6 +10,10 @@ Content-Type: application/json
     "passwordConfirm": "q1w2e3"
 }
 
+# 내 회원 정보 조회
+###
+GET http://localhost:3000/api/user/me
+
 # 회원 정보 조회
 ###
 GET http://localhost:3000/api/user/1
@@ -112,31 +116,7 @@ Content-Type: application/json
 
 # 게시글 목록 조회
 ###
-GET http://localhost:3000/api/posts/
-
-# 게시글 랭크 목록 조회 
-###
-GET http://localhost:3000/api/post/rank
-
-# 게시글 랭크 목록 조회 (최신순)
-###
-GET http://localhost:3000/api/post/rank?sort=new
-
-# 게시글 랭크 목록 조회 (댓글순)
-###
-GET http://localhost:3000/api/post/rank?sort=comments
-
-# 게시글 랭크 목록 조회 (좋아요순)
-###
-GET http://localhost:3000/api/post/rank?sort=likes
-
-# 게시글 랭크 목록 조회 (카테고리 넣기)
-###
-GET http://localhost:3000/api/post/rank?categoryId=1
-
-# 게시글 랭크 목록 조회 (복합조건 카테고리 넣기, 댓글순)
-###
-GET http://localhost:3000/api/post/rank?categoryId=1&sort=comments
+GET http://localhost:3000/api/posts
 
 # 게시글 상세 조회
 ###
@@ -158,3 +138,23 @@ DELETE http://localhost:3000/api/posts/13
 
 
 # ==========================================================
+
+
+# ???
+###
+PUT http://localhost:3000/api/user/2/follow
+
+# 팔로우 등록/취소 (없는유저)
+###
+PUT http://localhost:3000/api/user/100/follow
+######################
+
+######################
+# 좋아요 등록/취소
+###
+PUT http://localhost:3000/api/post/1/like
+
+# 좋아요 등록/취소 (없는글)
+###
+PUT http://localhost:3000/api/post/100/like
+######################
