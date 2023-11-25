@@ -45,7 +45,7 @@ postsRouter.get("/rank", async (req, res) => {
             ],
             where: whereCondition,
             order: [
-                ['commentsCnt', 'desc']
+                [orderBy, 'desc']
             ],
         });
 
