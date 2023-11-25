@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <style>
+    .container {
+      max-width: 500px;
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+    }
+
+    .input-field-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .input-field {
+      flex: 1;
+    }
+
+    .button-container {
+      margin-left: 10px;
+      /* 버튼 간격을 조절합니다. */
+    }
+
+    .center-align {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>로그인</h2>
+    <form action="/api/auth/login" method="post">
+
+      <div class="input-field-container">
+        <div class="input-field">
+          <input type="text" id="email" name="email" required>
+          <label for="email">이메일</label>
+        </div>
+      </div>
+
+      <div class="input-field">
+        <input type="password" id="password" name="password" required>
+        <label for="password">비밀번호</label>
+      </div>
+
+      <div class="center-align">
+        <button class="btn grey darken-3" id="signup" style="width: 200px; margin: 5px;"><a
+            href="/signup">회원가입</a></button>
+        <button type="submit" class="btn grey darken-3" id="login" style="width: 200px; margin: 5px;">로그인</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+
+</html>

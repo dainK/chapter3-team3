@@ -21,8 +21,8 @@ const authRouter = Router();
 authRouter.post("/auth/login", loginValidate, async (req, res, next) => {
     const errors = validationResult(req);
     const { email, password } = req.body;
+    console.log(email, password);
     const existUser = await Users.findOne({ where: { email } });
-    const id = existUser.id;
     try {
         if (!errors.isEmpty()) {
             const err = new ValidError();
@@ -44,6 +44,7 @@ authRouter.post("/auth/login", loginValidate, async (req, res, next) => {
             });
         }
         // accessToken 생성 함수
+        const id = existUser.id;
         function createAccessToken(id) {
             const accessToken = jwt.sign({ id: id }, JWT_TOKENKEY_SECRET, {
                 expiresIn: JWT_ACCESS_TOKEN_EXPIRES_IN,
@@ -67,11 +68,7 @@ authRouter.post("/auth/login", loginValidate, async (req, res, next) => {
             { refreshToken: refreshToken },
             { where: { email } },
         );
-        return res.status(200).json({
-            success: true,
-            message: "로그인 성공.",
-            data: { accessToken, refreshToken },
-        });
+        return res.redirect("/");
     } catch (err) {
         next(err);
     }
@@ -108,11 +105,7 @@ authRouter.get(
         res.cookie("refreshtoken", `Refresh ${refreshToken}`);
 
         await Users.update({ refreshToken: refreshToken }, { where: { id } });
-        res.status(200).json({
-            message: `로그인 성공`,
-            accessToken: `${accessToken}`,
-            refreshToken: `${refreshToken}`,
-        }); // 성공 시에는 /로 이동
+        res.redirect("/");
     },
 );
 
@@ -163,7 +156,7 @@ authRouter.get("/auth/logout", token_middleware, (req, res, next) => {
     try {
         res.clearCookie("accesstoken");
         res.clearCookie("refreshtoken");
-        res.status(200).json({ success: true, message: "로그아웃 성공" });
+        res.redirect("/");
     } catch (err) {
         next(err);
     }

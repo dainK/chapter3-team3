@@ -42,7 +42,6 @@ userRouter.post("/user/signup", signupValidate, async (req, res, next) => {
         );
 
         const newUser = await Users.create({
-            refreshToken: "asdg",
             email,
             password: hashedPassword,
             nickName,
@@ -136,37 +135,45 @@ userRouter.put(
 );
 
 // 회원 탈퇴 API
-userRouter.delete("/user", token_middleware, UserDelete, async (req, res, next) => {
-    const me = res.locals.user;
-    const { id, email } = res.locals.user;
-    const { password } = req.body;
-    const existUser = await Users.findOne({ where: { email } });
+userRouter.delete(
+    "/user",
+    token_middleware,
+    UserDelete,
+    async (req, res, next) => {
+        const me = res.locals.user;
+        const { id, email } = res.locals.user;
+        const { password } = req.body;
+        const existUser = await Users.findOne({ where: { email } });
 
-    try {
-        if (!me) {
-            const err = new TokenNotExistError();
-            throw err;
-        }
+        try {
+            if (!me) {
+                const err = new TokenNotExistError();
+                throw err;
+            }
 
-        const hashedPassword = existUser.password;
-        const passwordCheck = await bcrypt.compare(password, hashedPassword);
-        if (!passwordCheck) {
-            return res.status(401).json({
-                success: false,
-                errorMessage: "비밀번호가 틀렸습니다.",
+            const hashedPassword = existUser.password;
+            const passwordCheck = await bcrypt.compare(
+                password,
+                hashedPassword,
+            );
+            if (!passwordCheck) {
+                return res.status(401).json({
+                    success: false,
+                    errorMessage: "비밀번호가 틀렸습니다.",
+                });
+            }
+
+            await Users.destroy({ where: { id }, force: true });
+            return res.status(200).json({
+                sucess: true,
+                email: email,
+                message: "회원 탈퇴 성공",
             });
+        } catch (err) {
+            next(err);
         }
-
-        await Users.destroy({ where: { id }, force: true });
-        return res.status(200).json({
-            sucess: true,
-            email: email,
-            message: "회원 탈퇴 성공",
-        });
-    } catch (err) {
-        next(err);
-    }
-});
+    },
+);
 
 //회원 정보 조회 API
 userRouter.get("/user/me", token_middleware, (req, res, next) => {
@@ -191,15 +198,25 @@ userRouter.get("/user/me", token_middleware, (req, res, next) => {
 userRouter.get("/user/:id", async (req, res, next) => {
     try {
         const { id } = req.params;
-        
-        const user = await Users.findOne({ 
+
+        const user = await Users.findOne({
             attributes: {
                 include: [
-                    [db.sequelize.literal('(SELECT COUNT(*) FROM `follow` WHERE `follow`.followrId = `Users`.id)'),  'followerCnt'],
-                    [db.sequelize.literal('(SELECT COUNT(*) FROM `follow` WHERE `follow`.followedId = `Users`.id)'), 'followedCnt']
-                ]
+                    [
+                        db.sequelize.literal(
+                            "(SELECT COUNT(*) FROM `follow` WHERE `follow`.followrId = `Users`.id)",
+                        ),
+                        "followerCnt",
+                    ],
+                    [
+                        db.sequelize.literal(
+                            "(SELECT COUNT(*) FROM `follow` WHERE `follow`.followedId = `Users`.id)",
+                        ),
+                        "followedCnt",
+                    ],
+                ],
             },
-            where: { id } 
+            where: { id },
         });
 
         return res.status(200).json({
