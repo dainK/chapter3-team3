@@ -21,6 +21,7 @@ const authRouter = Router();
 authRouter.post("/auth/login", loginValidate, async (req, res, next) => {
     const errors = validationResult(req);
     const { email, password } = req.body;
+    console.log(email, password);
     const existUser = await Users.findOne({ where: { email } });
     try {
         if (!errors.isEmpty()) {
@@ -67,11 +68,7 @@ authRouter.post("/auth/login", loginValidate, async (req, res, next) => {
             { refreshToken: refreshToken },
             { where: { email } },
         );
-        return res.status(200).json({
-            success: true,
-            message: "로그인 성공.",
-            data: { accessToken, refreshToken },
-        });
+        return res.redirect("/");
     } catch (err) {
         next(err);
     }
@@ -159,7 +156,7 @@ authRouter.get("/auth/logout", token_middleware, (req, res, next) => {
     try {
         res.clearCookie("accesstoken");
         res.clearCookie("refreshtoken");
-        res.status(200).json({ success: true, message: "로그아웃 성공" });
+        res.redirect("/");
     } catch (err) {
         next(err);
     }
