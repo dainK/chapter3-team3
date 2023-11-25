@@ -37,10 +37,6 @@ export default class Post extends Model {
                 spec: {
                     type: DataTypes.STRING,
                 },
-                imgUrl: {
-                    type: DataTypes.STRING,
-                    defaultValue: "temp",
-                },
             },
             {
                 sequelize,
@@ -48,7 +44,7 @@ export default class Post extends Model {
                 underscored: false,
                 modelName: "Post",
                 tableName: "post",
-                paranoid: true,
+                paranoid: false,
                 charset: "utf8",
                 collate: "utf8_general_ci",
             },
