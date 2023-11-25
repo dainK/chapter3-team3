@@ -7,7 +7,7 @@ const { Comments, Users, Post } = db;
 const commentsRouter = Router();
 
 // 댓글 작성
-commentsRouter.post("/:postId/comments", token_middleware, async (req, res) => {
+commentsRouter.post("/post/:postId/comments", token_middleware, async (req, res) => {
     try {
         const { postId } = req.params;
         const { comment } = req.body;
@@ -46,7 +46,7 @@ commentsRouter.post("/:postId/comments", token_middleware, async (req, res) => {
 });
 
 // 댓글 불러오기
-commentsRouter.get("/:postId/comments", token_middleware, async (req, res) => {
+commentsRouter.get("/post/:postId/comments",async (req, res) => {
     try {
         const { postId } = req.params;
 
@@ -87,7 +87,7 @@ commentsRouter.get("/:postId/comments", token_middleware, async (req, res) => {
 
 // 댓글 수정
 commentsRouter.put(
-    "/:postId/comments/:commentId",
+    "/post/:postId/comments/:commentId",
     token_middleware,
     async (req, res) => {
         try {
@@ -151,7 +151,7 @@ commentsRouter.put(
 
 // 댓글 삭제
 commentsRouter.delete(
-    "/:postId/comments/:commentId",
+    "/post/:postId/comments/:commentId",
     token_middleware,
     async (req, res) => {
         try {
