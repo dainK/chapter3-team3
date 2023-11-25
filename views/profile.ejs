@@ -57,9 +57,11 @@
             <div class="card">
                 <div class="card-content center-align">
                     <!-- User Profile Picture -->
-                    <img src="/views/images/logo.png" alt="User Profile Picture" class="circle responsive-img"
-                        style="width: 100px; height: 80px;">
-                    <h4 class="card-title">User Nickname</h4>
+                    <img id="userProfileImage" alt="User Profile Picture" class="circle responsive-img"
+                        style="width: 300px; height: 300px;">
+                    <h4 class="card-title" id="userNickName">
+
+                    </h4>
                     <p></p>
                     <button class="followbtn" id="Followers"><i class="fas fa-user-friends"></i> Followers: 100</button>
                     <button class="followbtn" id="Following"><i class="fas fa-user-friends"></i> Following: 50</button>
@@ -99,6 +101,21 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
+        console.log("데이터 테스트")
+
+        fetch('/api/user/me')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.data)
+                const nickName = document.getElementById('userNickName')
+                nickName.innerText = data.data.nickName
+                const userImage = document.getElementById('userProfileImage')
+                userImage.src = data.data.imgUrl
+
+
+            }).catch(error => console.log(error))
+
+
         document.addEventListener('DOMContentLoaded', function () {
             M.Tabs.init(document.querySelectorAll('.tabs'));
         });

@@ -22,8 +22,7 @@ viewRouter.get("/signup", function (req, res, next) {
 viewRouter.get("/login", function (req, res, next) {
     res.render("login", { title: "Login" });
 });
-viewRouter.get("/user/me", function (req, res, next) {
+viewRouter.get("/api/user/mypage", function (req, res, next) {
     res.render("profile", { title: "My page" });
 });
-
 export { viewRouter };
