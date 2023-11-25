@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+    <head>
+        <title><%= title %></title>
+        <link rel="stylesheet" href="/stylesheets/style.css" />
+
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        />
+        <style>
+            
+        </style>
+    </head>
+    <body>
+        <!-- <h1><%= title %></h1> -->
+        <!-- <p>Welcome to <%= title %></p> -->
+
+        <nav class="grey darken-3">
+            <div class="title">
+                <!-- <a href="#" class="brand-logo"><i class="material-icons"style="font-size:45px">home</i>커뮤니티</a> -->
+                <a style="display: flex; align-items: center">
+                    <img
+                        src="images/logo.png"
+                        alt="home"
+                        height="80"
+                        width="100"
+                        style="margin-top: -5px"
+                    />
+                    <span style="margin-bottom: 10px">다있다</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="icon-container">
+            <a href="#" data-target="slide-out" class="sidenav-trigger right"
+                ><i
+                    class="material-icons"
+                    style="font-size: 45px; color: #ffffff"
+                    >account_circle</i
+                ></a
+            >
+        </div>
+
+        <ul id="slide-out" class="sidenav right-align">
+            <li><a href="#!">Menu Item 1</a></li>
+            <li><a href="#!">Menu Item 2</a></li>
+            <li><a href="#!">Menu Item 3</a></li>
+        </ul>
+
+        <div class="category-bar">
+            <a href="#" class="category-item">
+                <i class="material-icons" style="color: #333">note</i>
+                게시판
+            </a>
+            <a href="#" class="category-item">
+                <i class="material-icons" style="color: #333">chat</i>
+                대화
+            </a>
+            <a href="#" class="category-item">
+                <i class="material-icons" style="color: #333"
+                    >desktop_windows</i
+                >
+                모니터
+            </a>
+            <a href="#" class="category-item">
+                <i class="material-icons" style="color: #333">keyboard</i>
+                키보드
+            </a>
+            <a href="#" class="category-item">
+                <i class="material-icons" style="color: #333">mouse</i>
+                마우스
+            </a>
+            <a href="#" class="category-item">
+                <i class="material-icons" style="color: #333">gradient</i>
+                그래픽
+            </a>
+            <a href="#" class="category-item">
+                <i class="material-icons" style="color: #333">memory</i>
+                메모리
+            </a>
+            <a href="#" class="category-item">
+                <i class="material-icons" style="color: #333"
+                    >laptop_chromebook</i
+                >
+                노트북
+            </a>
+        </div>
+
+        <div class="post-container1">
+            <div class="latest-post-container">
+                <p>최신 게시물</p>
+                <ul class="collection post-list">
+                    <li class="collection-item">게시물 1: 내용1</li>
+                    <li class="collection-item">게시물 2: 내용2</li>
+                    <li class="collection-item">게시물 3: 내용3</li>
+                    <li class="collection-item">게시물 3: 내용3</li>
+                    <li class="collection-item">게시물 3: 내용3</li>
+                </ul>
+            </div>
+
+            <div class="popularity-post-container">
+                <p>좋아요 많은 게시물</p>
+                <ul class="collection post-list">
+                    <li class="collection-item">게시물 1: 내용1</li>
+                    <li class="collection-item">게시물 2: 내용2</li>
+                    <li class="collection-item">게시물 3: 내용3</li>
+                    <li class="collection-item">게시물 3: 내용3</li>
+                    <li class="collection-item">게시물 3: 내용3</li>
+                </ul>
+            </div>
+
+            <div class="commets-post-container">
+                <p>덧글 많은 게시물</p>
+                <ul class="collection post-list">
+                    <li class="collection-item">게시물 1: 내용1</li>
+                    <li class="collection-item">게시물 2: 내용2</li>
+                    <li class="collection-item">게시물 3: 내용3</li>
+                    <li class="collection-item">게시물 3: 내용3</li>
+                    <li class="collection-item">게시물 3: 내용3</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="post-container1">
+            <div class="all-post-container">
+                <p>전체 게시물</p>
+                <ul class="collection post-list">
+                    <li class="collection-item">게시물 1: 내용1</li>
+                    <li class="collection-item">게시물 2: 내용2</li>
+                    <li class="collection-item">게시물 3: 내용3</li>
+                    <li class="collection-item">게시물 3: 내용3</li>
+                    <li class="collection-item">게시물 3: 내용3</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2023 A-3 null 사랑하지 않아 🖤</p>
+        </footer>
+    </body>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        //   document.addEventListener('DOMContentLoaded', function() {
+        //     var elems = document.querySelectorAll('.sidenav');
+        //     var instances = M.Sidenav.init(elems);
+        // });
+        document.addEventListener("DOMContentLoaded", function () {
+            var elems = document.querySelectorAll(".sidenav");
+            var instances = M.Sidenav.init(elems, { edge: "right" });
+        });
+    </script>
+</html>
