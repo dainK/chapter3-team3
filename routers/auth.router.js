@@ -108,11 +108,7 @@ authRouter.get(
         res.cookie("refreshtoken", `Refresh ${refreshToken}`);
 
         await Users.update({ refreshToken: refreshToken }, { where: { id } });
-        res.status(200).json({
-            message: `로그인 성공`,
-            accessToken: `${accessToken}`,
-            refreshToken: `${refreshToken}`,
-        }); // 성공 시에는 /로 이동
+        res.redirect("/");
     },
 );
 

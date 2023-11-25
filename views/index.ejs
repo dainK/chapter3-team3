@@ -15,99 +15,111 @@
     </div>
   </nav>
 
-  <div class="icon-container">
+  <!-- <div class="icon-container">
     <a href="/api/auth/login" data-target="slide-out" class="sidenav-trigger right"><i class="material-icons"
         style="font-size: 45px; color: #ffffff">account_circle</i></a>
-  </div>
-  <!-- 
-  <ul id="slide-out" class="sidenav right-align">
-    <li><a href="#!">Menu Item 1</a></li>
-    <li><a href="#!">Menu Item 2</a></li>
-    <li><a href="#!">Menu Item 3</a></li>
-  </ul> -->
-
-  <div class="category-bar">
-    <a href="#" class="category-item">
-      <i class="material-icons" style="color: #333">note</i>
-      게시판
-    </a>
-    <a href="#" class="category-item">
-      <i class="material-icons" style="color: #333">chat</i>
-      대화
-    </a>
-    <a href="#" class="category-item">
-      <i class="material-icons" style="color: #333">desktop_windows</i>
-      모니터
-    </a>
-    <a href="#" class="category-item">
-      <i class="material-icons" style="color: #333">keyboard</i>
-      키보드
-    </a>
-    <a href="#" class="category-item">
-      <i class="material-icons" style="color: #333">mouse</i>
-      마우스
-    </a>
-    <a href="#" class="category-item">
-      <i class="material-icons" style="color: #333">gradient</i>
-      그래픽
-    </a>
-    <a href="#" class="category-item">
-      <i class="material-icons" style="color: #333">memory</i>
-      메모리
-    </a>
-    <a href="#" class="category-item">
-      <i class="material-icons" style="color: #333">laptop_chromebook</i>
-      노트북
-    </a>
-  </div>
-
-  <div class="post-container1">
-    <div class="latest-post-container">
-      <p>최신 게시물</p>
-      <ul class="collection post-list">
-        <% for (let i=0; i<5; i++){ %>
-          <li class="collection-item" id="last-post-<%=i %>">게시물 <%=i %>: 내용<%=i %>
-          </li>
-          <% } %>
-      </ul>
+  </div> -->
+  <% if(login==="yes" ) { %>
+    <div class="icon-container">
+      <a href="#" data-target="slide-out" class="sidenav-trigger right"><i class="material-icons"
+          style="font-size: 45px; color: #ffffff">account_circle</i></a>
     </div>
+    <ul id="slide-out" class="sidenav right-align">
+      <li><a href="#!">회원 이미지</a></li>
+      <li><a href="#!">닉네임</a></li>
+      <li><a href="/signup">마이페이지</a></li>
+      <li><a href="#!">로그아웃</a></li>
 
-    <div class="popularity-post-container">
-      <p>좋아요 많은 게시물</p>
-      <ul class="collection post-list">
-        <% for (let i=0; i<5; i++){ %>
-          <li class="collection-item" id="like-post-<%=i %>">게시물 <%=i %>: 내용<%=i %>
-          </li>
-          <% } %>
-      </ul>
-    </div>
+    </ul>
+    <% } else if(login==="no" ) { %>
+      <div class="icon-container">
+        <a href="/login" data-target="slide-out" class="sidenav-trigger right"><i class="material-icons"
+            style="font-size: 45px; color: #ffffff">account_circle</i></a>
+      </div>
+      <% } %>
 
-    <div class="commets-post-container">
-      <p>덧글 많은 게시물</p>
-      <ul class="collection post-list">
-        <% for (let i=0; i<5; i++){ %>
-          <li class="collection-item" id="comment-post-<%=i %>">게시물 <%=i %>: 내용<%=i %>
-          </li>
-          <% } %>
-      </ul>
-    </div>
-  </div>
+        <div class="category-bar">
+          <a href="#" class="category-item">
+            <i class="material-icons" style="color: #333">note</i>
+            게시판
+          </a>
+          <a href="#" class="category-item">
+            <i class="material-icons" style="color: #333">chat</i>
+            대화
+          </a>
+          <a href="#" class="category-item">
+            <i class="material-icons" style="color: #333">desktop_windows</i>
+            모니터
+          </a>
+          <a href="#" class="category-item">
+            <i class="material-icons" style="color: #333">keyboard</i>
+            키보드
+          </a>
+          <a href="#" class="category-item">
+            <i class="material-icons" style="color: #333">mouse</i>
+            마우스
+          </a>
+          <a href="#" class="category-item">
+            <i class="material-icons" style="color: #333">gradient</i>
+            그래픽
+          </a>
+          <a href="#" class="category-item">
+            <i class="material-icons" style="color: #333">memory</i>
+            메모리
+          </a>
+          <a href="#" class="category-item">
+            <i class="material-icons" style="color: #333">laptop_chromebook</i>
+            노트북
+          </a>
+        </div>
 
-  <div class="post-container1">
-    <div class="all-post-container">
-      <p>전체 게시물</p>
-      <ul class="collection post-list">
-        <% for (let i=0; i<5; i++){ %>
-          <li class="collection-item" id="total-post-<%=i %>">게시물 <%=i %>: 내용<%=i %>
-          </li>
-          <% } %>
-      </ul>
-    </div>
-  </div>
+        <div class="post-container1">
+          <div class="latest-post-container">
+            <p>최신 게시물</p>
+            <ul class="collection post-list">
+              <% for (let i=0; i<5; i++){ %>
+                <li class="collection-item" id="last-post-<%=i %>">게시물 <%=i %>: 내용<%=i %>
+                </li>
+                <% } %>
+            </ul>
+          </div>
 
-  <footer>
-    <p>&copy; 2023 A-3 null 사랑하지 않아 🖤</p>
-  </footer>
+          <div class="popularity-post-container">
+            <p>좋아요 많은 게시물</p>
+            <ul class="collection post-list">
+              <% for (let i=0; i<5; i++){ %>
+                <li class="collection-item" id="like-post-<%=i %>">게시물 <%=i %>: 내용<%=i %>
+                </li>
+                <% } %>
+            </ul>
+          </div>
+
+          <div class="commets-post-container">
+            <p>덧글 많은 게시물</p>
+            <ul class="collection post-list">
+              <% for (let i=0; i<5; i++){ %>
+                <li class="collection-item" id="comment-post-<%=i %>">게시물 <%=i %>: 내용<%=i %>
+                </li>
+                <% } %>
+            </ul>
+          </div>
+        </div>
+
+        <div class="post-container1">
+          <div class="all-post-container">
+            <p>전체 게시물</p>
+            <ul class="collection post-list">
+              <% for (let i=0; i<5; i++){ %>
+                <li class="collection-item" id="total-post-<%=i %>">게시물 <%=i %>: 내용<%=i %>
+                </li>
+                <% } %>
+            </ul>
+          </div>
+        </div>
+
+        <footer>
+          <p>&copy; 2023 A-3 null 사랑하지 않아 🖤</p>
+        </footer>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
