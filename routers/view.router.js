@@ -38,5 +38,8 @@ viewRouter.get("/user/withdrawal", function (req, res, next) {
 viewRouter.get("/posting", function (req, res, next) {
     res.render("posting", { title: "Post" });
 });
+viewRouter.get("/profileEdit", function (req, res, next) {
+    res.render("profileEdit");
+});
 
 export { viewRouter };

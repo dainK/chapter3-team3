@@ -20,12 +20,11 @@ GET http://localhost:3000/api/user/
 
 # 회원 정보 수정
 ###
-PUT http://localhost:3000/api/user
+PUT http://localhost:3000/api/user/password
 # Content-Disposition: form-data; name="json_data"
 Content-Type: application/json
 
 {
-    "nickName": "일이삼",
     "password": "aaa111",
     "passwordConfirm": "aaa111"
 }
@@ -45,7 +44,7 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "example12@gmail.com",
+    "email": "example00@gmail.com",
     "password" : "aaa111"
 }
 

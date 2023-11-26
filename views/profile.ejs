@@ -131,7 +131,7 @@
             .then(data => {
                 console.log(data.data)
                 const nickName = document.getElementById('userNickName')
-                nickName.innerHTML = `${data.data.nickName} <a href="/"><i class="fa-solid fa-gear fa-2xs" style="color: #000000;"></i></a>`
+                nickName.innerHTML = `${data.data.nickName} <a href="/profileEdit"><i class="fa-solid fa-gear fa-2xs" style="color: #000000;"></i></a>`
                 const userImage = document.getElementById('userProfileImage')
                 userImage.src = data.data.imgUrl
 
