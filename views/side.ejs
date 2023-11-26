@@ -1,0 +1,21 @@
+<% if(login==="yes" ) { %>
+  <div class="icon-container">
+    <a href="#" data-target="slide-out" class="sidenav-trigger right"><i class="material-icons"
+        style="font-size: 45px; color: #ffffff">account_circle</i></a>
+  </div>
+  <ul id="slide-out" class="sidenav right-align">
+    <img id="userProfileImage" alt="User Profile Picture"
+      style="width: 250px; height: 250px; margin-right: 25px; margin-top: 25px;">
+    <li>
+      <p id="userNickName" style="padding: 0px 32px 25px; margin: 0px;"></p>
+    </li>
+    <li><a href="/api/user/mypage">마이페이지</a></li>
+    <li><a href="/api/auth/logout">로그아웃</a></li>
+
+  </ul>
+  <% } else if(login==="no" ) { %>
+    <div class="icon-container">
+      <a href="/login" data-target="slide-out" class="sidenav-trigger right"><i class="material-icons"
+          style="font-size: 45px; color: #ffffff">account_circle</i></a>
+    </div>
+    <% } %>

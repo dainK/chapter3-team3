@@ -1,3 +1,8 @@
+a {
+  color: black; /* 일반적으로 파란색 */
+  text-decoration: none; /* 밑줄 제거 */
+}
+
 .title {
   display: flex;
   flex-direction: column;
@@ -46,7 +51,7 @@
   font-size: 24px;
 }
 
-.post-container1 {
+.post-container {
   display: flex;
   align-items: center;
   text-align: center;
@@ -78,13 +83,6 @@
   /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
 }
 
-.post-container2 {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  flex-direction: column;
-  justify-content: center; /* 수평 가운데 정렬을 위해 추가 */
-}
 
 .all-post-container {
   margin: 20px;
