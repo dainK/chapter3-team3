@@ -121,7 +121,6 @@ postsRouter.post("/post", token_middleware, async (req, res) => {
     try {
         const { id } = res.locals.user;
         const { title, content, categoryId } = req.body;
-        console.log(req.body);
 
         // 데이터 유효성 검증
         if (!title || !content) {
