@@ -51,6 +51,19 @@ a {
   font-size: 24px;
 }
 
+.search-field-container {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center; /* 수평 가운데 정렬을 위해 추가 */
+}
+
+.search-input-field {
+  flex: 1;
+}
+
+
 .post-container {
   display: flex;
   align-items: center;
