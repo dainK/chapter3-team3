@@ -145,20 +145,20 @@
                             const userImage = document.getElementById('userProfileImage');
                             userImage.src = data.data.imgUrl;
                             document.getElementById('Followers').innerHTML = `<i class="fas fa-user-friends"></i> Followers : ${data.data.followedCnt}`;
-                            document.getElementById('Following').innerHTML = `<i class="fas fa-user-friends"></i> Followers : ${data.data.followerCnt}`;
+                            document.getElementById('Following').innerHTML = `<i class="fas fa-user-friends"></i> Following : ${data.data.followerCnt}`;
 
                         }).catch(error => console.log(error))
 
-                    fetch(`/api/user/${userId}/followeds`)
+                    fetch(`/api/user/${userId}/followers`)
                         .then(response => response.json())
                         .then(data => {
                             console.log(data.data);
                             const posts = document.getElementById('user-followers');
                             data.data.forEach(e => {
-                                // let listItem = document.createElement("li");
-                                // listItem.classList.add("collection-item");
-                                // listItem.innerHTML = `<a href="${path}post/${parseInt(e.id)}">${e.title}</a></li>`;
-                                // posts.appendChild(listItem);
+                                let listItem = document.createElement("li");
+                                listItem.classList.add("collection-item");
+                                listItem.innerHTML = `<a href="${path}user/${parseInt(e.id)}">${e.nickName}</a></li>`;
+                                posts.appendChild(listItem);
                             });
                         }).catch(error => console.log(error))
 
@@ -167,12 +167,12 @@
                         .then(response => response.json())
                         .then(data => {
                             console.log(data.data);
-                            const posts = document.getElementById('user-followers');
+                            const posts = document.getElementById('user-following');
                             data.data.forEach(e => {
-                                // let listItem = document.createElement("li");
-                                // listItem.classList.add("collection-item");
-                                // listItem.innerHTML = `<a href="${path}post/${parseInt(e.id)}">${e.title}</a></li>`;
-                                // posts.appendChild(listItem);
+                                let listItem = document.createElement("li");
+                                listItem.classList.add("collection-item");
+                                listItem.innerHTML = `<a href="${path}user/${parseInt(e.id)}">${e.nickName}</a></li>`;
+                                posts.appendChild(listItem);
                             });
                         }).catch(error => console.log(error))
 

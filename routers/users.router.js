@@ -134,7 +134,7 @@ userRouter.put(
             );
 
             return res.status(200).json({
-                sucess: true,
+                success: true,
                 message: "비밀번호 변경 성공",
                 // data: editUser,
             });
@@ -175,7 +175,7 @@ userRouter.put(
             );
 
             return res.status(200).json({
-                sucess: true,
+                success: true,
                 message: "닉네임 변경 성공",
                 data: editUser,
             });
@@ -220,7 +220,7 @@ userRouter.put(
                 },
             );
             return res.status(200).json({
-                sucess: true,
+                success: true,
                 message: "프로필사진 변경 성공",
                 data: editUser,
             });
@@ -279,7 +279,7 @@ userRouter.get("/user/me", token_middleware, (req, res, next) => {
             throw err;
         }
         return res.status(200).json({
-            sucess: true,
+            success: true,
             message: "내 정보 조회 성공!",
             data: me,
         });
@@ -314,7 +314,7 @@ userRouter.get("/user/:id", async (req, res, next) => {
         });
 
         return res.status(200).json({
-            sucess: true,
+            success: true,
             message: "회원 정보 조회 성공!",
             data: user,
         });
