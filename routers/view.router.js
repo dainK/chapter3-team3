@@ -20,13 +20,13 @@ viewRouter.get("/", function (req, res, next) {
     }
 });
 viewRouter.get("/signup", function (req, res, next) {
-    res.render("signup", { title: "DAITDA Sign up" });
+    res.render("signup", { title: "DAITDA Sign up",path });
 });
 viewRouter.get("/login", function (req, res, next) {
-    res.render("login", { title: "Login" });
+    res.render("login", { title: "Login",path });
 });
 viewRouter.get("/user/mypage", function (req, res, next) {
-    res.render("profile", { title: "My page" });
+    res.render("profile", { title: "My page",path });
 });
 viewRouter.get("/post/:postId", function (req, res, next) {
     const { postId } = req.params;
@@ -47,7 +47,7 @@ viewRouter.get("/post/:postId", function (req, res, next) {
     }
 });
 viewRouter.get("/user/withdrawal", function (req, res, next) {
-    res.render("withdrawal", { title: "회원 탈퇴" });
+    res.render("withdrawal", { title: "회원 탈퇴",path });
 });
 viewRouter.get("/posting", function (req, res, next) {
     if (!req.cookies.accesstoken) {
@@ -65,7 +65,7 @@ viewRouter.get("/posting", function (req, res, next) {
     }
 });
 viewRouter.get("/profileEdit", function (req, res, next) {
-    res.render("profileEdit");
+    res.render("profileEdit",{path});
 });
 
 export { viewRouter };
