@@ -91,7 +91,7 @@ followRouter.get("/user/:id/followers", async (req, res, next) => {
     }
 });
 
-// 병옥님 로컬유저 말고 모든 유저가 사용할수있게 수정해주세요  팔로우드 목록 조회 API
+//  팔로우드 목록 조회 API
 followRouter.get("/user/:id/followeds", async (req, res, next) => {
     // const id = res.locals.user.id;
     const id = parseInt(req.params.id);

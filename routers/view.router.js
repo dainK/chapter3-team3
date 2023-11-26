@@ -27,8 +27,9 @@ viewRouter.get("/signup", function (req, res, next) {
 viewRouter.get("/login", function (req, res, next) {
     res.render("login", { title: "Login",path });
 });
-viewRouter.get("/user/mypage", function (req, res, next) {
-    res.render("profile", { title: "My page",path });
+viewRouter.get("/user/:userId", function (req, res, next) {
+    const { userId } = req.params;
+    res.render("profile", { title: "My page",path,userId });
 });
 viewRouter.get("/post/:postId", function (req, res, next) {
     const { postId } = req.params;

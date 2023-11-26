@@ -50,8 +50,8 @@ document.getElementById("total-post-list").addEventListener("click", () => {
 //__________________________________________________________________________
 
 function SettingNavigation() {
-    var elems = document.querySelectorAll(".sidenav");
-    var instances = M.Sidenav.init(elems, { edge: "right" });
+    let elems = document.querySelectorAll(".sidenav");
+    let instances = M.Sidenav.init(elems, { edge: "right" });
 }
 
 function SettingPostList() {
@@ -63,22 +63,22 @@ function SettingPostList() {
             console.log(response);
 
             response.data.createdAtPosts.forEach((e, i) => {
-                var listItem = document.getElementById(`last-post-${i}`);
+                let listItem = document.getElementById(`last-post-${i}`);
                 listItem.innerHTML =  `<a href="${path}post/${parseInt(e.id)}">${e.title}</a>`
             });
 
             response.data.likePosts.forEach((e, i) => {
-                var listItem = document.getElementById(`like-post-${i}`);
+                let listItem = document.getElementById(`like-post-${i}`);
                 listItem.innerHTML =  `<a href="${path}post/${parseInt(e.id)}">${e.title}</a>`
             });
 
             response.data.commentPosts.forEach((e, i) => {
-                var listItem = document.getElementById(`comment-post-${i}`);
+                let listItem = document.getElementById(`comment-post-${i}`);
                 listItem.innerHTML =  `<a href="${path}post/${parseInt(e.id)}">${e.title}</a>`
             });
 
             response.data.totalPosts.forEach((e, i) => {
-                var listItem = document.getElementById(`total-post-${i}`);
+                let listItem = document.getElementById(`total-post-${i}`);
                 listItem.innerHTML =  `<a href="${path}post/${parseInt(e.id)}">${e.title}</a>`
             });
         })
