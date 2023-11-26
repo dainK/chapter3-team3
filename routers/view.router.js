@@ -1,17 +1,21 @@
 import { Router } from "express";
 
 const viewRouter = Router();
+
+const path = 'http://localhost:3000'; // 다형 수정
 /* GET home page. */
 viewRouter.get("/", function (req, res, next) {
     if (!req.cookies.accesstoken) {
         res.render("index", {
             title: "DAITDA",
             login: "no",
+            path
         });
     } else {
         res.render("index", {
             title: "DAITDA",
             login: "yes",
+            path
         });
     }
 });
@@ -30,13 +34,15 @@ viewRouter.get("/post/:postId", function (req, res, next) {
         res.render("post", {
             title: "Post",
             login: "no",
-            postId
+            postId,
+            path
         });
     } else {
         res.render("post", {
             title: "Post",
             login: "yes",
-            postId
+            postId,
+            path
         });
     }
 });
@@ -48,11 +54,13 @@ viewRouter.get("/posting", function (req, res, next) {
         res.render("posting", {
             title: "Post",
             login: "no",
+            path
         });
     } else {
         res.render("posting", {
             title: "Post",
             login: "yes",
+            path
         });
     }
 });

@@ -55,25 +55,47 @@ function SettingNavigation() {
 }
 
 function SettingPostList() {
+    let path = document.getElementById("path-data").dataset.path;
+
     fetch("/api/post/main")
         .then((response) => response.json())
         .then((response) => {
             console.log(response);
 
             response.data.createdAtPosts.forEach((e, i) => {
-                document.getElementById(`last-post-${i}`).innerText = e;
+                var listItem = document.getElementById(`last-post-${i}`);
+                var link = document.createElement('a');
+                link.href = `${path}/post/${e.id}`;
+                link.textContent = '하이퍼링크 텍스트';
+                listItem.appendChild(link);
+                listItem.innerText = e.title;
             });
 
             response.data.likePosts.forEach((e, i) => {
-                document.getElementById(`like-post-${i}`).innerText = e;
+                var listItem = document.getElementById(`like-post-${i}`);
+                var link = document.createElement('a');
+                link.href = `${path}/post/${e.id}`;
+                link.textContent = '하이퍼링크 텍스트';
+                listItem.appendChild(link);
+                listItem.innerText = e.title;
             });
 
             response.data.commentPosts.forEach((e, i) => {
-                document.getElementById(`comment-post-${i}`).innerText = e;
+                var listItem = document.getElementById(`comment-post-${i}`);
+                var link = document.createElement('a');
+                link.href = `${path}/post/${e.id}`;
+                link.textContent = '하이퍼링크 텍스트';
+                listItem.appendChild(link);
+                listItem.innerText = e.title;
             });
 
             response.data.totalPosts.forEach((e, i) => {
-                document.getElementById(`total-post-${i}`).innerText = e;
+                var listItem = document.getElementById(`total-post-${i}`);
+                var link = document.createElement('a');
+                link.href = `${path}/post/${e.id}`;
+                link.textContent = '하이퍼링크 텍스트';
+                listItem.appendChild(link);
+                listItem.innerText = e.title;
             });
         })
         .catch((error) => console.error("에러 발생:", error));

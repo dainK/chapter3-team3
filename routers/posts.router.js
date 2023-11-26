@@ -29,25 +29,25 @@ postsRouter.get("/post/main", async (req, res) => {
         let createdAtPosts = [];
         posts.forEach((e,i) => {
             if(i<5){
-                createdAtPosts.push(e.title);
+                createdAtPosts.push(e);
             }
 
             if(i<10) {
-                totalPosts.push(e.title);
+                totalPosts.push(e);
             }
         });
 
         let commentPosts = [];
         posts.sort((a,b)=>b.commentsCnt-a.commentsCnt).forEach((e,i) => {
             if(i<5){
-                commentPosts.push(e.title);
+                commentPosts.push(e);
             }
         });
 
         let likePosts = [];
         posts.sort((a,b)=>b.likesCnt-a.likesCnt).forEach((e,i) => {
             if(i<5){
-                likePosts.push(e.title);
+                likePosts.push(e);
             }
         });
 
