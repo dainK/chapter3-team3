@@ -25,7 +25,7 @@ export default class Users extends Model {
                 },
                 imgUrl: {
                     type: DataTypes.STRING,
-                    defaultValue: "userprofile/null.png",
+                    defaultValue: "https://chapter3-team3.s3.ap-northeast-2.amazonaws.com/userprofile/null.png",
                 },
                 password: {
                     type: DataTypes.STRING,
