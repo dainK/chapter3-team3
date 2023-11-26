@@ -1,5 +1,7 @@
 import { Router } from "express";
+import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 const viewRouter = Router();
@@ -32,7 +34,13 @@ viewRouter.get("/user/:userId", function (req, res, next) {
     res.render("profile", { title: "My page", path, userId });
 });
 viewRouter.get("/post/:postId", function (req, res, next) {
+    const { accesstoken } = req.cookies;
+    const [tokenType, acctoken] = accesstoken.split(" ");
     const { postId } = req.params;
+    const decodedAccessToken = jwt.verify(acctoken, process.env.JWT_TOKENKEY);
+    const id = decodedAccessToken.id;
+    console.log("게시글의", req);
+
     if (!req.cookies.accesstoken) {
         res.render("post", {
             title: "Post",
@@ -46,6 +54,7 @@ viewRouter.get("/post/:postId", function (req, res, next) {
             login: "yes",
             postId,
             path,
+            id,
         });
     }
 });
@@ -69,6 +78,7 @@ viewRouter.get("/posting", function (req, res, next) {
 });
 viewRouter.get("/postedit", function (req, res, next) {
     const { postId } = req.params;
+
     if (!req.cookies.accesstoken) {
         res.render("postedit", {
             title: "Post",
