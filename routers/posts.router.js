@@ -206,12 +206,12 @@ postsRouter.get("/user/:userId/post", async (req, res) => {
         // 사용자가 작성한 게시물 유무 확인
         const userPosts = await Post.findAll({ where: { userId } });
 
-        if (userPosts.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "사용자가 작성한 게시물을 찾을 수 없습니다.",
-            });
-        }
+        // if (userPosts.length === 0) {
+        //     return res.status(404).json({
+        //         success: false,
+        //         message: "사용자가 작성한 게시물을 찾을 수 없습니다.",
+        //     });
+        // }
 
         return res.status(200).json({
             success: true,

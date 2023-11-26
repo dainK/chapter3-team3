@@ -7,6 +7,7 @@
     <title>User Profile</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="/stylesheets/footer.css" />
     <script src="https://kit.fontawesome.com/bad95817eb.js" crossorigin="anonymous"></script>
 
 
@@ -82,10 +83,11 @@
                         <h4 class="card-title" id="userNickName">
                         </h4>
 
+
                         <button class="followbtn" id="Followers"><i class="fas fa-user-friends"></i>
-                            Followers: 100</button>
+                            Followers: 0</button>
                         <button class="followbtn" id="Following"><i class="fas fa-user-friends"></i>
-                            Following: 50</button>
+                            Following: 0</button>
                     </div>
                     <div class="card-tabs">
                         <ul class="tabs">
@@ -95,56 +97,117 @@
                         </ul>
                     </div>
                     <div id="followers" class="col s12">
-                        <ul class="collection">
+                        <ul class="collection" id="user-followers">
                             <li class="collection-item">Follower 1</li>
                             <li class="collection-item">Follower 2</li>
                         </ul>
                     </div>
                     <div id="following" class="col s12">
-                        <ul class="collection">
+                        <ul class="collection" id="user-following">
                             <li class="collection-item">Following 1</li>
                             <li class="collection-item">Following 2</li>
                         </ul>
                     </div>
                     <div id="posts" class="col s12">
-                        <ul class="collection">
-                            <li class="collection-item">게시물 1: 내용1</li>
-                            <li class="collection-item">게시물 2: 내용2</li>
-                            <li class="collection-item">게시물 3: 내용3</li>
-                            <li class="collection-item">게시물 3: 내용3</li>
-                            <li class="collection-item">게시물 3: 내용3</li>
+                        <ul class="collection" id="user-post">
 
                         </ul>
                     </div>
-                    <div class="deleteBtn"><a href="/user/withdrawal">회원 탈퇴</a></div>
+                    <!-- <div class="deleteBtn"><a href="/user/withdrawal">회원 탈퇴</a></div> -->
                 </div>
             </div>
         </div>
 
-        <%-include('footer')%>
 
-            <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-            <script>
-                console.log("데이터 테스트")
+        <div id="path-data" data-path-id="<%=path%>">
+            <div id="user-container" data-user-id="<%= userId %>">
+                <!-- 다른 내용들을 추가할 수 있습니다. -->
+            </div>
 
-                fetch('/api/user/me')
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data.data)
-                        const nickName = document.getElementById('userNickName')
-                        nickName.innerHTML = `${data.data.nickName} <a href="/profileEdit"><i class="fa-solid fa-gear fa-2xs" style="color: #000000;"></i></a>`
-                        const userImage = document.getElementById('userProfileImage')
-                        userImage.src = data.data.imgUrl
+            <%-include('footer')%>
+
+                <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+                <script>
+                    console.log("데이터 테스트")
+                    let userId = document.getElementById("user-container").dataset.userId;
+                    let path = document.getElementById("path-data").dataset.pathId;
+
+                    fetch(`/api/user/${userId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data.data);
+                            const nickName = document.getElementById('userNickName');
+                            // nickName.innerHTML = `${data.data.nickName} <a href="/profileEdit"><i class="fa-solid fa-gear fa-2xs" style="color: #000000;"></i></a>`
+
+                            nickName.innerHTML = `${data.data.nickName} 
+                <div class="container mt-3" style="text-align: right; margin-top: 10px">
+                    <a class="waves-effect waves-light btn grey darken-3"onclick="Follow()">팔로우</a>
+                        </div>`
 
 
-                    }).catch(error => console.log(error))
+                            const userImage = document.getElementById('userProfileImage');
+                            userImage.src = data.data.imgUrl;
+                            document.getElementById('Followers').innerHTML = `<i class="fas fa-user-friends"></i> Followers : ${data.data.followedCnt}`;
+                            document.getElementById('Following').innerHTML = `<i class="fas fa-user-friends"></i> Followers : ${data.data.followerCnt}`;
+
+                        }).catch(error => console.log(error))
+
+                    fetch(`/api/user/${userId}/followeds`)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data.data);
+                            const posts = document.getElementById('user-followers');
+                            data.data.forEach(e => {
+                                // let listItem = document.createElement("li");
+                                // listItem.classList.add("collection-item");
+                                // listItem.innerHTML = `<a href="${path}post/${parseInt(e.id)}">${e.title}</a></li>`;
+                                // posts.appendChild(listItem);
+                            });
+                        }).catch(error => console.log(error))
 
 
-                document.addEventListener('DOMContentLoaded', function () {
-                    M.Tabs.init(document.querySelectorAll('.tabs'));
-                });
-            </script>
+                    fetch(`/api/user/${userId}/followeds`)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data.data);
+                            const posts = document.getElementById('user-followers');
+                            data.data.forEach(e => {
+                                // let listItem = document.createElement("li");
+                                // listItem.classList.add("collection-item");
+                                // listItem.innerHTML = `<a href="${path}post/${parseInt(e.id)}">${e.title}</a></li>`;
+                                // posts.appendChild(listItem);
+                            });
+                        }).catch(error => console.log(error))
+
+                    fetch(`/api/user/${userId}/post`)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data.data);
+                            const posts = document.getElementById('user-post');
+                            data.data.forEach(e => {
+                                let listItem = document.createElement("li");
+                                listItem.classList.add("collection-item");
+                                listItem.innerHTML = `<a href="${path}post/${parseInt(e.id)}">${e.title}</a></li>`;
+                                posts.appendChild(listItem);
+                            });
+
+                        }).catch(error => console.log(error))
+
+
+
+
+                    document.addEventListener('DOMContentLoaded', function () {
+                        M.Tabs.init(document.querySelectorAll('.tabs'));
+                    });
+
+                    function Follow() {
+                        fetch(`/user/${userId}/follow`, { method: 'PUT', })
+                            .then(response => response.json())
+                            .then(data => console.log(data))
+                            .catch(error => console.error('Error:', error));
+                    }
+                </script>
 
 </body>
 

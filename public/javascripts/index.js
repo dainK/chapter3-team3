@@ -50,12 +50,12 @@ document.getElementById("total-post-list").addEventListener("click", () => {
 //__________________________________________________________________________
 
 function SettingNavigation() {
-    var elems = document.querySelectorAll(".sidenav");
-    var instances = M.Sidenav.init(elems, { edge: "right" });
+    let elems = document.querySelectorAll(".sidenav");
+    let instances = M.Sidenav.init(elems, { edge: "right" });
 }
 
 function SettingPostList() {
-    let path = document.getElementById("path-data").dataset.path;
+    let path = document.getElementById("path-data").dataset.pathId;
 
     fetch("/api/post/main")
         .then((response) => response.json())
@@ -63,39 +63,23 @@ function SettingPostList() {
             console.log(response);
 
             response.data.createdAtPosts.forEach((e, i) => {
-                var listItem = document.getElementById(`last-post-${i}`);
-                var link = document.createElement('a');
-                link.href = `${path}/post/${e.id}`;
-                link.textContent = '하이퍼링크 텍스트';
-                listItem.appendChild(link);
-                listItem.innerText = e.title;
+                let listItem = document.getElementById(`last-post-${i}`);
+                listItem.innerHTML =  `<a href="${path}post/${parseInt(e.id)}">${e.title}</a>`
             });
 
             response.data.likePosts.forEach((e, i) => {
-                var listItem = document.getElementById(`like-post-${i}`);
-                var link = document.createElement('a');
-                link.href = `${path}/post/${e.id}`;
-                link.textContent = '하이퍼링크 텍스트';
-                listItem.appendChild(link);
-                listItem.innerText = e.title;
+                let listItem = document.getElementById(`like-post-${i}`);
+                listItem.innerHTML =  `<a href="${path}post/${parseInt(e.id)}">${e.title}</a>`
             });
 
             response.data.commentPosts.forEach((e, i) => {
-                var listItem = document.getElementById(`comment-post-${i}`);
-                var link = document.createElement('a');
-                link.href = `${path}/post/${e.id}`;
-                link.textContent = '하이퍼링크 텍스트';
-                listItem.appendChild(link);
-                listItem.innerText = e.title;
+                let listItem = document.getElementById(`comment-post-${i}`);
+                listItem.innerHTML =  `<a href="${path}post/${parseInt(e.id)}">${e.title}</a>`
             });
 
             response.data.totalPosts.forEach((e, i) => {
-                var listItem = document.getElementById(`total-post-${i}`);
-                var link = document.createElement('a');
-                link.href = `${path}/post/${e.id}`;
-                link.textContent = '하이퍼링크 텍스트';
-                listItem.appendChild(link);
-                listItem.innerText = e.title;
+                let listItem = document.getElementById(`total-post-${i}`);
+                listItem.innerHTML =  `<a href="${path}post/${parseInt(e.id)}">${e.title}</a>`
             });
         })
         .catch((error) => console.error("에러 발생:", error));
