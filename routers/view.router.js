@@ -1,8 +1,9 @@
 import { Router } from "express";
+dotenv.config();
 
 const viewRouter = Router();
 
-const path = 'http://localhost:3000'; // 다형 수정
+const path = process.env.CLOUDTYPE_URL;
 /* GET home page. */
 viewRouter.get("/", function (req, res, next) {
     if (!req.cookies.accesstoken) {
