@@ -17,8 +17,7 @@ const loginValidate = [
     body("password").trim().isLength({ min: 5 }),
 ];
 
-const UserEdit = [
-    body("nickName").trim().isLength({ min: 3, max: 20 }),
+const UserEditPWD = [
     body("password").trim().isLength({ min: 5 }),
     body("passwordConfirm")
         .trim()
@@ -27,6 +26,7 @@ const UserEdit = [
             return value === req.body.password;
         }),
 ];
+const UserEditNick = [body("nickName").trim().isLength({ min: 3, max: 20 })];
 
 const UserDelete = [
     body("passwordConfirm")
@@ -37,4 +37,4 @@ const UserDelete = [
         }),
 ];
 
-export { signupValidate, loginValidate, UserEdit, UserDelete };
+export { signupValidate, loginValidate, UserEditPWD, UserEditNick, UserDelete };

@@ -1,11 +1,7 @@
 import { Router } from "express";
 import db from "../models/index.js";
 import { validationResult } from "express-validator";
-import {
-    signupValidate,
-    UserEdit,
-    UserDelete,
-} from "../middlewares/validator.js";
+import { signupValidate, UserDelete } from "../middlewares/validator.js";
 import { ValidError, TokenNotExistError } from "../lib/CustomError.js";
 import bcrypt from "bcrypt";
 import { PASSWORD_HASH_SALT_ROUNDS } from "../constants/security.constant.js";
@@ -20,11 +16,13 @@ likesRouter.put("/post/:id/like", token_middleware, async (req, res, next) => {
     const loginId = res.locals.user.id;
     const postId = parseInt(req.params.id);
     const existPost = await Post.findOne({ where: { id: postId } });
-    const existLikes = await Likes.findOne({ where: { 
-        userId: loginId, 
-        postId: postId
-    }});
-    let resultAct = '';
+    const existLikes = await Likes.findOne({
+        where: {
+            userId: loginId,
+            postId: postId,
+        },
+    });
+    let resultAct = "";
 
     try {
         // post 가 없으면 리턴
@@ -36,26 +34,25 @@ likesRouter.put("/post/:id/like", token_middleware, async (req, res, next) => {
         }
 
         // 기존 좋아요데이터가 있으면 삭제, 없으면 생성
-        if(existLikes){
-            resultAct = '취소';
+        if (existLikes) {
+            resultAct = "취소";
             await Likes.destroy({
-                where: { 
-                    userId: loginId, 
-                    postId: postId
-                }
+                where: {
+                    userId: loginId,
+                    postId: postId,
+                },
             });
-        }
-        else{
-            resultAct = '등록';
-            await Likes.create({ 
-                userId: loginId, 
-                postId: postId
+        } else {
+            resultAct = "등록";
+            await Likes.create({
+                userId: loginId,
+                postId: postId,
             });
         }
 
         return res.status(200).json({
             sucess: true,
-            message: `좋아요 ${resultAct} 성공`
+            message: `좋아요 ${resultAct} 성공`,
         });
     } catch (err) {
         next(err);
@@ -68,7 +65,7 @@ likesRouter.get("/post/:id/likes", async (req, res, next) => {
     const postId = parseInt(req.params.id);
     const { userId } = req.query;
     const existPost = await Post.findOne({ where: { id: postId } });
-    
+
     try {
         // post 가 없으면 리턴
         if (!existPost) {
@@ -80,20 +77,19 @@ likesRouter.get("/post/:id/likes", async (req, res, next) => {
 
         // userId 쿼리가 있으면 해당 유저조건으로 분기
         let whereCondition;
-        if(!userId){
-            whereCondition = {
-                postId: postId
-            }
-        }
-        else{
+        if (!userId) {
             whereCondition = {
                 postId: postId,
-                userId: userId
-            }
+            };
+        } else {
+            whereCondition = {
+                postId: postId,
+                userId: userId,
+            };
         }
 
-        const likesList = await Likes.findAll({ 
-            where: whereCondition
+        const likesList = await Likes.findAll({
+            where: whereCondition,
         });
 
         return res.status(200).json({

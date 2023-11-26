@@ -3,7 +3,8 @@ import db from "../models/index.js";
 import { validationResult } from "express-validator";
 import {
     signupValidate,
-    UserEdit,
+    UserEditNick,
+    UserEditPWD,
     UserDelete,
 } from "../middlewares/validator.js";
 import { ValidError, TokenNotExistError } from "../lib/CustomError.js";
@@ -87,41 +88,34 @@ userRouter.post("/user/signup", signupValidate, async (req, res, next) => {
             { refreshToken: refreshToken },
             { where: { email } },
         );
-        return res.redirect("/");
+        return res
+            .status(200)
+            .json({ success: true, message: "회원가입 성공" });
     } catch (err) {
         next(err);
     }
 });
 
-// 회원 정보 수정 API
+// 회원 정보 수정 비밀번호 API
 userRouter.put(
-    "/user",
-    UserEdit,
+    "/user/password",
+    UserEditPWD,
     token_middleware,
-    uploadImage.single("imgUrl"),
     async (req, res, next) => {
-        // const errors = validationResult(req);
-        const { nickName, password } = req.body;
+        const errors = validationResult(req);
+        const { password, passwordConfirm } = req.body;
         const { id } = res.locals.user;
-        const existUser = await Users.findOne({ where: { id } });
-        const existName = await Users.findOne({ where: { nickName } });
+
         try {
-            if (existName) {
-                return res.status(412).json({
-                    success: false,
-                    errorMessage: "닉네임이 이미 사용 중 입니다.",
-                });
+            if (!errors.isEmpty()) {
+                const err = new ValidError();
+                throw err;
             }
-            // if (!errors.isEmpty()) {
-            //     const err = new ValidError();
-            //     throw err;
-            // }
-            const hashPassword = existUser.password;
-            const passwordCheck = await bcrypt.compare(password, hashPassword);
-            if (!passwordCheck) {
+
+            if (password !== passwordConfirm) {
                 return res.status(401).json({
                     success: false,
-                    errorMessage: "비밀번호가 틀렸습니다.",
+                    errorMessage: "비밀번호와 비밀번호 확인이 서로 다릅니다.",
                 });
             }
 
@@ -130,7 +124,76 @@ userRouter.put(
                 PASSWORD_HASH_SALT_ROUNDS,
             );
 
-            let imgUrl = res.locals.user.imgUrl;
+            const editUser = await Users.update(
+                {
+                    password: hashedPassword,
+                },
+                {
+                    where: { id },
+                },
+            );
+
+            return res.status(200).json({
+                sucess: true,
+                message: "비밀번호 변경 성공",
+                // data: editUser,
+            });
+        } catch (err) {
+            next(err);
+        }
+    },
+);
+// 회원 정보 수정 닉네임 API
+userRouter.put(
+    "/user/nickname",
+    token_middleware,
+    UserEditNick,
+    async (req, res, next) => {
+        const errors = validationResult(req);
+        const { nickName } = req.body;
+        const { id } = res.locals.user;
+        const existName = await Users.findOne({ where: { nickName } });
+        try {
+            if (existName) {
+                return res.status(412).json({
+                    success: false,
+                    errorMessage: "닉네임이 이미 사용 중 입니다.",
+                });
+            }
+            if (!errors.isEmpty()) {
+                const err = new ValidError();
+                throw err;
+            }
+
+            const editUser = await Users.update(
+                {
+                    nickName,
+                },
+                {
+                    where: { id },
+                },
+            );
+
+            return res.status(200).json({
+                sucess: true,
+                message: "닉네임 변경 성공",
+                data: editUser,
+            });
+        } catch (err) {
+            next(err);
+        }
+    },
+);
+
+// 회원 정보 이미지 수정 API
+userRouter.put(
+    "/user/image",
+    token_middleware,
+    uploadImage.single("imgUrl"),
+    async (req, res, next) => {
+        const { id } = res.locals.user;
+        let imgUrl = res.locals.user.imgUrl;
+        try {
             if (req.file) {
                 if (imgUrl) {
                     // 기존 이미지가 있는 경우, S3에서 삭제
@@ -150,22 +213,19 @@ userRouter.put(
 
             const editUser = await Users.update(
                 {
-                    nickName,
-                    password: hashedPassword,
                     imgUrl,
                 },
                 {
                     where: { id },
                 },
             );
-
             return res.status(200).json({
                 sucess: true,
-                message: "회원 정보 수정 성공",
+                message: "프로필사진 변경 성공",
                 data: editUser,
             });
-        } catch (err) {
-            next(err);
+        } catch (error) {
+            next(error);
         }
     },
 );

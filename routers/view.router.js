@@ -64,5 +64,8 @@ viewRouter.get("/posting", function (req, res, next) {
         });
     }
 });
+viewRouter.get("/profileEdit", function (req, res, next) {
+    res.render("profileEdit");
+});
 
 export { viewRouter };

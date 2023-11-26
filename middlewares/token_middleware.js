@@ -29,7 +29,9 @@ const token_middleware = async (req, res, next) => {
     // 리프래시 토큰 만료 시(재 로그인 유도)
     if (!isRefreshTokenValidate)
         return res.status(419).json({
-            message: "Refresh Token이 만료되었습니다. 재로그인이 필요합니다.",
+            success: false,
+            errorMessage:
+                "Refresh Token이 만료되었습니다. 재로그인이 필요합니다.",
         });
 
     // 액세스 토큰 만료 시 리프래시 토큰을 활용하여 재발급
@@ -39,13 +41,17 @@ const token_middleware = async (req, res, next) => {
         });
 
         if (!accessTokenId)
-            return res
-                .status(419)
-                .json({ message: "Access Token정보가 존재하지 않습니다." });
+            return res.status(419).json({
+                success: true,
+                errorMessage: "Access Token정보가 존재하지 않습니다.",
+            });
 
         const newAccessToken = createAccessToken(accessTokenId.id);
         res.cookie("accesstoken", `Bearer ${newAccessToken}`);
-        res.json({ message: "Access Token을 재발급 성공!" });
+        res.json({
+            success: true,
+            errorMessage: "Access Token을 재발급 성공!",
+        });
     }
     try {
         // 토큰 타입 검사
