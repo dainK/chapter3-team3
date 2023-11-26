@@ -68,12 +68,12 @@ commentsRouter.get("/post/:postId/comment", async (req, res) => {
             where: { postId },
         });
 
-        if (comments.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "작성되어 있는 댓글이 없습니다.",
-            });
-        }
+        // if (comments.length === 0) {
+        //     return res.status(404).json({
+        //         success: false,
+        //         message: "작성되어 있는 댓글이 없습니다.",
+        //     });
+        // }
 
         return res.status(200).json({
             success: true,

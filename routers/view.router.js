@@ -14,7 +14,6 @@ viewRouter.get("/", function (req, res, next) {
             login: "yes",
         });
     }
-    // res.render("index", { title: "Express" });
 });
 viewRouter.get("/signup", function (req, res, next) {
     res.render("signup", { title: "DAITDA Sign up" });
@@ -25,16 +24,13 @@ viewRouter.get("/login", function (req, res, next) {
 viewRouter.get("/user/mypage", function (req, res, next) {
     res.render("profile", { title: "My page" });
 });
-//상권 포스트 상세정보 /post/:id
-viewRouter.get("/post", function (req, res, next) {
-    //파라미터로 id 받아오기
-    res.render("post", { title: `Post` });
-    // res.render("post", { title: `Post ${id}`,id });
+viewRouter.get("/post/:postId", function (req, res, next) {
+    const { postId } = req.params;
+    res.render("post", { title: `Post ${postId}`,postId });
 });
 viewRouter.get("/user/withdrawal", function (req, res, next) {
     res.render("withdrawal", { title: "회원 탈퇴" });
 });
-
 viewRouter.get("/posting", function (req, res, next) {
     res.render("posting", { title: "Post" });
 });

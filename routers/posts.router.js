@@ -189,7 +189,7 @@ postsRouter.get("/post", async (req, res) => {
     }
 });
 
-// 상권 특정 유저 게시글 목록 조회 API
+// 특정 유저 게시글 목록 조회 API
 postsRouter.get("/user/:userId/post", async (req, res) => {
     try {
         const { userId } = req.params;
@@ -234,6 +234,7 @@ postsRouter.get("/post/:postId", async (req, res) => {
         const post = await Post.findOne({
             attributes: [
                 "id",
+                "userId",
                 "title",
                 "categoryId",
                 "content",
