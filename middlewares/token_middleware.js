@@ -41,7 +41,7 @@ const token_middleware = async (req, res, next) => {
         if (!accessTokenId)
             return res
                 .status(419)
-                .json({ message: "Refresh Token정보가 존재하지 않습니다." });
+                .json({ message: "Access Token정보가 존재하지 않습니다." });
 
         const newAccessToken = createAccessToken(accessTokenId.id);
         res.cookie("accesstoken", `Bearer ${newAccessToken}`);

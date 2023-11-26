@@ -11,6 +11,21 @@
     </li>
     <li><a href="user/mypage">마이페이지</a></li>
     <li><a href="/api/auth/logout">로그아웃</a></li>
+    <script>
+      console.log("데이터 테스트")
+      fetch('/api/user/me')
+        .then(response => response.json())
+        .then(data => {
+          console.log("유저 data ==>", data.data)
+          const nickName = document.getElementById('userNickName')
+          nickName.innerHTML = `${data.data.nickName} <a href="/"><i class="fa-solid fa-gear fa-2xs" style="color: #000000;"></i></a>`
+          const userImage = document.getElementById('userProfileImage')
+          userImage.src = data.data.imgUrl
+        }).catch(error => console.log(error))
+      document.addEventListener('DOMContentLoaded', function () {
+        M.Tabs.init(document.querySelectorAll('.tabs'));
+      });
+    </script>
 
   </ul>
   <% } else if(login==="no" ) { %>
