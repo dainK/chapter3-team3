@@ -75,5 +75,5 @@ app.listen(process.env.PORT, () => {
 });
 
 app.get("/", (req, res) => {
-    res.send(`ㅎㅇ`);
+  res.sendFile(path.join(__dirname, "veiws", "index.ejs"));
 });
