@@ -35,7 +35,8 @@
                         <!-- 프로필 보기 버튼 -->
                         <a class="waves-effect waves-light btn grey darken-3" style="margin-top: 15px; width: 120px">프로필
                             보기</a>
-                        <%if(login==="yes" ) { %>
+
+                        <div id="myPost">
                             <a id="postedit" href="/postedit" class="waves-effect waves-light btn grey darken-3"
                                 style="margin-top: 15px; width: 120px">수정</a>
                             <form action="/api/post/<%= postId%>?_method=delete" method="post">
@@ -43,7 +44,9 @@
                                     class="waves-effect waves-light btn grey darken-3"
                                     style="margin-top: 15px; width: 120px">삭제</button>
                             </form>
-                            <% } %>
+                        </div>
+
+
                     </div>
                 </div>
 
@@ -70,6 +73,9 @@
             <div id="post-container" data-post-id="<%= postId %>">
                 <!-- 다른 내용들을 추가할 수 있습니다. -->
             </div>
+            <div id="login-container" data-user-id="<%= id %>">
+                <!-- 다른 내용들을 추가할 수 있습니다. -->
+            </div>
 
             <%-include('footer')%>
 
@@ -82,6 +88,9 @@
 
                     let postId =
                         document.getElementById("post-container").dataset.postId;
+                    let loginId =
+                        document.getElementById("login-container").dataset.userId;
+                    console.log("로그인ID", loginId)
                     let userId;
                     let content;
 
@@ -104,6 +113,7 @@
                             .then(async (response) => {
                                 console.log("postId", response);
                                 userId = response.data.userId;
+                                console.log("이거다", userId)
                                 content = response.data.content;
 
                                 document.getElementById("post-title").innerText =
@@ -111,10 +121,16 @@
 
                                 document.getElementById("createdAT").innerHTML = response.data.createdAt.slice(0, 19)
 
+
+                                if (userId !== parseInt(loginId)) {
+                                    document.getElementById('myPost').style.display = "none";
+                                } else {
+                                    document.getElementById('myPost').style.display = "block";
+                                }
                                 await fetch(`/api/user/${parseInt(userId)}`)
                                     .then((response) => response.json())
                                     .then((response) => {
-                                        console.log("userId", response);
+                                        console.log("userId", response.data.id);
 
                                         document.getElementById("post-user-image").src =
                                             response.data.imgUrl;
