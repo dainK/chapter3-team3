@@ -284,7 +284,7 @@ postsRouter.get("/post/:postId", async (req, res) => {
 postsRouter.put("/post/:postId", token_middleware, async (req, res) => {
     try {
         const postId = req.params.postId;
-        const { title, content } = req.body;
+        const { title, content, categoryId } = req.body;
 
         if (!title || !content) {
             return res.status(400).json({
@@ -309,7 +309,7 @@ postsRouter.put("/post/:postId", token_middleware, async (req, res) => {
             });
         }
 
-        await post.update({ title, content });
+        await post.update({ title, content, categoryId });
 
         return res.status(200).json({
             success: true,
