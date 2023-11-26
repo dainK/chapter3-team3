@@ -2,30 +2,27 @@
 <html>
 
 <head>
-  <title><%= title %></title>
-  <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+  <title>
+    <%= title %>
+  </title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
   <link rel="stylesheet" href="/stylesheets/index.css" />
 </head>
 
 <body>
   <%-include('nav')%>
 
-  <%-include('side')%>
- 
-  <%-include('category')%>
+    <%-include('side')%>
 
-  <%-include('search')%>
+      <%-include('category')%>
 
-  <%-include('mainPosts')%>
-  <%-include('categoryPosts')%>
+        <%-include('search')%>
 
-  <%-include('footer')%>
+          <%-include('mainPosts')%>
+            <%-include('categoryPosts')%>
 
-  
-  <div id="path-data" data-post-id="<%= path %>">
-</div>
-
+              <%-include('footer')%>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
