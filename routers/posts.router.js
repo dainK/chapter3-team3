@@ -9,6 +9,61 @@ const postsRouter = Router();
 
 
 // 게시글 랭크 목록 조회 API
+postsRouter.get("/post/main", async (req, res) => {
+    try {
+        const posts = await Post.findAll({
+            attributes: [
+                "id", 
+                "title", 
+                "categoryId", 
+                "createdAt",
+                [db.sequelize.literal('(SELECT COUNT(*) FROM `comments` WHERE `comments`.postId = `Post`.id)'), 'commentsCnt'],
+                [db.sequelize.literal('(SELECT COUNT(*) FROM `likes` WHERE `likes`.postId = `Post`.id)'), 'likesCnt']
+            ],
+            order: [
+                ['createdAt', 'desc']
+            ],
+        });
+
+        let totalPosts = [];
+        let createdAtPosts = [];
+        posts.forEach((e,i) => {
+            if(i<5){
+                createdAtPosts.push(e.title);
+            }
+
+            if(i<10) {
+                totalPosts.push(e.title);
+            }
+        });
+
+        let commentPosts = [];
+        posts.sort((a,b)=>b.commentsCnt-a.commentsCnt).forEach((e,i) => {
+            if(i<5){
+                commentPosts.push(e.title);
+            }
+        });
+
+        let likePosts = [];
+        posts.sort((a,b)=>b.likesCnt-a.likesCnt).forEach((e,i) => {
+            if(i<5){
+                likePosts.push(e.title);
+            }
+        });
+
+        return res.status(200).json({
+            success: true,
+            data: {totalPosts,createdAtPosts,commentPosts,likePosts},
+        });
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: "메인 페이지 정보를 가져오지 못하였습니다.",
+        });
+    }
+});
+
+// 게시글 랭크 목록 조회 API
 postsRouter.get("/post/rank", async (req, res) => {
     try {
         const { sort, categoryId } = req.query;
@@ -54,7 +109,7 @@ postsRouter.get("/post/rank", async (req, res) => {
             data: posts,
         });
     } catch (err) {
-        return res.status(400).json({
+        return res.status(500).json({
             success: false,
             message: "게시글을 찾을 수 없습니다.",
         });
@@ -127,7 +182,7 @@ postsRouter.get("/post", async (req, res) => {
             data: posts,
         });
     } catch (err) {
-        return res.status(400).json({
+        return res.status(500).json({
             success: false,
             message: "게시글을 찾을 수 없습니다.",
         });
