@@ -6,6 +6,7 @@
 </head>
 
 <body>
+  <%-include('nav')%>
   <div class="container">
     <h2>로그인</h2>
     <form action="/api/auth/login" method="post" id="loginForm">
@@ -39,6 +40,7 @@
 
     </form>
   </div>
+  <%-include('footer')%>
 
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
