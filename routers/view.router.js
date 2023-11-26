@@ -35,4 +35,8 @@ viewRouter.get("/user/withdrawal", function (req, res, next) {
     res.render("withdrawal", { title: "회원 탈퇴" });
 });
 
+viewRouter.get("/posting", function (req, res, next) {
+    res.render("posting", { title: "Post" });
+});
+
 export { viewRouter };
