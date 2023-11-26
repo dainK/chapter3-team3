@@ -1,6 +1,8 @@
 import passport from "passport";
 import { Strategy as KakaoStrategy } from "passport-kakao";
 import db from "../models/index.js";
+import dotenv from "dotenv";
+dotenv.config();
 const { Users } = db;
 
 const kakaostrategy = () => {
@@ -9,7 +11,7 @@ const kakaostrategy = () => {
         new KakaoStrategy(
             {
                 clientID: process.env.KAKAO_ID,
-                callbackURL: "http://localhost:3000/api/auth/kakao/callback",
+                callbackURL: `${process.env.CLOUDTYPE_URL}api/auth/kakao/callback`,
             },
             async (accessToken, refreshToken, profile, done) => {
                 // console.log("kakao profile", profile);

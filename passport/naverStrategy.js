@@ -1,6 +1,8 @@
 import passport from "passport";
 import { Strategy as NaverStrategy } from "passport-naver-v2";
 import db from "../models/index.js";
+import dotenv from "dotenv";
+dotenv.config();
 const { Users } = db;
 
 const Naverstrategy = () => {
@@ -10,7 +12,7 @@ const Naverstrategy = () => {
             {
                 clientID: process.env.NAVER_ID,
                 clientSecret: process.env.NAVER_SECRET,
-                callbackURL: "http://localhost:3000/api/auth/naver/callback",
+                callbackURL: `${process.env.CLOUDTYPE_URL}api/auth/naver/callback`,
             },
             async (accessToken, refreshToken, profile, done) => {
                 console.log("naver profile : ", profile);

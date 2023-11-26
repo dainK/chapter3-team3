@@ -7,53 +7,64 @@ const { Post, Users, Comments, likes } = db; // 수정: Post 모델 가져옴
 
 const postsRouter = Router();
 
-
 // 게시글 랭크 목록 조회 API
 postsRouter.get("/post/main", async (req, res) => {
     try {
         const posts = await Post.findAll({
             attributes: [
-                "id", 
-                "title", 
-                "categoryId", 
+                "id",
+                "title",
+                "categoryId",
                 "createdAt",
-                [db.sequelize.literal('(SELECT COUNT(*) FROM `comments` WHERE `comments`.postId = `Post`.id)'), 'commentsCnt'],
-                [db.sequelize.literal('(SELECT COUNT(*) FROM `likes` WHERE `likes`.postId = `Post`.id)'), 'likesCnt']
+                [
+                    db.sequelize.literal(
+                        "(SELECT COUNT(*) FROM `comments` WHERE `comments`.postId = `Post`.id)",
+                    ),
+                    "commentsCnt",
+                ],
+                [
+                    db.sequelize.literal(
+                        "(SELECT COUNT(*) FROM `likes` WHERE `likes`.postId = `Post`.id)",
+                    ),
+                    "likesCnt",
+                ],
             ],
-            order: [
-                ['createdAt', 'desc']
-            ],
+            order: [["createdAt", "desc"]],
         });
 
         let totalPosts = [];
         let createdAtPosts = [];
-        posts.forEach((e,i) => {
-            if(i<5){
+        posts.forEach((e, i) => {
+            if (i < 5) {
                 createdAtPosts.push(e);
             }
 
-            if(i<10) {
+            if (i < 10) {
                 totalPosts.push(e);
             }
         });
 
         let commentPosts = [];
-        posts.sort((a,b)=>b.commentsCnt-a.commentsCnt).forEach((e,i) => {
-            if(i<5){
-                commentPosts.push(e);
-            }
-        });
+        posts
+            .sort((a, b) => b.commentsCnt - a.commentsCnt)
+            .forEach((e, i) => {
+                if (i < 5) {
+                    commentPosts.push(e);
+                }
+            });
 
         let likePosts = [];
-        posts.sort((a,b)=>b.likesCnt-a.likesCnt).forEach((e,i) => {
-            if(i<5){
-                likePosts.push(e);
-            }
-        });
+        posts
+            .sort((a, b) => b.likesCnt - a.likesCnt)
+            .forEach((e, i) => {
+                if (i < 5) {
+                    likePosts.push(e);
+                }
+            });
 
         return res.status(200).json({
             success: true,
-            data: {totalPosts,createdAtPosts,commentPosts,likePosts},
+            data: { totalPosts, createdAtPosts, commentPosts, likePosts },
         });
     } catch (err) {
         return res.status(500).json({
@@ -67,41 +78,46 @@ postsRouter.get("/post/main", async (req, res) => {
 postsRouter.get("/post/rank", async (req, res) => {
     try {
         const { sort, categoryId } = req.query;
-        let orderBy = '';
+        let orderBy = "";
         let whereCondition = {};
 
         // 조회조건 sort 에 따라 정렬순서 바뀜, 없으면 기본값 최근글로
-        if(!sort){
-            orderBy = 'createdAt';
-        }
-        else if(sort === 'new'){
-            orderBy = 'createdAt';
-        }
-        else if(sort === 'comments'){
-            orderBy = 'commentsCnt';
-        }
-        else if(sort === 'likes'){
-            orderBy = 'likesCnt';
+        if (!sort) {
+            orderBy = "createdAt";
+        } else if (sort === "new") {
+            orderBy = "createdAt";
+        } else if (sort === "comments") {
+            orderBy = "commentsCnt";
+        } else if (sort === "likes") {
+            orderBy = "likesCnt";
         }
 
         // 조회조건 categoryId 있으면 조회조건 추가
-        if(categoryId){
+        if (categoryId) {
             whereCondition = { categoryId };
         }
 
         const posts = await Post.findAll({
             attributes: [
-                "id", 
-                "title", 
-                "categoryId", 
+                "id",
+                "title",
+                "categoryId",
                 "createdAt",
-                [db.sequelize.literal('(SELECT COUNT(*) FROM `comments` WHERE `comments`.postId = `Post`.id)'), 'commentsCnt'],
-                [db.sequelize.literal('(SELECT COUNT(*) FROM `likes` WHERE `likes`.postId = `Post`.id)'), 'likesCnt']
+                [
+                    db.sequelize.literal(
+                        "(SELECT COUNT(*) FROM `comments` WHERE `comments`.postId = `Post`.id)",
+                    ),
+                    "commentsCnt",
+                ],
+                [
+                    db.sequelize.literal(
+                        "(SELECT COUNT(*) FROM `likes` WHERE `likes`.postId = `Post`.id)",
+                    ),
+                    "likesCnt",
+                ],
             ],
             where: whereCondition,
-            order: [
-                [orderBy, 'desc']
-            ],
+            order: [[orderBy, "desc"]],
         });
 
         return res.status(200).json({
@@ -343,7 +359,5 @@ postsRouter.delete("/post/:postId", token_middleware, async (req, res) => {
         });
     }
 });
-
-
 
 export { postsRouter };
