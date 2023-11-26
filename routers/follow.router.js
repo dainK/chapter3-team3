@@ -69,7 +69,6 @@ followRouter.get("/user/:id/followers", async (req, res, next) => {
     const id = parseInt(req.params.id);
 
     try {
-
         const followList = await Follow.findAll({
             where: {
                 followedId: id,
@@ -89,8 +88,8 @@ followRouter.get("/user/:id/followers", async (req, res, next) => {
         });
 
         return res.status(200).json({
-            success: true,
-            message: "팔로우드 목록 조회 성공",
+            sucess: true,
+            message: "팔로우 목록 조회 성공",
             data: userList,
         });
     } catch (err) {
@@ -118,10 +117,12 @@ followRouter.get("/user/:id/followeds", async (req, res, next) => {
         const followList = await Follow.findAll({
             where: {
                 followrId: id,
+                followrId: id,
             },
         });
 
         const userIdList = followList.map((e) => {
+            return e.followedId;
             return e.followedId;
         });
 
@@ -134,6 +135,7 @@ followRouter.get("/user/:id/followeds", async (req, res, next) => {
         });
 
         return res.status(200).json({
+            success: true,
             success: true,
             message: "팔로우드 목록 조회 성공",
             data: userList,
