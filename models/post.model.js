@@ -32,7 +32,7 @@ export default class Post extends Model {
                     allowNull: false,
                 },
                 content: {
-                    type: DataTypes.STRING,
+                    type: DataTypes.TEXT,
                 },
                 spec: {
                     type: DataTypes.STRING,
