@@ -26,13 +26,35 @@ viewRouter.get("/user/mypage", function (req, res, next) {
 });
 viewRouter.get("/post/:postId", function (req, res, next) {
     const { postId } = req.params;
-    res.render("post", { title: `Post ${postId}`,postId });
+    if (!req.cookies.accesstoken) {
+        res.render("post", {
+            title: "Post",
+            login: "no",
+            postId
+        });
+    } else {
+        res.render("post", {
+            title: "Post",
+            login: "yes",
+            postId
+        });
+    }
 });
 viewRouter.get("/user/withdrawal", function (req, res, next) {
     res.render("withdrawal", { title: "회원 탈퇴" });
 });
 viewRouter.get("/posting", function (req, res, next) {
-    res.render("posting", { title: "Post" });
+    if (!req.cookies.accesstoken) {
+        res.render("posting", {
+            title: "Post",
+            login: "no",
+        });
+    } else {
+        res.render("posting", {
+            title: "Post",
+            login: "yes",
+        });
+    }
 });
 
 export { viewRouter };
