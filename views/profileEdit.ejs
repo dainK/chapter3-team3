@@ -1,125 +1,84 @@
 <!doctype html>
 <html>
-    <head>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-        />
-        <link rel="stylesheet" href="/stylesheets/footer.css" />
-        <style>
-            .container {
-                max-width: 500px;
-                position: absolute;
-                top: 45%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                padding: 20px;
-            }
 
-            .input-field-container {
-                display: flex;
-                align-items: center;
-            }
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <link rel="stylesheet" href="/stylesheets/footer.css" />
+    <style>
+        .container {
+            max-width: 500px;
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+        }
 
-            .input-field {
-                flex: 1;
-            }
+        .input-field-container {
+            display: flex;
+            align-items: center;
+        }
 
-            .button-container {
-                margin-left: 10px;
-                /* 버튼 간격을 조절합니다. */
-            }
+        .input-field {
+            flex: 1;
+        }
 
-            .center-align {
-                margin-top: 30px;
-            }
-        </style>
-    </head>
+        .button-container {
+            margin-left: 10px;
+            /* 버튼 간격을 조절합니다. */
+        }
 
-    <body>
-        <%-include('nav')%>
+        .center-align {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <%-include('nav')%>
         <div class="container">
             <h2>회원 정보 수정</h2>
 
-            <form
-                action="/api/user/image/?_method=put"
-                method="post"
-                id="imageForm"
-            >
+            <form action="/api/user/image/?_method=put" method="post" id="imageForm">
                 <div class="input-field-container">
                     <div class="input-field">
                         <input type="text" id="image" required />
                         <label for="image">이미지 url</label>
                     </div>
                     <div class="button-container">
-                        <button
-                            type="submit"
-                            class="btn grey darken-3"
-                            id="imageEditBtn"
-                        >
+                        <button type="submit" class="btn grey darken-3" id="imageEditBtn">
                             프로필 사진 변경
                         </button>
                     </div>
                 </div>
             </form>
 
-            <form
-                action="/api/user/password/?_method=put"
-                method="post"
-                id="passwordForm"
-            >
+            <form action="/api/user/password/?_method=put" method="post" id="passwordForm">
                 <div class="input-field-container">
                     <div class="input-field">
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            required
-                        />
+                        <input type="password" id="password" name="password" required />
                         <label for="password">비밀번호</label>
                     </div>
                     <div class="input-field">
-                        <input
-                            type="password"
-                            id="confirmPassword"
-                            name="passwordConfirm"
-                            required
-                        />
+                        <input type="password" id="confirmPassword" name="passwordConfirm" required />
                         <label for="confirmPassword">비밀번호 확인</label>
                     </div>
                     <div class="button-container">
-                        <button
-                            type="submit"
-                            class="btn grey darken-3"
-                            id="passwordEditBtn"
-                        >
+                        <button type="submit" class="btn grey darken-3" id="passwordEditBtn">
                             비밀번호 변경
                         </button>
                     </div>
                 </div>
             </form>
 
-            <form
-                action="/api/user/nickname/?_method=put"
-                method="post"
-                id="nicknameForm"
-            >
+            <form action="/api/user/nickname/?_method=put" method="post" id="nicknameForm">
                 <div class="input-field-container">
                     <div class="input-field">
-                        <input
-                            type="text"
-                            id="nickname"
-                            name="nickName"
-                            required
-                        />
+                        <input type="text" id="nickname" name="nickName" required />
                         <label for="nickname">닉네임</label>
                     </div>
                     <div class="button-container">
-                        <button
-                            type="submit"
-                            class="btn grey darken-3"
-                            id="nickEditBtn"
-                        >
+                        <button type="submit" class="btn grey darken-3" id="nickEditBtn">
                             닉네임 변경
                         </button>
                     </div>
@@ -127,18 +86,16 @@
             </form>
 
             <div class="center-align">
-                <button
-                    class="btn grey darken-3"
-                    id="back"
-                    style="width: 460px; height: 50px; margin: 5px"
-                >
+                <button class="btn grey darken-3" id="back" style="width: 460px; height: 50px; margin: 5px">
                     <a href="/user/mypage">돌아가기</a>
                 </button>
             </div>
         </div>
 
         <%-include('footer')%>
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    </body>
+            <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+</body>
+
 </html>

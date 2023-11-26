@@ -68,17 +68,20 @@ viewRouter.get("/posting", function (req, res, next) {
     }
 });
 viewRouter.get("/postedit", function (req, res, next) {
+    const { postId } = req.params;
     if (!req.cookies.accesstoken) {
         res.render("postedit", {
             title: "Post",
             login: "no",
             path,
+            postId,
         });
     } else {
         res.render("postedit", {
             title: "Post",
             login: "yes",
             path,
+            postId,
         });
     }
 });
