@@ -3,34 +3,7 @@
 
 <head>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-  <style>
-    .container {
-      max-width: 500px;
-      position: absolute;
-      top: 45%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 20px;
-    }
-
-    .input-field-container {
-      display: flex;
-      align-items: center;
-    }
-
-    .input-field {
-      flex: 1;
-    }
-
-    .button-container {
-      margin-left: 10px;
-      /* 버튼 간격을 조절합니다. */
-    }
-
-    .center-align {
-      margin-top: 30px;
-    }
-  </style>
+  <link rel="stylesheet" href="/stylesheets/login.css" />
 </head>
 
 <body>
@@ -56,11 +29,11 @@
         <button type="submit" class="btn grey darken-3" id="login" style="width: 200px; margin: 5px;">로그인</button>
       </div>
       <div style="margin-left: 128.5px; margin-top: 50px;">
-        <a href="/api/auth/kakao"><img src="/views/images/kakaoBtn.png" alt=""
+        <a href="/api/auth/kakao"><img src="images/kakaoBtn.png" alt=""
             style="width: 203px; height: 50px; cursor: pointer;"></a>
       </div>
       <div style="margin-left: 128.5px;">
-        <a href="/api/auth/naver"><img src="/views/images/naverBtn.png" alt=""
+        <a href="/api/auth/naver"><img src="images/naverBtn.png" alt=""
             style="width: 203px; height: 50px; cursor: pointer;"></a>
       </div>
 
