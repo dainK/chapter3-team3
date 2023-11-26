@@ -31,10 +31,16 @@ userRouter.post("/user/signup", signupValidate, async (req, res, next) => {
     const existName = await Users.findOne({ where: { nickName } });
 
     try {
-        if (existUser || existName) {
+        if (existUser) {
             return res.status(412).json({
                 success: false,
-                errorMessage: "이메일 또는 닉네임이 이미 사용 중 입니다.",
+                errorMessage: "이메일이 이미 사용 중 입니다.",
+            });
+        }
+        if (existName) {
+            return res.status(412).json({
+                success: false,
+                errorMessage: "닉네임이 이미 사용 중 입니다.",
             });
         }
         if (!errors.isEmpty()) {

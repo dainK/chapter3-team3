@@ -36,16 +36,16 @@
 <body>
   <div class="container">
     <h2>회원 가입</h2>
-    <form action="/api/user/signup" method="post">
+    <form action="/api/user/signup" method="post" id="signupForm">
 
       <div class="input-field-container">
         <div class="input-field">
           <input type="text" id="username" name="email" required>
           <label for="username">이메일</label>
         </div>
-        <div class="button-container">
+        <!-- <div class="button-container">
           <button class="btn grey darken-3" id="idDuplicate">아이디 중복 확인</button>
-        </div>
+        </div> -->
       </div>
 
       <div class="input-field">
@@ -63,15 +63,16 @@
           <input type="text" id="nickname" name="nickName" required>
           <label for="nickname">닉네임</label>
         </div>
-        <div class="button-container">
+        <!-- <div class="button-container">
           <button class="btn grey darken-3" id="nickDuplicate">닉네임 중복 확인</button>
-        </div>
+        </div> -->
       </div>
 
 
       <div class="center-align">
         <button class="btn grey darken-3" id="back" style="width: 100px; margin: 5px;"><a href="/">돌아가기</a></button>
-        <button type="submit" class="btn grey darken-3" id="signup" style="width: 200px; margin: 5px;">회원 가입하기</button>
+        <button type="submit" class="btn grey darken-3" id="signupBtn" style="width: 200px; margin: 5px;">회원
+          가입하기</button>
       </div>
     </form>
   </div>
@@ -79,6 +80,25 @@
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
+  <script>
+
+    fetch('/api/user/signup', {
+      method: 'post',
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data)
+        if (!data.success) {
+          // 로그인 실패 시에 alert 창에 에러 메시지 표시
+          alert(data.errorMessage);
+        } else {
+          window.location.href = '/';
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  </script>
 </body>
 
 </html>
