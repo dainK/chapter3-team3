@@ -51,7 +51,7 @@ likesRouter.put("/post/:id/like", token_middleware, async (req, res, next) => {
         }
 
         return res.status(200).json({
-            sucess: true,
+            success: true,
             message: `좋아요 ${resultAct} 성공`,
         });
     } catch (err) {
@@ -93,7 +93,7 @@ likesRouter.get("/post/:id/likes", async (req, res, next) => {
         });
 
         return res.status(200).json({
-            sucess: true,
+            success: true,
             message: "좋아요 목록 조회 성공",
             data: likesList,
         });

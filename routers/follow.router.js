@@ -54,7 +54,7 @@ followRouter.put(
             }
 
             return res.status(200).json({
-                sucess: true,
+                success: true,
                 message: `팔로우 ${resultAct} 성공`,
             });
         } catch (err) {
@@ -69,21 +69,28 @@ followRouter.get("/user/:id/followers", async (req, res, next) => {
     const id = parseInt(req.params.id);
 
     try {
+
+        const followList = await Follow.findAll({
+            where: {
+                followedId: id,
+            },
+        });
+
+        const userIdList = followList.map((e) => {
+            return e.followrId;
+        });
+
         const userList = await Users.findAll({
-            include: [
-                {
-                    model: Follow,
-                    where: {
-                        followrId: id,
-                    },
-                    required: true,
+            where: {
+                id: {
+                    [db.Sequelize.Op.in]: userIdList,
                 },
-            ],
+            },
         });
 
         return res.status(200).json({
-            sucess: true,
-            message: "팔로우 목록 조회 성공",
+            success: true,
+            message: "팔로우드 목록 조회 성공",
             data: userList,
         });
     } catch (err) {
@@ -110,12 +117,12 @@ followRouter.get("/user/:id/followeds", async (req, res, next) => {
 
         const followList = await Follow.findAll({
             where: {
-                followedId: id,
+                followrId: id,
             },
         });
 
         const userIdList = followList.map((e) => {
-            return e.followrId;
+            return e.followedId;
         });
 
         const userList = await Users.findAll({
@@ -127,7 +134,7 @@ followRouter.get("/user/:id/followeds", async (req, res, next) => {
         });
 
         return res.status(200).json({
-            sucess: true,
+            success: true,
             message: "팔로우드 목록 조회 성공",
             data: userList,
         });
