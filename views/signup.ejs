@@ -27,7 +27,7 @@
       /* 버튼 간격을 조절합니다. */
     }
 
-    .center-align{
+    .center-align {
       margin-top: 30px;
     }
   </style>
@@ -36,12 +36,12 @@
 <body>
   <div class="container">
     <h2>회원 가입</h2>
-    <form>
+    <form action="/api/user/signup" method="post">
 
       <div class="input-field-container">
         <div class="input-field">
-          <input type="text" id="username" required>
-          <label for="username">아이디</label>
+          <input type="text" id="username" name="email" required>
+          <label for="username">이메일</label>
         </div>
         <div class="button-container">
           <button class="btn grey darken-3" id="idDuplicate">아이디 중복 확인</button>
@@ -49,18 +49,18 @@
       </div>
 
       <div class="input-field">
-        <input type="password" id="password" required>
+        <input type="password" id="password" name="password" required>
         <label for="password">비밀번호</label>
       </div>
 
       <div class="input-field">
-        <input type="password" id="confirmPassword" required>
+        <input type="password" id="confirmPassword" name="passwordConfirm" required>
         <label for="confirmPassword">비밀번호 확인</label>
       </div>
-      
+
       <div class="input-field-container">
         <div class="input-field">
-          <input type="text" id="nickname" required>
+          <input type="text" id="nickname" name="nickName" required>
           <label for="nickname">닉네임</label>
         </div>
         <div class="button-container">
@@ -70,8 +70,8 @@
 
 
       <div class="center-align">
-        <button class="btn grey darken-3" id="signup" style="width: 200px; margin: 5px;">회원 가입하기</button>
-        <button class="btn grey darken-3" id="back" style="width: 200px; margin: 5px;">돌아가기</button>
+        <button class="btn grey darken-3" id="back" style="width: 100px; margin: 5px;"><a href="/">돌아가기</a></button>
+        <button type="submit" class="btn grey darken-3" id="signup" style="width: 200px; margin: 5px;">회원 가입하기</button>
       </div>
     </form>
   </div>
@@ -80,4 +80,5 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
 </body>
+
 </html>
