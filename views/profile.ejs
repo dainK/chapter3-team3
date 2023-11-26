@@ -98,14 +98,10 @@
                     </div>
                     <div id="followers" class="col s12">
                         <ul class="collection" id="user-followers">
-                            <li class="collection-item">Follower 1</li>
-                            <li class="collection-item">Follower 2</li>
                         </ul>
                     </div>
                     <div id="following" class="col s12">
                         <ul class="collection" id="user-following">
-                            <li class="collection-item">Following 1</li>
-                            <li class="collection-item">Following 2</li>
                         </ul>
                     </div>
                     <div id="posts" class="col s12">
@@ -143,7 +139,7 @@
                             nickName.innerHTML = `${data.data.nickName} 
                 <div class="container mt-3" style="text-align: right; margin-top: 10px">
                     <a class="waves-effect waves-light btn grey darken-3"onclick="Follow()">팔로우</a>
-                        </div>`
+                        </div>`;
 
 
                             const userImage = document.getElementById('userProfileImage');
@@ -202,9 +198,16 @@
                     });
 
                     function Follow() {
-                        fetch(`/user/${userId}/follow`, { method: 'PUT', })
+                        fetch(`/api/user/${userId}/follow`, {
+                                method: 'PUT'
+                            })
                             .then(response => response.json())
-                            .then(data => console.log(data))
+                            .then(data => {
+                                console.log(data);
+                                if(!data.success) {
+                                    alert(data.errorMessage);
+                                }
+                            })
                             .catch(error => console.error('Error:', error));
                     }
                 </script>
