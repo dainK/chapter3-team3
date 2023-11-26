@@ -1,11 +1,7 @@
 import { Router } from "express";
 import db from "../models/index.js";
 import { validationResult } from "express-validator";
-import {
-    signupValidate,
-    UserEdit,
-    UserDelete,
-} from "../middlewares/validator.js";
+import { signupValidate, UserDelete } from "../middlewares/validator.js";
 import { ValidError, TokenNotExistError } from "../lib/CustomError.js";
 import bcrypt from "bcrypt";
 import { PASSWORD_HASH_SALT_ROUNDS } from "../constants/security.constant.js";

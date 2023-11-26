@@ -68,7 +68,7 @@ authRouter.post("/auth/login", loginValidate, async (req, res, next) => {
             { refreshToken: refreshToken },
             { where: { email } },
         );
-        return res.redirect("/");
+        return res.status(200).json({ success: true, message: "로그인 성공" });
     } catch (err) {
         next(err);
     }

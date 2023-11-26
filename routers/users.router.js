@@ -3,7 +3,8 @@ import db from "../models/index.js";
 import { validationResult } from "express-validator";
 import {
     signupValidate,
-    UserEdit,
+    UserEditNick,
+    UserEditPWD,
     UserDelete,
 } from "../middlewares/validator.js";
 import { ValidError, TokenNotExistError } from "../lib/CustomError.js";
@@ -87,7 +88,9 @@ userRouter.post("/user/signup", signupValidate, async (req, res, next) => {
             { refreshToken: refreshToken },
             { where: { email } },
         );
-        return res.redirect("/");
+        return res
+            .status(200)
+            .json({ success: true, message: "회원가입 성공" });
     } catch (err) {
         next(err);
     }
@@ -96,11 +99,12 @@ userRouter.post("/user/signup", signupValidate, async (req, res, next) => {
 // 회원 정보 수정 API
 userRouter.put(
     "/user",
-    UserEdit,
+    UserEditPWD,
+    UserEditNick,
     token_middleware,
     uploadImage.single("imgUrl"),
     async (req, res, next) => {
-        // const errors = validationResult(req);
+        const errors = validationResult(req);
         const { nickName, password } = req.body;
         const { id } = res.locals.user;
         const existUser = await Users.findOne({ where: { id } });
@@ -112,10 +116,10 @@ userRouter.put(
                     errorMessage: "닉네임이 이미 사용 중 입니다.",
                 });
             }
-            // if (!errors.isEmpty()) {
-            //     const err = new ValidError();
-            //     throw err;
-            // }
+            if (!errors.isEmpty()) {
+                const err = new ValidError();
+                throw err;
+            }
             const hashPassword = existUser.password;
             const passwordCheck = await bcrypt.compare(password, hashPassword);
             if (!passwordCheck) {
