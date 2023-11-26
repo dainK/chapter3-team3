@@ -31,5 +31,8 @@ viewRouter.get("/post", function (req, res, next) {
     res.render("post", { title: `Post` });
     // res.render("post", { title: `Post ${id}`,id });
 });
+viewRouter.get("/user/withdrawal", function (req, res, next) {
+    res.render("withdrawal", { title: "회원 탈퇴" });
+});
 
 export { viewRouter };

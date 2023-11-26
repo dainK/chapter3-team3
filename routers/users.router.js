@@ -194,11 +194,9 @@ userRouter.delete(
             }
 
             await Users.destroy({ where: { id }, force: true });
-            return res.status(200).json({
-                sucess: true,
-                email: email,
-                message: "회원 탈퇴 성공",
-            });
+            res.clearCookie("accesstoken");
+            res.clearCookie("refreshtoken");
+            return res.redirect("/");
         } catch (err) {
             next(err);
         }

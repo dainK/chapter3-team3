@@ -45,7 +45,7 @@ const token_middleware = async (req, res, next) => {
 
         const newAccessToken = createAccessToken(accessTokenId.id);
         res.cookie("accesstoken", `Bearer ${newAccessToken}`);
-        return res.json({ message: "Access Token을 재발급 성공!" });
+        res.json({ message: "Access Token을 재발급 성공!" });
     }
     try {
         // 토큰 타입 검사

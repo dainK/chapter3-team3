@@ -7,6 +7,7 @@
     <title>User Profile</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <script src="https://kit.fontawesome.com/bad95817eb.js" crossorigin="anonymous"></script>
 
     <style>
         .collection-item {
@@ -29,7 +30,7 @@
             border-radius: 5px;
         }
 
-        .followbtn:hover {}
+        /* .followbtn:hover {} */
 
         .followbtn:focus {
             background-color: white;
@@ -47,6 +48,23 @@
         .tabs .tab a:focus.active {
             background-color: #e0e0e0;
         }
+
+        .deleteBtn {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0px 20px 15px 0px;
+        }
+
+        .deleteBtn a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .profileSetting a {
+            color: black;
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -60,11 +78,12 @@
                     <img id="userProfileImage" alt="User Profile Picture" class="circle responsive-img"
                         style="width: 300px; height: 300px;">
                     <h4 class="card-title" id="userNickName">
-
                     </h4>
-                    <p></p>
-                    <button class="followbtn" id="Followers"><i class="fas fa-user-friends"></i> Followers: 100</button>
-                    <button class="followbtn" id="Following"><i class="fas fa-user-friends"></i> Following: 50</button>
+
+                    <button class="followbtn" id="Followers"><i class="fas fa-user-friends"></i>
+                        Followers: 100</button>
+                    <button class="followbtn" id="Following"><i class="fas fa-user-friends"></i>
+                        Following: 50</button>
                 </div>
                 <div class="card-tabs">
                     <ul class="tabs">
@@ -92,8 +111,12 @@
                         <li class="collection-item">게시물 3: 내용3</li>
                         <li class="collection-item">게시물 3: 내용3</li>
                         <li class="collection-item">게시물 3: 내용3</li>
+
                     </ul>
                 </div>
+                <div class="deleteBtn"><a href="/user/withdrawal">회원 탈퇴</a></div>
+
+
             </div>
         </div>
     </div>
@@ -108,7 +131,7 @@
             .then(data => {
                 console.log(data.data)
                 const nickName = document.getElementById('userNickName')
-                nickName.innerText = data.data.nickName
+                nickName.innerHTML = `${data.data.nickName} <a href="/"><i class="fa-solid fa-gear fa-2xs" style="color: #000000;"></i></a>`
                 const userImage = document.getElementById('userProfileImage')
                 userImage.src = data.data.imgUrl
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,93 +10,103 @@
     <!-- Quill styles -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 </head>
+
 <body>
 
-<div class="container mt-3">
-    <!-- 상단 부분 -->
-    <div class="row">
-        <div class="col s2">
-            <!-- 글쓴이의 이미지 -->
-            <img src="path_to_author_image.jpg" alt="Author Image" class="circle responsive-img">
+    <div class="container mt-3">
+        <!-- 상단 부분 -->
+        <div class="row">
+            <div class="col s2">
+                <!-- 글쓴이의 이미지 -->
+                <img src="path_to_author_image.jpg" alt="Author Image" class="circle responsive-img">
+            </div>
+            <div class="col s8">
+                <!-- 글쓴이의 닉네임 -->
+                <h5>글쓴이의 닉네임</h5>
+            </div>
+            <div class="col s2">
+                <!-- 프로필 보기 버튼 -->
+                <a class="waves-effect waves-light btn">프로필 보기</a>
+            </div>
         </div>
-        <div class="col s8">
-            <!-- 글쓴이의 닉네임 -->
-            <h5>글쓴이의 닉네임</h5>
-        </div>
-        <div class="col s2">
-            <!-- 프로필 보기 버튼 -->
-            <a class="waves-effect waves-light btn">프로필 보기</a>
+
+        <!-- 게시물 내용 -->
+        <div id="post-content" class="card"></div>
+
+
+
+        <!-- 덧글 목록 -->
+        <ul class="collection with-header">
+            <li class="collection-header">
+                <h6>덧글 목록</h6>
+            </li>
+            <li class="collection-header">
+                <h6>덧글 목록</h6>
+            </li>
+            <li class="collection-header">
+                <h6>덧글 목록</h6>
+            </li>
+            <li class="collection-header">
+                <h6>덧글 목록</h6>
+            </li>
+            <!-- 여기에 덧글 목록을 동적으로 추가할 수 있습니다. -->
+        </ul>
+        <!-- 덧글 입력 폼 -->
+        <div class="row">
+            <div class="input-field col s10">
+                <textarea id="comment-input" class="materialize-textarea"></textarea>
+                <label for="comment-input">덧글을 입력하세요...</label>
+            </div>
+            <div class="col s2">
+                <a class="waves-effect waves-light btn" onclick="submitComment()">등록</a>
+            </div>
         </div>
     </div>
 
-    <!-- 게시물 내용 -->
-    <div id="post-content" class="card"></div>
+    <!-- Materialize JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- Quill scripts -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
-   
+    <script>
+        // 상권
+        //let usrid
+        // 포스트 상세정보 포스트내용 
+        // 유저아이디로 유저닉네임찾기
+        // 포스트아이디로 코멘츠
 
-    <!-- 덧글 목록 -->
-    <ul class="collection with-header">
-        <li class="collection-header"><h6>덧글 목록</h6></li>
-        <li class="collection-header"><h6>덧글 목록</h6></li>
-        <li class="collection-header"><h6>덧글 목록</h6></li>
-        <li class="collection-header"><h6>덧글 목록</h6></li>
-        <!-- 여기에 덧글 목록을 동적으로 추가할 수 있습니다. -->
-    </ul>
-     <!-- 덧글 입력 폼 -->
-     <div class="row">
-      <div class="input-field col s10">
-          <textarea id="comment-input" class="materialize-textarea"></textarea>
-          <label for="comment-input">덧글을 입력하세요...</label>
-      </div>
-      <div class="col s2">
-          <a class="waves-effect waves-light btn" onclick="submitComment()">등록</a>
-      </div>
-  </div>
-</div>
-
-<!-- Materialize JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<!-- Quill scripts -->
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-
-<script>
-    // 상권
-    //let usrid
-    // 포스트 상세정보 포스트내용 
-    // 유저아이디로 유저닉네임찾기
-    // 포스트아이디로 코멘츠
-
-    // 덧글쓰기 인풋필드 내용 json에 넣어서 
-    // 등록하기 버튼 누르면 fetch로 보내주기
-    // 새로고침
+        // 덧글쓰기 인풋필드 내용 json에 넣어서 
+        // 등록하기 버튼 누르면 fetch로 보내주기
+        // 새로고침
 
 
-    document.addEventListener('DOMContentLoaded', function() {
-        // 게시물 내용을 가져와 Quill Editor로 표시
-        var postContent = "<p>여기에 Quill Editor에서 가져온 내용이 들어갑니다.</p>";  // 여기에 실제로 받아온 게시물 내용을 삽입하세요.
+        document.addEventListener('DOMContentLoaded', function () {
+            // 게시물 내용을 가져와 Quill Editor로 표시
+            var postContent = "<p>여기에 Quill Editor에서 가져온 내용이 들어갑니다.</p>";  // 여기에 실제로 받아온 게시물 내용을 삽입하세요.
 
-        // Quill Editor 초기화
-        var postQuill = new Quill('#post-content', {
-            readOnly: true,
-            theme: 'snow',
-            modules: {
-                toolbar: false
-            }
+            // Quill Editor 초기화
+            var postQuill = new Quill('#post-content', {
+                readOnly: true,
+                theme: 'snow',
+                modules: {
+                    toolbar: false
+                }
+            });
+
+            // 게시물 내용을 Quill Editor에 삽입 //포스트내용 postContent
+            postQuill.clipboard.dangerouslyPasteHTML(postContent);
         });
 
-        // 게시물 내용을 Quill Editor에 삽입 //포스트내용 postContent
-        postQuill.clipboard.dangerouslyPasteHTML(postContent);
-    });
-
-    // 덧글 등록 함수
-    function submitComment() {
-        var commentInput = document.getElementById('comment-input').value;
-        // 여기에 덧글 등록 및 목록 갱신 로직을 추가합니다.
-        console.log('덧글 등록:', commentInput);
-    }
+        // 덧글 등록 함수
+        function submitComment() {
+            var commentInput = document.getElementById('comment-input').value;
+            // 여기에 덧글 등록 및 목록 갱신 로직을 추가합니다.
+            console.log('덧글 등록:', commentInput);
+        }
 
 
-</script>
+    </script>
 
 </body>
+
 </html>

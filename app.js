@@ -9,6 +9,7 @@ import { apiRouter } from "./routers/index.js";
 import { viewRouter } from "./routers/view.router.js";
 import { ErrorHandler } from "./middlewares/ErrorHandler.js";
 import morgan from "morgan";
+import methodOverride from "method-override";
 const { Users } = db;
 dotenv.config();
 
@@ -54,6 +55,7 @@ app.use(
     cookieParser(),
 );
 
+app.use(methodOverride("_method"));
 app.use("/", viewRouter);
 app.use("/api", apiRouter);
 app.use(ErrorHandler);
