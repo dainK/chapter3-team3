@@ -1,6 +1,7 @@
 import { Router } from "express";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { rename } from "fs";
 
 dotenv.config();
 
@@ -30,32 +31,81 @@ viewRouter.get("/login", function (req, res, next) {
     res.render("login", { title: "Login", path });
 });
 viewRouter.get("/user/:userId", function (req, res, next) {
-    const { userId } = req.params;
-    res.render("profile", { title: "My page", path, userId });
+    const userId = req.params.userId;
+    const { accesstoken } = req.cookies;
+    if (accesstoken) {
+        const [tokenType, acctoken] = accesstoken.split(" ");
+        const decodedAccessToken = jwt.verify(
+            acctoken,
+            process.env.JWT_TOKENKEY,
+        );
+        const id = decodedAccessToken.id;
+        console.log(id);
+        if (!req.cookies.accesstoken) {
+            res.render("profile", {
+                path,
+                userId,
+            });
+        } else if (req.cookies.accesstoken) {
+            res.render("profile", {
+                path,
+                userId,
+                id,
+            });
+        }
+    } else {
+        res.render("profile", {
+            path,
+            userId,
+            id: null,
+        });
+    }
 });
+
 viewRouter.get("/post/:postId", function (req, res, next) {
     const { accesstoken } = req.cookies;
-    const [tokenType, acctoken] = accesstoken.split(" ");
     const { postId } = req.params;
-    const decodedAccessToken = jwt.verify(acctoken, process.env.JWT_TOKENKEY);
-    const id = decodedAccessToken.id;
-    console.log("게시글의", req);
-
-    if (!req.cookies.accesstoken) {
-        res.render("post", {
-            title: "Post",
-            login: "no",
-            postId,
-            path,
-        });
+    if (accesstoken) {
+        const [tokenType, acctoken] = accesstoken.split(" ");
+        const decodedAccessToken = jwt.verify(
+            acctoken,
+            process.env.JWT_TOKENKEY,
+        );
+        const id = decodedAccessToken.id;
+        if (!req.cookies.accesstoken) {
+            res.render("post", {
+                title: "Post",
+                login: "no",
+                postId,
+                path,
+            });
+        } else if (req.cookies.accesstoken) {
+            res.render("post", {
+                title: "Post",
+                login: "yes",
+                postId,
+                path,
+                id,
+            });
+        }
     } else {
-        res.render("post", {
-            title: "Post",
-            login: "yes",
-            postId,
-            path,
-            id,
-        });
+        if (!req.cookies.accesstoken) {
+            res.render("post", {
+                title: "Post",
+                login: "no",
+                postId,
+                path,
+                id: null,
+            });
+        } else if (req.cookies.accesstoken) {
+            res.render("post", {
+                title: "Post",
+                login: "yes",
+                postId,
+                path,
+                id: null,
+            });
+        }
     }
 });
 viewRouter.get("/user/withdrawal", function (req, res, next) {

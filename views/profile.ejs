@@ -82,6 +82,8 @@
                             style="width: 300px; height: 300px;">
                         <h4 class="card-title" id="userNickName">
                         </h4>
+                        <span><a id="setting" href="/profileEdit"><i class="fa-solid fa-gear fa-xs"
+                                    style="color: #000000;"></i></a></span>
 
 
                         <button class="followbtn" id="Followers"><i class="fas fa-user-friends"></i>
@@ -98,10 +100,14 @@
                     </div>
                     <div id="followers" class="col s12">
                         <ul class="collection" id="user-followers">
+                            <li class="collection-item">Follower 1</li>
+                            <li class="collection-item">Follower 2</li>
                         </ul>
                     </div>
                     <div id="following" class="col s12">
                         <ul class="collection" id="user-following">
+                            <li class="collection-item">Following 1</li>
+                            <li class="collection-item">Following 2</li>
                         </ul>
                     </div>
                     <div id="posts" class="col s12">
@@ -109,7 +115,8 @@
 
                         </ul>
                     </div>
-                    <!-- <div class="deleteBtn"><a href="/user/withdrawal">회원 탈퇴</a></div> -->
+
+                    <div id="withBtn" class="deleteBtn"><a href="/user/withdrawal">회원 탈퇴</a></div>
                 </div>
             </div>
         </div>
@@ -117,6 +124,9 @@
 
         <div id="path-data" data-path-id="<%=path%>">
             <div id="user-container" data-user-id="<%= userId %>">
+                <!-- 다른 내용들을 추가할 수 있습니다. -->
+            </div>
+            <div id="login-container" data-login-id="<%= id %>">
                 <!-- 다른 내용들을 추가할 수 있습니다. -->
             </div>
 
@@ -127,20 +137,26 @@
                 <script>
                     console.log("데이터 테스트")
                     let userId = document.getElementById("user-container").dataset.userId;
+                    let loginId = document.getElementById("login-container").dataset.loginId;
                     let path = document.getElementById("path-data").dataset.pathId;
+                    console.log("로그인한 ID==>", parseInt(loginId))
 
                     fetch(`/api/user/${userId}`)
                         .then(response => response.json())
                         .then(data => {
-                            console.log(data.data);
+                            console.log(data.data.id);
                             const nickName = document.getElementById('userNickName');
                             // nickName.innerHTML = `${data.data.nickName} <a href="/profileEdit"><i class="fa-solid fa-gear fa-2xs" style="color: #000000;"></i></a>`
 
                             nickName.innerHTML = `${data.data.nickName} 
-                <div class="container mt-3" style="text-align: right; margin-top: 10px">
+                <div id="followBtn" class="container mt-3" style="text-align: right; margin-top: 10px">
                     <a class="waves-effect waves-light btn grey darken-3"onclick="Follow()">팔로우</a>
-                        </div>`;
-
+                    
+                        </div>`
+                            if (data.data.id !== parseInt(loginId)) {
+                                document.getElementById(`setting`).style.display = "none";
+                                document.getElementById(`withBtn`).style.display = "none";
+                            }
 
                             const userImage = document.getElementById('userProfileImage');
                             userImage.src = data.data.imgUrl;
@@ -198,16 +214,9 @@
                     });
 
                     function Follow() {
-                        fetch(`/api/user/${userId}/follow`, {
-                                method: 'PUT'
-                            })
+                        fetch(`/user/${userId}/follow`, { method: 'PUT', })
                             .then(response => response.json())
-                            .then(data => {
-                                console.log(data);
-                                if(!data.success) {
-                                    alert(data.errorMessage);
-                                }
-                            })
+                            .then(data => console.log(data))
                             .catch(error => console.error('Error:', error));
                     }
                 </script>
