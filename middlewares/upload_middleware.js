@@ -2,6 +2,8 @@ import multer from"multer";
 import multerS3 from"multer-s3";
 import path from"path";
 import s3 from "../config/s3.config.js"
+import {JWT_TOKENKEY_SECRET} from "../constants/security.constant.js";
+import jwt from "jsonwebtoken";
 
 // 확장자 검사 목록
 const allowedExtensions = [".png", ".jpg", ".jpeg", ".bmp", ".gif"];
@@ -23,9 +25,14 @@ const uploadImage = multer({
           if (!allowedExtensions.includes(extension)) {
             return callback(new Error("Invalid file type"));
           }
+          
+        const { accesstoken, refreshtoken } = req.cookies;
+        const [tokenType, acctoken] = accesstoken.split(" ");
+        const decodedAccessToken = jwt.verify(acctoken, JWT_TOKENKEY_SECRET);
+        const id = decodedAccessToken.id;
 
           // 파일명 생성
-          const filename = `userprofile/${date}_${randomNumber}${extension}`;
+          const filename = `userprofile/${id}_${extension}`;
           callback(null, filename);
         } catch (error) {
           return callback(new Error("Invalid or expired token"));

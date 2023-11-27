@@ -193,23 +193,27 @@ userRouter.put(
     async (req, res, next) => {
         const { id } = res.locals.user;
         let imgUrl = res.locals.user.imgUrl;
+        console.log(imgUrl);
         try {
             if (req.file) {
-                if (imgUrl) {
-                    // 기존 이미지가 있는 경우, S3에서 삭제
-                    if (imgUrl !== "userprofile/null.png") {
-                        //const oldImageKey = imgUrl; // S3 key 추출
-                        // const oldImageKey = imgUrl.split("/").pop(); // S3 key 추출
-                        await s3
-                            .deleteObject({
-                                Bucket: process.env.S3_BUCKET,
-                                Key: imgUrl,
-                            })
-                            .promise();
-                    }
-                }
-                imgUrl = req.file.key; // 새 S3 URL
+                // if (imgUrl) {
+                //     // // 기존 이미지가 있는 경우, S3에서 삭제
+                //     // if (imgUrl !== "userprofile/null.png") {
+                //     //     //const oldImageKey = imgUrl; // S3 key 추출
+                //     //     // const oldImageKey = imgUrl.split("/").pop(); // S3 key 추출
+                //     //     await s3
+                //     //         .deleteObject({
+                //     //             Bucket: process.env.S3_BUCKET,
+                //     //             Key: imgUrl,
+                //     //         })
+                //     //         .promise();
+                //     // }
+                // }
+                imgUrl = req.file.location; // 새 S3 URL
+                // console.log(imgUrl);
+                // console.log(req.file);
             }
+            // console.log(imgUrl);
 
             const editUser = await Users.update(
                 {
