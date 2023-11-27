@@ -28,7 +28,6 @@ https://port-0-chapter3-team3-5mk12alp7sji4k.sel5.cloudtype.app/
 <br/>
 
 # 팀원
-![logo](https://github.com/dainK/haebojo/assets/26786677/8eeb7c73-8468-4f23-b43c-84ebce6df90c)
 <br/>
 <table>
     <tr>
