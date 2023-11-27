@@ -1,6 +1,9 @@
 # chapter3-team3
 
 ## 프로젝트 소개
+### 프로젝트 명
+제품 정보 공유 서비스
+### 프로젝트
 
 ## URL
 https://port-0-chapter3-team3-5mk12alp7sji4k.sel5.cloudtype.app/
