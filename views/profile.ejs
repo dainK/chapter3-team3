@@ -168,7 +168,7 @@
                     fetch(`/api/user/${userId}/followers`)
                         .then(response => response.json())
                         .then(data => {
-                            console.log(data.data);
+                            console.log("followers", data.data);
                             const posts = document.getElementById('user-followers');
                             data.data.forEach(e => {
                                 let listItem = document.createElement("li");
