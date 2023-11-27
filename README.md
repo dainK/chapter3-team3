@@ -12,11 +12,14 @@ https://port-0-chapter3-team3-5mk12alp7sji4k.sel5.cloudtype.app/
 <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
 </div>
 <br/>
+
 ### Back-end
+<div align=left> 
 <img src="https://img.shields.io/badge/.env-ECD53F?style=for-the-badge&logo=dotenv&logoColor=white">
 <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white">
 <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white">
-
+</div>
+<br/>
 
 
 ### 언어
