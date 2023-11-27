@@ -166,7 +166,6 @@ postsRouter.post("/post", token_middleware, async (req, res) => {
         return res.status(201).json({
             success: true,
             message: "게시글을 성공적으로 등록하였습니다.",
-            data: newPost,
         });
     } catch (err) {
         console.error(err);
