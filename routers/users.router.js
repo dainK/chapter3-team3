@@ -134,7 +134,7 @@ userRouter.put(
             );
 
             return res.status(200).json({
-                sucess: true,
+                success: true,
                 message: "비밀번호 변경 성공",
                 // data: editUser,
             });
@@ -175,7 +175,7 @@ userRouter.put(
             );
 
             return res.status(200).json({
-                sucess: true,
+                success: true,
                 message: "닉네임 변경 성공",
                 data: editUser,
             });
@@ -193,23 +193,27 @@ userRouter.put(
     async (req, res, next) => {
         const { id } = res.locals.user;
         let imgUrl = res.locals.user.imgUrl;
+        console.log(imgUrl);
         try {
             if (req.file) {
-                if (imgUrl) {
-                    // 기존 이미지가 있는 경우, S3에서 삭제
-                    if (imgUrl !== "userprofile/null.png") {
-                        //const oldImageKey = imgUrl; // S3 key 추출
-                        // const oldImageKey = imgUrl.split("/").pop(); // S3 key 추출
-                        await s3
-                            .deleteObject({
-                                Bucket: process.env.S3_BUCKET,
-                                Key: imgUrl,
-                            })
-                            .promise();
-                    }
-                }
-                imgUrl = req.file.key; // 새 S3 URL
+                // if (imgUrl) {
+                //     // // 기존 이미지가 있는 경우, S3에서 삭제
+                //     // if (imgUrl !== "userprofile/null.png") {
+                //     //     //const oldImageKey = imgUrl; // S3 key 추출
+                //     //     // const oldImageKey = imgUrl.split("/").pop(); // S3 key 추출
+                //     //     await s3
+                //     //         .deleteObject({
+                //     //             Bucket: process.env.S3_BUCKET,
+                //     //             Key: imgUrl,
+                //     //         })
+                //     //         .promise();
+                //     // }
+                // }
+                imgUrl = req.file.location; // 새 S3 URL
+                // console.log(imgUrl);
+                // console.log(req.file);
             }
+            // console.log(imgUrl);
 
             const editUser = await Users.update(
                 {
@@ -220,7 +224,7 @@ userRouter.put(
                 },
             );
             return res.status(200).json({
-                sucess: true,
+                success: true,
                 message: "프로필사진 변경 성공",
                 data: editUser,
             });
@@ -279,7 +283,7 @@ userRouter.get("/user/me", token_middleware, (req, res, next) => {
             throw err;
         }
         return res.status(200).json({
-            sucess: true,
+            success: true,
             message: "내 정보 조회 성공!",
             data: me,
         });
@@ -314,7 +318,7 @@ userRouter.get("/user/:id", async (req, res, next) => {
         });
 
         return res.status(200).json({
-            sucess: true,
+            success: true,
             message: "회원 정보 조회 성공!",
             data: user,
         });

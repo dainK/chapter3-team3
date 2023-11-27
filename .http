@@ -4,8 +4,8 @@ POST http://localhost:3000/api/user/signup
 Content-Type: application/json
 
 {
-    "email": "example00@gmail.com",
-    "nickName": "정기욱",
+    "email": "example11@gmail.com",
+    "nickName": "이일일",
     "password": "aaa111",
     "passwordConfirm": "aaa111"
 }
