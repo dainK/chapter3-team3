@@ -13,6 +13,10 @@ https://port-0-chapter3-team3-5mk12alp7sji4k.sel5.cloudtype.app/
 </div>
 <br/>
 ### Back-end
+<img src="https://img.shields.io/badge/.env-#ECD53F?style=for-the-badge&logo=dotenv&logoColor=white">
+<img src="https://img.shields.io/badge/express-#000000?style=for-the-badge&logo=express&logoColor=white">
+<img src="https://img.shields.io/badge/node.js-#339933?style=for-the-badge&logo=nodedotjs&logoColor=white">
+
 
 
 ### 언어
@@ -23,6 +27,9 @@ https://port-0-chapter3-team3-5mk12alp7sji4k.sel5.cloudtype.app/
 <img src="https://img.shields.io/badge/vscode-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white">
 <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
 <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
+<img src="https://img.shields.io/badge/yarn-#2C8EBB?style=for-the-badge&logo=yarn&logoColor=white">
+<img src="https://img.shields.io/badge/vue.js-#4FC08D?style=for-the-badge&logo=vuedotjs&logoColor=white">
+
 </div>
 
 <br/>
