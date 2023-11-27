@@ -71,8 +71,17 @@ https://port-0-chapter3-team3-5mk12alp7sji4k.sel5.cloudtype.app/
 ## 작업 계획
 ### 와이어 프레임
 https://www.figma.com/file/EZ1oPPGEKigv76p3cNlX1N/null-%EC%82%AC%EB%9E%91%ED%95%98%EC%A7%80%EC%95%8A%EC%95%84%E2%99%A5?type=design&node-id=0-1&mode=design
+<br/>
+![image](https://github.com/dainK/chapter3-team3/assets/26786677/ed1a0706-ec8a-4d92-ae53-893f6db97724)
+<br/>
+![image](https://github.com/dainK/chapter3-team3/assets/26786677/dc117c7f-d9ec-4471-971c-8fc1ccfa9b9e)
+<br/>
+
 ### ERD
 https://drawsql.app/teams/dainks-team/diagrams/chapter3-team3
+<br/>
+![image](https://github.com/dainK/chapter3-team3/assets/26786677/8788f2b8-4636-430e-8d31-b54b167e842b)
+<br/>
 
 
 ```bash
