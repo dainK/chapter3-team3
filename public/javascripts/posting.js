@@ -70,6 +70,7 @@ function registerPost() {
     // console.log("categoryId:", categoryId);
     // console.log("content:", content);
 
+    let path = document.getElementById("path-data").dataset.pathId;
     fetch("/api/post", {
         method: "POST",
         headers: {
@@ -83,7 +84,13 @@ function registerPost() {
         }),
     })
         .then((response) => response.json())
-        .then((data) => console.log(data))
+        .then((data) =>{ 
+          console.log(data);
+          if(data.success) {
+            // alert("글이 등록되었습니다." + `${path+'/rank?categoryId='+categoryId}`)
+            window.location.href = path;
+          }
+        })
         .catch((error) => console.error("Error:", error));
 }
 
